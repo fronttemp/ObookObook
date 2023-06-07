@@ -1,9 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 5의 CSS 파일 불러오기
+import App from './App';
+import store from './store/store';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+ReactDOM.render(
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
-)
+  </Provider>,
+  document.getElementById('root')
+);
