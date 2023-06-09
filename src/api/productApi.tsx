@@ -181,5 +181,3 @@ export async function ItemBuyDetailmAPI() {
   const data = await res.json()
   return data
   }
-
-
