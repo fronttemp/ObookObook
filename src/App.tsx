@@ -1,7 +1,6 @@
 import React from 'react'
 import Counter from './components/Counter'
-import NaverSearch from './api/naverBookApi'
-import AladinSearch from './api/aladinBookApi'
+
 
 (async () => {
   const res = await fetch('/api/aladin', {
@@ -36,8 +35,6 @@ function App() {
         </li>
       </ul>
       <Counter />
-      <NaverSearch />
-      <AladinSearch />
     </div>
   )
 }

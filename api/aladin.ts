@@ -17,4 +17,4 @@ export default async function (request: VercelRequest, response: VercelResponse)
 
 // 알라딘 <--> 버셀프록시서버 <--> 브라우저  =>  잘됨!
 
-// 검색 할 때마다 헤로피 서버에 데이터 저장  
+// 검색 할 때마다 헤로피 서버에 데이터 저장 -> 
