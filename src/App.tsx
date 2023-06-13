@@ -1,5 +1,7 @@
-import React from 'react';
-import Counter from './components/Counter';
+import React from 'react'
+import Counter from './components/Counter'
+import NaverSearch from './api/naverBookApi'
+import AladinSearch from './api/aladinBookApi'
 
 (async () => {
   const res = await fetch('/api/aladin', {
@@ -23,6 +25,7 @@ import Counter from './components/Counter';
 //   console.log(JSON.parse(data.replace(';', '')))
 // })()
 
+
 function App() {
   return (
     <div className="container">
@@ -33,8 +36,10 @@ function App() {
         </li>
       </ul>
       <Counter />
+      <NaverSearch />
+      <AladinSearch />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
