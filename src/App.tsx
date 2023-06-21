@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet, Routes, Route } from 'react-router-dom'
+import './App.scss'
 import MainPage from './pages/MainPage'
 import AccountPage from './pages/AccountPage'
 import AdminPage from './pages/AdminPage'
@@ -7,17 +8,20 @@ import BestsellerPage from './pages/BestsellerPage'
 import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import DetailPage from './pages/DetailPage'
-import LoginPage from './pages/LoginPage'
-import SearchPage from './pages/SearchPage'
-import Header from './components/Header'
+import SigninPage from './pages/SigninPage'
+import SignupPage from './pages/SignupPage'
+import SearchPage from './pages/SearchPage/index'
+import TheHeader from './components/TheHeader'
+import TheFooter from './components/TheFooter'
 import NewBookPage from './pages/NewBookPage'
 
 const Layout = () => {
   return (
     <div>
-      <Header />{' '}
+      <TheHeader />{' '}
       {/*검색창, 로그인(페이지), 회원가입(페이지), 로고, 베스트셀러 */}
       <Outlet /> {/* 나머지 페이지를 감싸주는 기능?... */}
+      <TheFooter />
     </div>
   )
 }
@@ -58,8 +62,12 @@ function App() {
             element={<DetailPage />}
           />
           <Route
-            path="/Login"
-            element={<LoginPage />}
+            path="/SigninPage"
+            element={<SigninPage />}
+          />
+          <Route
+            path="/SignupPage"
+            element={<SignupPage />}
           />
           <Route
             path="/NewBook"
