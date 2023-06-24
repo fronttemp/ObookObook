@@ -1,14 +1,13 @@
-
 html {
   --color-black: #141414;
   --color-white: #fff;
-  --color-black-50 : rgba(0,0,0,.5);
-  --color-black-30 : rgba(0,0,0,.3);
-  --color-black-20 : rgba(0,0,0,.2);
-  --color-black-10 : rgba(0, 0, 0, 0.1);
-  --color-black-5 : rgba(0, 0, 0, 0.05);
-  --color-primary: #5E90F2;
-  --color-primary-20: rgba(94,144,242,.2);
+  --color-black-50: rgba(0, 0, 0, 0.5);
+  --color-black-30: rgba(0, 0, 0, 0.3);
+  --color-black-20: rgba(0, 0, 0, 0.2);
+  --color-black-10: rgba(0, 0, 0, 0.1);
+  --color-black-5: rgba(0, 0, 0, 0.05);
+  --color-primary: #5e90f2;
+  --color-primary-20: rgba(94, 144, 242, 0.2);
 }
 
 //드롭다운 애니메이션
@@ -44,9 +43,8 @@ html {
 }
 
 .slide-fade-in-dropdown > ul {
-  animation: slide-fade-in-dropdown-animation .1s ease;
+  animation: slide-fade-in-dropdown-animation 0.1s ease;
 }
-
 
 //전역스타일
 a {
@@ -66,7 +64,6 @@ button {
   background: none;
 }
 
-
 //스타일
 .app {
   color: var(--color-black);
@@ -75,8 +72,8 @@ button {
   padding: 0;
   margin: 0 auto;
 }
-h1{
-  padding-top: 200px;
+h1 {
+  padding-top: 170px;
 }
 
 header {
@@ -92,7 +89,7 @@ header {
     justify-content: end;
     gap: 24px;
     padding-top: 20px;
-    a{
+    a {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -108,7 +105,6 @@ header {
       flex-grow: 1;
       align-items: center;
       .logo {
-        
         img {
           height: 24px;
         }
@@ -139,10 +135,10 @@ header {
     .nav-extra {
       display: flex;
       gap: 24px;
-      .search{
+      .search {
         padding-right: 25;
       }
-      .icons{
+      .icons {
         font-size: 24px;
         display: flex;
         gap: 24px;
@@ -171,12 +167,12 @@ footer {
 .drop-list {
   background-color: var(--color-white);
   height: 60px;
-  .drop-list__item{
+  .drop-list__item {
     height: fit-content;
     padding: 6px 10px;
-    transition: .1s;
+    transition: 0.1s;
     .drop-list__link {
-      transition: .1s;
+      transition: 0.1s;
     }
   }
   .drop-list__item:hover {

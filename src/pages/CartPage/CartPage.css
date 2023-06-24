@@ -1,0 +1,27 @@
+.cart-page {
+  display: flex;
+  position: relative;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.cart-content {
+  flex: 3;
+}
+
+.cart-sidebar {
+  flex: 1;
+  position: sticky;
+
+  top: 0;
+  height: calc(100vh - 64px);
+  padding: 1rem;
+  border-left: 1px solid #f0f0f0;
+  background-color: #ffffff;
+}
+
+.cart-sidebar > .sidebar-content {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 2rem; /* space for the header */
+}
