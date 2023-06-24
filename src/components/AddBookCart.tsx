@@ -43,6 +43,7 @@ const AddBookCart = props => {
         onOk={handleOk}
         onCancel={handleOk}
         closable={false}
+        maskClosable={false}
         centered
         bodyStyle={{ textAlign: 'center' }}
         width={350}
@@ -66,6 +67,7 @@ const AddBookCart = props => {
         onOk={handleConfirm}
         onCancel={handleCancel}
         closable={false}
+        maskClosable={false}
         width={280}
         footer={
           <div style={{ textAlign: 'center' }}>
