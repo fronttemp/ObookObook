@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Input, Button, Space, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
+import "./CartPage.css"
 
 const CartPage = () => {
   const [selectAll, setSelectAll] = useState(false)
@@ -94,7 +95,7 @@ const CartPage = () => {
           <Button
             type="primary"
             size="large"
-            style={{ width: '100%' }}>
+            style={{ width: '80%' }}>
             주문하기
           </Button>
         </div>
