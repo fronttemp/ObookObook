@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Input, Button, Space, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
+import { useNavigate } from 'react-router-dom'
 import './CartPage.css'
 
 const CartPage = () => {
@@ -8,6 +9,7 @@ const CartPage = () => {
   const [selectedItems, setSelectedItems] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const { bookCart, removeBook } = useCartStore()
+  const navigate = useNavigate()
 
   const priceKr = price => {
     return <p>{`${price.toLocaleString('ko-KR')}원`}</p>
@@ -44,6 +46,10 @@ const CartPage = () => {
     removeBook(book)
   }
   
+  const handleOrder = () => {
+    navigate('/Checkout')
+  }
+
   useEffect(() => {
     setSelectedItems(bookCart.map(book => book.id));
   }, []);
@@ -148,7 +154,8 @@ const CartPage = () => {
           <Button
             type="primary"
             size="large"
-            style={{ width: '80%' }}>
+            style={{ width: '80%' }}
+            onClick={handleOrder}>
             {`주문하기(${selectedItems.length})`}
           </Button>
         </div>
