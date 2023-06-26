@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Input, Button, Space, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
-import "./CartPage.css"
+import './CartPage.css'
 
 const CartPage = () => {
-  const [selectAll, setSelectAll] = useState(false)
+  const [selectAll, setSelectAll] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
   const { bookCart, removeBook } = useCartStore()
 
-  const handleSelect = (itemKey, checked) => {
+  const priceKr = price => {
+    return <p>{`${price.toLocaleString('ko-KR')}원`}</p>
+  }
+
+  const handleSelect = (itemId, checked) => {
     if (checked) {
-      setSelectedItems(prev => [...prev, itemKey])
+      setSelectedItems(prev => [...prev, itemId])
     } else {
-      setSelectedItems(prev => prev.filter(key => key !== itemKey))
+      setSelectedItems(prev => prev.filter(id => id !== itemId))
+      setSelectAll(false);
     }
   }
 
@@ -20,10 +26,46 @@ const CartPage = () => {
     if (selectAll) {
       setSelectedItems([])
     } else {
-      setSelectedItems(bookCart.map((_, index) => index))
+      setSelectedItems(bookCart.map(book => book.id))
     }
     setSelectAll(!selectAll)
   }
+
+  const handleTotalPrice = () => {
+    const totalPrice = selectedItems.reduce((acc, id) => {
+      const book = bookCart.find(book => book.id === id)
+      const price = book.priceStandard
+      return acc + price
+    }, 0)
+    setTotalPrice(totalPrice)
+  }
+
+  const handleRemoveBook = book => {
+    removeBook(book)
+  }
+  
+  useEffect(() => {
+    setSelectedItems(bookCart.map(book => book.id));
+  }, []);
+
+  useEffect(() => {
+    setSelectedItems(prevSelectedItems => {
+      const updatedSelectedItems = prevSelectedItems.filter(id => bookCart.some(book => book.id === id));
+      if (updatedSelectedItems.length !== prevSelectedItems.length) {
+        setSelectAll(false);
+      }
+      return updatedSelectedItems;
+    });
+  }, [bookCart]);
+
+  useEffect(() => {
+    handleTotalPrice();
+    if (selectedItems.length !== bookCart.length) {
+      setSelectAll(false);
+    } else {
+      setSelectAll(true);
+    }
+  }, [selectedItems]);
 
   const dataSource = bookCart.map((book, index) => ({
     key: index,
@@ -35,12 +77,19 @@ const CartPage = () => {
         style={{ width: '50px' }}
       />
     ),
-    price: book.priceStandard,
-    action: <Button onClick={() => removeBook(book)}>삭제</Button>,
+    price: priceKr(book.priceStandard),
+    action: (
+      <Button
+        onClick={() => {
+          handleRemoveBook(book)
+        }}>
+        삭제
+      </Button>
+    ),
     select: (
       <Checkbox
-        checked={selectedItems.includes(index)}
-        onChange={e => handleSelect(index, e.target.checked)}
+        checked={selectedItems.includes(book.id)}
+        onChange={e => handleSelect(book.id, e.target.checked)}
       />
     )
   }))
@@ -57,19 +106,21 @@ const CartPage = () => {
       key: 'select'
     },
     {
-      title: 'Cover',
+      title: '책 커버',
       dataIndex: 'cover',
       key: 'cover'
     },
     {
-      title: 'Name',
+      title: '제목',
       dataIndex: 'name',
       key: 'name'
     },
     {
-      title: 'Price',
+      title: <div style={{ textAlign: 'center' }}>가격</div>,
       dataIndex: 'price',
-      key: 'price'
+      key: 'price',
+      width: '12%',
+      align: 'right'
     },
     {
       title: '',
@@ -81,7 +132,7 @@ const CartPage = () => {
   return (
     <div className="cart-page">
       <div className="cart-content">
-        <h1>장바구니</h1>
+        <h1>{`장바구니(${selectedItems.length})`}</h1>
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -90,13 +141,15 @@ const CartPage = () => {
       </div>
       <div className="cart-sidebar">
         <div className="sidebar-content">
-          <h2>결제 금액</h2>
-          <p>{/* TODO: 결제 금액 계산 */}</p>
+          <div className="total-price-container">
+            <h2>결제 예정 금액</h2>
+            <h2>{priceKr(totalPrice)}</h2>
+          </div>
           <Button
             type="primary"
             size="large"
             style={{ width: '80%' }}>
-            주문하기
+            {`주문하기(${selectedItems.length})`}
           </Button>
         </div>
       </div>

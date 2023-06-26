@@ -7,10 +7,10 @@ export const useCartStore = create(
       bookCart: [],
       addBookCart: book =>
         set(state => {
-          if (state.bookCart.some(b => b.title === book.title)) {
+          if (state.bookCart.some(b => b.isbn === book.isbn)) {
             return state
           }
-          return { bookCart: [...state.bookCart, book] }
+          return { bookCart: [...state.bookCart, {...book, id: book.isbn }]}
         }),
       removeBook: book =>
         set(state => ({ bookCart: state.bookCart.filter(b => b !== book) }))

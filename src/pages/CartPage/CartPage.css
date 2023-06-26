@@ -19,6 +19,14 @@
   background-color: #ffffff;
 }
 
+.cart-sidebar .sidebar-content .total-price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
 .cart-sidebar > .sidebar-content {
   position: -webkit-sticky; /* For Safari */
   position: sticky;
