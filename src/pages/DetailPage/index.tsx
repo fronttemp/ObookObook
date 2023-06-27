@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { StarFilled } from '@ant-design/icons';
-import { Button } from 'antd';
+import AddBookCart from '../../components/AddBookCart';
 
 const DetailPage = () => {
 
@@ -77,14 +77,14 @@ const DetailPage = () => {
                 </div>
                 <div className="subDetailBox">
                   <div className='subDetail__title'>가격</div>
-                  <div className="subDetail__text">{book.priceSales}</div>
+                  <div className="subDetail__text">{book.priceSales}원</div>
                 </div>
                 <div className="subDetailBox">
                   <div className='subDetail__title'>내용</div>
                   <div className="subDetail__text">{book.description}</div>
                 </div>
               </div>
-              <Button>Wow </Button>
+              <AddBookCart book={book}/>
             </div>
           </div>
          <div className="discription">

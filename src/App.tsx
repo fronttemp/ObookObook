@@ -8,8 +8,8 @@ import BestsellerPage from './pages/BestsellerPage'
 import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import DetailPage from './pages/DetailPage'
-import SigninPage from './pages/SigninPage'
-import SignupPage from './pages/SignupPage'
+import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
 import SearchPage from './pages/SearchPage/index'
 import TheHeader from './components/TheHeader'
 import TheFooter from './components/TheFooter'
@@ -18,7 +18,7 @@ import NewBookPage from './pages/NewBookPage'
 const Layout = () => {
   return (
     <div>
-      <TheHeader />{' '}
+      <TheHeader />
       {/*검색창, 로그인(페이지), 회원가입(페이지), 로고, 베스트셀러 */}
       <Outlet /> {/* 나머지 페이지를 감싸주는 기능?... */}
       <TheFooter />
@@ -62,12 +62,12 @@ function App() {
             element={<DetailPage />}
           />
           <Route
-            path="/SigninPage"
-            element={<SigninPage />}
+            path="/SignInPage"
+            element={<SignInPage />}
           />
           <Route
-            path="/SignupPage"
-            element={<SignupPage />}
+            path="/SignUpPage"
+            element={<SignUpPage />}
           />
           <Route
             path="/NewBook"

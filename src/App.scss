@@ -1,52 +1,18 @@
+* {
+  margin: 0;
+}
 
 html {
   --color-black: #141414;
   --color-white: #fff;
-  --color-black-50 : rgba(0,0,0,.5);
-  --color-black-30 : rgba(0,0,0,.3);
-  --color-black-20 : rgba(0,0,0,.2);
-  --color-black-10 : rgba(0, 0, 0, 0.1);
-  --color-black-5 : rgba(0, 0, 0, 0.05);
-  --color-primary: #5E90F2;
-  --color-primary-20: rgba(94,144,242,.2);
+  --color-black-50: rgba(0, 0, 0, 0.5);
+  --color-black-30: rgba(0, 0, 0, 0.3);
+  --color-black-20: rgba(0, 0, 0, 0.2);
+  --color-black-10: rgba(0, 0, 0, 0.1);
+  --color-black-5: rgba(0, 0, 0, 0.05);
+  --color-primary: #5e90f2;
+  --color-primary-20: rgba(94, 144, 242, 0.2);
 }
-
-//드롭다운 애니메이션
-@keyframes slide-fade-in-dropdown-animation {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-fade-out-dropdown-animation {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-.slide-fade-out-dropdown {
-  overflow: hidden;
-}
-
-.slide-fade-out-dropdown > ul {
-  animation: slide-fade-out-dropdown-animation 0.1s ease;
-  animation-fill-mode: forwards;
-}
-
-.slide-fade-in-dropdown {
-  overflow: hidden;
-}
-
-.slide-fade-in-dropdown > ul {
-  animation: slide-fade-in-dropdown-animation .1s ease;
-}
-
 
 //전역스타일
 body {
@@ -74,7 +40,6 @@ h1 {
   font-weight: 700;
 }
 
-
 //스타일
 .app {
   color: var(--color-black);
@@ -92,13 +57,14 @@ header {
   width: 1200px;
   align-items: center;
   position: sticky;
+  z-index: 9;
   top: 0;
   .login-nav {
     display: flex;
     justify-content: end;
     gap: 24px;
     padding-top: 20px;
-    a{
+    a {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -114,7 +80,6 @@ header {
       flex-grow: 1;
       align-items: center;
       .logo {
-        
         img {
           height: 24px;
         }
@@ -145,10 +110,10 @@ header {
     .nav-extra {
       display: flex;
       gap: 24px;
-      .search{
+      .search {
         padding-right: 25;
       }
-      .icons{
+      .icons {
         font-size: 24px;
         display: flex;
         gap: 24px;
@@ -182,13 +147,13 @@ footer {
   padding: 0;
   background-color: var(--color-white);
   height: 60px;
-  .drop-list__item{
+  .drop-list__item {
     box-sizing: border-box;
     height: fit-content;
     padding: 6px 10px;
-    transition: .1s;
+    transition: 0.1s;
     .drop-list__link {
-      transition: .1s;
+      transition: 0.1s;
     }
   }
   .drop-list__item:hover {
@@ -211,7 +176,7 @@ footer {
 .img_detail {
   display: flex;
   gap: 60px;
-  padding: 24px 0 124px 0;
+  padding: 24px 0 64px 0;
   .cover {
     overflow: hidden;
     width: 400px;
@@ -240,12 +205,16 @@ footer {
   }
 }
 
+
 .discription {
   display: flex;
-  gap: 80px;
   flex-wrap: wrap;
+  .discriptionBox:not(:first-of-type) {
+    border-top: var(--color-black-10) 1px solid;
+  }
   .discriptionBox {
-      display: flex;
+    display: flex;
+    padding: 40px 0;
     .discription__title {
       width: 240px;
       font-size: 18px;
