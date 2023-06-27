@@ -1,0 +1,56 @@
+.checkout-page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-section {
+  width: 70%;
+}
+
+.left-section__border {
+margin-top: 10px;
+margin-right: 10px;
+}
+
+.left-section__border > span {
+  display: inline-block;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.checkout-content {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  
+}
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.checkout-sidebar {
+  position: sticky;
+  top: 180px;
+  height: calc(100vh - 100vh);
+  width: 30%;
+  padding: 2rem;
+  border-left: 1px solid #f0f0f0;
+  background-color: #ffffff;
+}
+
+.checkout-sidebar .sidebar-content .total-price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.payment-selection {
+  margin: 2rem 0;
+}

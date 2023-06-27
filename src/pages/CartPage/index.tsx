@@ -8,11 +8,11 @@ const CartPage = () => {
   const [selectAll, setSelectAll] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
-  const { bookCart, removeBook } = useCartStore()
+  const { bookCart, removeBook, saveSelectedItems } = useCartStore()
   const navigate = useNavigate()
 
   const priceKr = price => {
-    return <p>{`${price.toLocaleString('ko-KR')}원`}</p>
+    return <span>{`${price.toLocaleString('ko-KR')}원`}</span>
   }
 
   const handleSelect = (itemId, checked) => {
@@ -47,7 +47,8 @@ const CartPage = () => {
   }
   
   const handleOrder = () => {
-    navigate('/Checkout')
+    saveSelectedItems(selectedItems)
+      navigate('/Checkout')
   }
 
   useEffect(() => {
