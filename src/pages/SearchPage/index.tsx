@@ -29,7 +29,7 @@ const SearchPage = () => {
   
 
   return (
-    <>
+    <section>
       <h1>'{searchTerm}'의 검색결과</h1>
       <TagSearchMenu/>
       {books &&
@@ -45,7 +45,7 @@ const SearchPage = () => {
             <a href={book.link}>상품 보러가기</a>
           </div>
         ))}
-    </>
+    </section>
   )
 }
 

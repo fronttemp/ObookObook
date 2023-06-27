@@ -9,6 +9,8 @@ export default async function (
   const search = request.query.s
   const query = `&Query=${request.query.q}`
   const queryType = `&QueryType=${request.query.qt}`
+  const itemID = `&ItemId=${request.query.i}`
+  const opt = `&OptResult=${request.query.opt}`
     // const tag = `&CategoryId=${request.query.t}`
     // 분야 검색시 예시
 
@@ -16,7 +18,7 @@ export default async function (
     const { data } = await axios.get(
       //검색에 필요한 query 값을 url 각 위치에 맞게 붙임
       //(s 외의 쿼리는 순서 상관이 없기 때문에 뒤로 계속 붙이면 됨)
-      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbantglljung1351001&SearchTarget=eBook&output=js&Version=20131101${query}${queryType}
+      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbckisss66601645001&SearchTarget=eBook&output=js&Version=20131101${query}${queryType}${itemID}${opt}
       `
     )
     response.status(200).json(data)

@@ -20,7 +20,7 @@ const NewbookPage = () => {
   
   
   return (
-    <>
+    <section>
     <h1>새로나온책</h1>
     {books &&
         books.map((book, index) => (
@@ -35,7 +35,7 @@ const NewbookPage = () => {
             <a href={book.link}>상품 보러가기</a>
           </div>
         ))}
-    </>
+    </section>
   )
 }
 
