@@ -11,10 +11,8 @@
 }
 
 .book-card {
-  width: 150px;
-  /* 이미지 너비 조정 */
-  height: 225px;
-  /* 이미지 높이 조정 */
+  width: 200px;
+  height: 300px;
   margin: 0 10px;
   border-radius: 20px;
   overflow: hidden;
@@ -30,17 +28,4 @@
   border: none;
   background: none;
   margin: 0 10px;
-}
-
-/* 추가된 CSS */
-.carousel {
-  display: flex;
-  flex-wrap: wrap;
-  /* 책 이미지를 줄바꿈해줌 */
-  justify-content: center;
-  /* 가운데 정렬 */
-}
-
-.carousel-item {
-  flex: 0 0 20%;
 }

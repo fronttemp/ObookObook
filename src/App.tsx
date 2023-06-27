@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, Routes, Route } from 'react-router-dom'
+import { Outlet, Routes, Route, useLocation } from 'react-router-dom'
 import './App.scss'
 import MainPage from './pages/MainPage'
 import AccountPage from './pages/AccountPage'
@@ -15,6 +15,14 @@ import TheHeader from './components/TheHeader'
 import TheFooter from './components/TheFooter'
 import NewBookPage from './pages/NewBookPage'
 
+import OrderHistoryPage from './pages/OrderHistoryPage'
+import EditUserInfoPage from './pages/EditUserInfoPage'
+import EditBankInfoPage from './pages/EditBankInfoPage'
+import useAccountTokenStore from './store/useAccountTokenStore'
+import { API_HEADER } from './api/usersApi'
+import { useEffect } from 'react'
+
+
 const Layout = () => {
   return (
     <div>
@@ -27,6 +35,35 @@ const Layout = () => {
 }
 
 function App() {
+  // 로그인 인증
+  const location = useLocation()
+
+  const { loginToken } = useAccountTokenStore(state => ({
+    loginToken: state.loginToken
+  }))
+
+  async function loginState() {
+    const res = await fetch(
+      'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
+      {
+        method: 'POST',
+        headers: {
+          ...API_HEADER,
+          Authorization: `Bearer ${loginToken}`
+        }
+      }
+    )
+    if (res.ok) {
+      return
+    } else {
+      console.log('로그인 인증 요청에 실패 하였습니다.')
+    }
+  }
+
+  useEffect(() => {
+    loginState()
+  }, [loginToken, location])
+
   return (
     <div className="app">
       <Routes>
@@ -38,9 +75,23 @@ function App() {
             element={<MainPage />}
           />
           <Route
-            path="/Account"
-            element={<AccountPage />}
-          />
+
+            path="/Account/"
+            element={<AccountPage />}>
+            <Route
+              path="OrderHistory"
+              element={<OrderHistoryPage />}
+            />
+            <Route
+              path="EditUserInfo"
+              element={<EditUserInfoPage />}
+            />
+            <Route
+              path="EditBankInfo"
+              element={<EditBankInfoPage />}
+            />
+          </Route>
+
           <Route
             path="/Admin"
             element={<AdminPage />}
