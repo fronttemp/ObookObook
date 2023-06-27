@@ -14,10 +14,13 @@ import SearchPage from './pages/SearchPage/index'
 import TheHeader from './components/TheHeader'
 import TheFooter from './components/TheFooter'
 import NewBookPage from './pages/NewBookPage'
-// --
+import OrderHistoryPage from './pages/OrderHistoryPage'
+import EditUserInfoPage from './pages/EditUserInfoPage'
+import EditBankInfoPage from './pages/EditBankInfoPage'
 import useAccountTokenStore from './store/useAccountTokenStore'
 import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
+
 
 const Layout = () => {
   return (
@@ -71,9 +74,21 @@ function App() {
             element={<MainPage />}
           />
           <Route
-            path="/Account"
-            element={<AccountPage />}
-          />
+            path="/Account/"
+            element={<AccountPage />}>
+            <Route
+              path="OrderHistory"
+              element={<OrderHistoryPage />}
+            />
+            <Route
+              path="EditUserInfo"
+              element={<EditUserInfoPage />}
+            />
+            <Route
+              path="EditBankInfo"
+              element={<EditBankInfoPage />}
+            />
+          </Route>
           <Route
             path="/Admin"
             element={<AdminPage />}

@@ -7,6 +7,11 @@
 
 .cart-content {
   flex: 7;
+  margin-right: 10px;
+}
+
+.cart-content > h1 {
+  margin-bottom: 10px;
 }
 
 .cart-sidebar {
