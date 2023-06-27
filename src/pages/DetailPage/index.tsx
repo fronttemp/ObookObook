@@ -1,9 +1,37 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { StarFilled } from '@ant-design/icons';
-import AddBookCart from '../../components/AddBookCart';
+import { useEffect, useState } from 'react';
+import { useLookupApi } from '../../store/useItemApi';
 
-const DetailPage = () => {
+const DetailPage = ({ isbn }) => {
+  const [loading, setLoading] = useState(true);
+  const [book, setBook] = useState(null);
+
+  const { fetch } = useLookupApi();
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        setLoading(true);
+        await fetch(isbn);
+        setLoading(false);
+        console.log(book)
+
+      } catch (error) {
+        console.error('Failed to fetch book details:', error);
+        setLoading(false);
+      }
+    };
+    fetchBookDetails();
+  }, [fetch, isbn]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!book) {
+    return <h1>Failed to fetch book details.</h1>;
+  }
+
+
 
   // const useQuery = () => {
   //   return new URLSearchParams(useLocation().detail)
