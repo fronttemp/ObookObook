@@ -1,46 +1,50 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import TagSearchMenu from '../../components/TagSearchMenu'
-import AddBookCart from '../../components/AddBookCart'
+import { useEffect, useState } from 'react'
+import { useListApi } from '../../store/useItemApi'
+import ItemListInfo from '../../components/ItemListInfo'
+import {Pagination} from 'antd'
 
 const NewBookPage = () => {
-  const [books, setBooks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const {fetch, books} = useListApi()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [trackPerPage, setTrackPerPage] = useState(10)
+
+
 
   useEffect(() => {
-    //useEffect를 사용하여 신간 카테고리에 들어오자마자 검색 즉시실행
-    (async () => {
-      try {
-        //신간 쿼리 값은 고정적이기 때문에 변수 사용 x
-        const response = await axios.get(`/api/aladinItemSearch?s=ItemList&qt=ItemNewAll`)
-        setBooks(response.data.item)
-        console.log(response.data.item)
-      } catch (error) {
-        console.error('Failed to search books', error)
-      }
-    })();
-    }, [])
+    setLoading(true)
+    fetch()
+      .then(() => {
+        setLoading(false)
+      })
+  }, [])
   
+  const indexOfLastTrack = currentPage * trackPerPage;
+  const indexOfFirstTrack = indexOfLastTrack - trackPerPage;
+  const currentBooks = books.slice(indexOfFirstTrack, indexOfLastTrack);
+  
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+
+
+  console.log(currentBooks)
+
   
   return (
-    <>
-    <h1>새로나온책</h1>
-    <TagSearchMenu />
-    {books &&
-        books.map((book, index) => (
-          <div key={index}>
-            <img
-              src={book.cover.replace(/coversum/g, 'cover500')}
-              alt={book.title}
-              />
-              <h2>{book.title}</h2>
-              <p>{book.description}</p>  
-            <p>{book.author}</p>
-            <p>{book.publisher}</p>
-            <p>{book.priceStandard}</p>
-            <AddBookCart book={book}/>
-          </div>
-        ))}
-    </>
+    <div>
+      <h1>새로나온책</h1>
+      {loading ? <h2>loading...</h2> 
+      :
+      <div>
+        <ItemListInfo books = {currentBooks}/>
+        <Pagination
+            defaultCurrent={currentPage}
+            onChange ={paginate}
+            pageSize = {10}
+            total={books.length}
+            />
+      </div> 
+      }
+    </div>
   )
 }
 
