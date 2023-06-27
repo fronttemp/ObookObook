@@ -1,7 +1,6 @@
-# userInfo
-##  feat: ✨ 헤더푸터 추가, 헤더 검색 api 연동, 신간도서페이지 api 연동
+# userInfo branch
 
-### 브랜치 하위 기능 
+## userInfo branch 기능 
 
 - 회원가입 
 - 로그인
