@@ -35,9 +35,13 @@ button {
   border: none;
   background: none;
 }
-h1 {
-  font-size: 28px;
+.page_title {
+  font-size: 24px;
+  padding: 20px 0;
   font-weight: 700;
+}
+.page_discription {
+  color: var(--color-black-50);
 }
 
 //스타일
@@ -92,12 +96,12 @@ header {
           transition: 0.1s;
           cursor: pointer;
         }
-        // .nav-list__link:hover {
-        //   font-weight: 700;
-        //   color: var(--color-primary);
-        //   padding-bottom: 2px;
-        //   border-bottom: var(--color-primary) solid 2px;
-        // }
+        .nav-list__link:hover {
+          font-weight: 700;
+          color: var(--color-primary);
+          padding-bottom: 3px;
+          border-bottom: var(--color-primary) solid 2px;
+        }
         .nav-list__active {
           font-weight: 700;
           color: var(--color-primary);
@@ -132,8 +136,7 @@ section {
 }
 
 footer {
-  margin-top: 185px;
-  padding-bottom: 40px;
+  padding: 160px 0 40px 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -205,6 +208,10 @@ footer {
   }
 }
 
+.loadingAnimation {
+  padding: 150px 0;
+  text-align: center;
+}
 
 .discription {
   display: flex;
@@ -240,5 +247,66 @@ footer {
       }
     }
   }
+}
 
+.booksInfo {
+  padding: 20px 0 40px 0;
+  .bookInfo:not(:first-of-type) {
+    border-top: var(--color-black-10) 1px solid;
+  }
+  .bookInfo {
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    .bookInfo_box {
+      display: flex;
+      gap: 24px;
+      .bookImg {
+        overflow: hidden;
+        border-radius: 20px;
+        img {
+          width: 140px;
+        }
+      }
+      .bookImg:hover {
+        cursor: pointer;
+      }
+      .book {
+        padding: 24px 0;
+        color: var(--color-black-50);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .book_top {
+          .bookTitle {
+            color: var(--color-black);
+            font-weight: 700;
+            padding-bottom: 10px;
+          }
+          .bookTitle:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+        .book_bottom {
+          .bookreview {
+            padding-bottom: 10px;
+          }
+        }
+      }
+      .bookBtn {
+        padding: 30px 0;
+      }
+    }
+  }
+}
+
+.pagination {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.filterList {
+  display: flex;
+  justify-content: space-around;
 }

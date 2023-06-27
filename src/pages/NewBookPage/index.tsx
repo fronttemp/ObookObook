@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useListApi } from '../../store/useItemApi'
 import ItemListInfo from '../../components/ItemListInfo'
-import {Pagination} from 'antd'
+import { Pagination, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons';
 
 const NewBookPage = () => {
   const [loading, setLoading] = useState(true)
   const {fetch, books} = useListApi()
   const [currentPage, setCurrentPage] = useState(1)
   const [trackPerPage, setTrackPerPage] = useState(10)
-
+  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
 
 
   useEffect(() => {
@@ -30,21 +31,24 @@ const NewBookPage = () => {
 
   
   return (
-    <div>
-      <h1>새로나온책</h1>
-      {loading ? <h2>loading...</h2> 
+    <section>
+      <div className='page_title'>새로나온책</div>
+      <div className='page_discription'>오늘의 새롭게 등록된 책 리스트입니다.</div>
+      {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div>
       :
       <div>
         <ItemListInfo books = {currentBooks}/>
-        <Pagination
-            defaultCurrent={currentPage}
-            onChange ={paginate}
-            pageSize = {10}
-            total={books.length}
-            />
+        <div className="pagination">
+          <Pagination
+          defaultCurrent={currentPage}
+          onChange ={paginate}
+          pageSize = {10}
+          total={books.length}
+          />
+        </div>
       </div> 
       }
-    </div>
+    </section>
   )
 }
 

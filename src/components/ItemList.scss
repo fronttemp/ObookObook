@@ -31,3 +31,15 @@
     margin-right: 20px;
   }
 }
+
+
+
+.booksInfo {
+  .bookImg {
+    overflow: hidden;
+    border-radius: 20px;
+    img {
+      height: 140px;
+    }
+  }
+}

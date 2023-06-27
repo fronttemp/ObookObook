@@ -58,7 +58,7 @@ function App() {
             element={<CheckoutPage />}
           />
           <Route
-            path="/Detail:BookId"
+            path="/Detail"
             element={<DetailPage />}
           />
           <Route

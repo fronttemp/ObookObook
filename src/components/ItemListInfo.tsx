@@ -1,14 +1,12 @@
 import {Button} from 'antd'
 import { useNavigate } from 'react-router-dom'
-import './ItemList.scss'
 import AddBookCart from './AddBookCart'
+import { StarFilled } from '@ant-design/icons'
 
 const ItemListInfo = ({books}) => {
   const navigate = useNavigate()
-
-
-  const moveDetailPage = (isbn) => {
-    navigate(`/detail:${isbn}`)
+  const moveDetailPage = (value: string) => {
+    navigate('/Detail', { state : {value}})
   }
 
   const truncate = (str, n) => {
@@ -16,28 +14,32 @@ const ItemListInfo = ({books}) => {
   }
 
   return (
-
       <div className = 'booksInfo'>
         {books.map((book, index) => (
             <div key={index} className = 'bookInfo'>
-              <img
-                className = 'bookImg'
-                src={book.cover.replace(/coversum/g, 'cover200')}
-                alt={book.title}
-              />
-              <div className = 'book'>
-                <span className = 'bookTitle'>{truncate(book.title, 40)}</span>
-                <p className = 'bookDescription'>{truncate(book.description, 45)}</p>
-                {/* <p className = 'bookDescription'>{book.description}</p> */}
-                <p className = 'bookAuthor'>{book.author}</p>
-                <p className = 'bookPublisher'>{book.publisher}</p>
-                <p className = 'bookPrice'>{book.priceSales}원</p>
-                {/* <a href={book.link} className = 'bookLink'>상품 보러가기</a> */}
-                <div className = 'bookBtn'>
-                  <AddBookCart className = 'addBtn' book={book}/>
-                  <Button className = 'detailBtn' onClick = {() => moveDetailPage(book.isbn)}>상세보기</Button>
+              <div className="bookInfo_box">
+                <div className="bookImg">
+                  <img
+                    src={book.cover.replace(/coversum/g, 'cover200')}
+                    alt={book.title}
+                    onClick = {()=>moveDetailPage(book.isbn13)}
+                  />
                 </div>
-
+                <div className = 'book'>
+                  <div className="book_top">
+                    <div className = 'bookTitle' onClick = {()=>moveDetailPage(book.isbn13)}>{truncate(book.title, 40)}</div>
+                    <div className = 'bookAuthor'>{book.author} · {book.publisher}</div>
+                  </div>
+                  <div className="book_bottom">
+                    <div className="bookreview"><StarFilled /> {book.customerReviewRank}</div>
+                    <div className = 'bookPrice'>{book.priceSales}원</div>
+                  </div>
+                </div>
+              </div>
+              <div className = 'bookBtn'>
+                <div className="Btn">
+                  <AddBookCart className = 'addBtn' book={book}/>
+                </div>
               </div>
             </div>
         ))}

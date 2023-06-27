@@ -1,63 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useLookupApi } from '../../store/useItemApi';
+import { useLocation } from 'react-router-dom';
+import AddBookCart from '../../components/AddBookCart';
+import { StarFilled } from '@ant-design/icons';
+import axios from 'axios';
 
-const DetailPage = ({ isbn }) => {
-  const [loading, setLoading] = useState(true);
-  const [book, setBook] = useState(null);
-
-  const { fetch } = useLookupApi();
-
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        setLoading(true);
-        await fetch(isbn);
-        setLoading(false);
-        console.log(book)
-
-      } catch (error) {
-        console.error('Failed to fetch book details:', error);
-        setLoading(false);
-      }
-    };
-    fetchBookDetails();
-  }, [fetch, isbn]);
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!book) {
-    return <h1>Failed to fetch book details.</h1>;
-  }
-
-
-
-  // const useQuery = () => {
-  //   return new URLSearchParams(useLocation().detail)
-  // }
-  // const query = useQuery()
-  // const searchTerm = query.get("q")
-
-  // useEffect(() => {
-  //   if (isbnNum) {
-  //     fetchSearch(isbnNum)
-  //   }
-  // }, [searchTerm])
-
+const DetailPage = () => {
   const [book, setBook] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const location = useLocation();
+  const isbnNum = location.state?.value;
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(`/api/aladinItemSearch?s=ItemLookUp&i=9791169259590&opt=Story,authors,fulldescription,Toc`)
-        setBook(response.data.item[0])
-        console.log(response.data.item[0])
+        setLoading(true)
+        const response = await axios.get(`/api/aladinItemSearch?s=ItemLookUp&id=${isbnNum}&opt=Story,authors,fulldescription,Toc`);
+        setBook(response.data.item[0]);
+        setLoading(false)
       } catch (error) {
-        console.error('Failed to search books', error)
+        console.error('Failed to search books', error);
+        setLoading(false)
       }
     })();
-  }, [])
+  }, [isbnNum]);
 
   function decodeHTMLEntities(text) {
     const element = document.createElement('div');
@@ -82,7 +47,7 @@ const DetailPage = ({ isbn }) => {
 
   return (
     <section>
-      {book && (
+      {
         <div>
           <div className="title">
             <div className='title__text'>{book.title}</div>
@@ -146,7 +111,7 @@ const DetailPage = ({ isbn }) => {
               ) : null}
           </div>
         </div>
-      )}
+      }
     </section>
   )
 }
