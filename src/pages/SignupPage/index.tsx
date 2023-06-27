@@ -2,8 +2,9 @@
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
-import { Button, Form, Input } from 'antd'
+import useNickNameStore from '../../store/useNickNameStore'
 import { API_HEADER } from '../../api/usersApi'
+import useUserImgStore from '../../store/useUserImgStore'
 
 const SignUpPage = () => {
   const [email, setEmail] = useState('')
@@ -15,7 +16,8 @@ const SignUpPage = () => {
 
   // 토큰 관리
   const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
-  const setProfileImg = useAccountTokenStore(state => state.setProfileImg)
+  const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
+  const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
 
   // signUpAPI
   async function signUp(e: FormEvent) {
@@ -35,6 +37,8 @@ const SignUpPage = () => {
     )
     const json = await res.json()
     setLoginToken(json.accessToken)
+    setNickNameToken(json.user.displayName)
+    setUserImgToken(json.user.profileImg)
     navigate('/SigninPage')
   }
 

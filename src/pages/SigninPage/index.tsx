@@ -2,6 +2,8 @@ import { API_HEADER } from '../../api/usersApi'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
+import useNickNameStore from '../../store/useNickNameStore'
+import useUserImgStore from '../../store/useUserImgStore'
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('')
@@ -11,6 +13,8 @@ const SignInPage = () => {
 
   // Token 관리
   const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
+  const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
+  const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
 
   // 이메일, 비밀번호 입력 형식 체크 상태 (errorMessage)
   const [emailValid, setEmailValid] = useState(false)
@@ -56,6 +60,10 @@ const SignInPage = () => {
     const json = await res.json()
     if (res.ok) {
       setLoginToken(json.accessToken)
+      setNickNameToken(json.user.displayName)
+      setUserImgToken(json.user.profileImg)
+      console.log('json:', json)
+      console.log('res:', res)
       navigate('/')
     } else {
       console.log(res.ok)
