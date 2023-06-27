@@ -5,6 +5,7 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import useNickNameStore from '../../store/useNickNameStore'
 import { API_HEADER } from '../../api/usersApi'
 import useUserImgStore from '../../store/useUserImgStore'
+import './Signup.css'
 
 const SignUpPage = () => {
   const [email, setEmail] = useState('')
@@ -69,35 +70,44 @@ const SignUpPage = () => {
   }
 
   return (
-    <div>
+    <div className="signPage">
       <h1>회원가입 페이지</h1>
+
       <form onSubmit={signUp}>
-        <div>이메일</div>
-        <input
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="이메일"
-        />
-        <div>비밀번호</div>
-        <input
-          value={password}
-          onChange={handlePasswordLenth}
-          placeholder="비밀번호"
-          type="password"
-        />
-        {passwordLengh && <div style={{ color: 'red' }}>{passwordLengh}</div>}
-        <div>닉네임</div>
-        <input
-          value={displayName}
-          onChange={e => setDisplayName(e.target.value)}
-          placeholder="닉네임"
-        />
-        <div>프로필 이미지</div>
-        <input
-          type="file"
-          onChange={uploadImage}
-        />
-        <button type="submit">회원가입</button>
+        <div className="inputWrap">
+          <div className="input-id">이메일</div>
+          <input
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="이메일"
+          />
+          <div className="input-pw">비밀번호</div>
+          <input
+            value={password}
+            onChange={handlePasswordLenth}
+            placeholder="비밀번호"
+            type="password"
+          />
+          {passwordLengh && <div style={{ color: 'red' }}>{passwordLengh}</div>}
+          <div className="input-name">닉네임</div>
+          <input
+            value={displayName}
+            onChange={e => setDisplayName(e.target.value)}
+            placeholder="닉네임"
+          />
+          <div className="input-img">프로필 이미지</div>
+          <input
+            type="file"
+            onChange={uploadImage}
+          />
+          <button
+            type="submit"
+            style={{
+              cursor: 'pointer'
+            }}>
+            회원가입
+          </button>
+        </div>
       </form>
     </div>
   )

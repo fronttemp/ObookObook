@@ -11,6 +11,7 @@ const SignInPage = () => {
 
   const navigate = useNavigate()
 
+
   // Token 관리
   const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
   const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
@@ -62,7 +63,7 @@ const SignInPage = () => {
       setLoginToken(json.accessToken)
       setNickNameToken(json.user.displayName)
       setUserImgToken(json.user.profileImg)
-      console.log('json:', json)
+      console.log("json:", json)
       console.log('res:', res)
       navigate('/')
     } else {
@@ -108,7 +109,9 @@ const SignInPage = () => {
           </div>
 
           {/* 패스워드 */}
+          <div>비밀번호</div>
           <div className="input-pw">
+            
             <input
               className="input"
               placeholder="비밀번호"

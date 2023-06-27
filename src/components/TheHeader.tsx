@@ -81,7 +81,13 @@ const TheHeader = () => {
             src={userImg}
             alt="프로필"
           />
-          <button onClick={handleLogout}>로그아웃</button>
+          <button
+            style={{
+              cursor: 'pointer'
+            }}
+            onClick={handleLogout}>
+            로그아웃
+          </button>
         </div>
       ) : (
         <div className="login-nav">
