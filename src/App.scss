@@ -87,6 +87,7 @@ header {
   align-items: center;
   position: fixed;
   z-index: 9;
+  top: 0;
   .login-nav {
     display: flex;
     justify-content: end;
@@ -121,13 +122,13 @@ header {
           transition: 0.1s;
           cursor: pointer;
         }
-        .nav-list__link:hover {
-          font-weight: 700;
-          color: var(--color-primary);
-          padding-bottom: 2px;
-          border-bottom: var(--color-primary) solid 2px;
-        }
-        .nave-list__active {
+        // .nav-list__link:hover {
+        //   font-weight: 700;
+        //   color: var(--color-primary);
+        //   padding-bottom: 2px;
+        //   border-bottom: var(--color-primary) solid 2px;
+        // }
+        .nav-list__active {
           font-weight: 700;
           color: var(--color-primary);
           padding-bottom: 2px;

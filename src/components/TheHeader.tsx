@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import Dropdown from './Dropdown';
 import { useNavigate, NavLink } from 'react-router-dom';
 import TagSearchMenu from './TagSearchMenu';
+import { useListApi } from '../store/useItemApi'
 
 const TheHeader = () => {
-
   const navigate = useNavigate()
-  
+  const {fetch, books} = useListApi()
+
   //드롭다운 메뉴 스테이트 관리
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
@@ -17,9 +18,18 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-    console.log(value)
-    navigate(`/search?q=${value}`)
+    if(value.trim() !== ''){
+    navigate(`/search?q=${value.trim()}`)
+    } else {
+      navigate(`/`)
+    }
   }
+
+  const onTagSearch = () => {
+    fetch()
+    console.log(books.tag)
+  }
+
   
   return (
     <header>
@@ -39,10 +49,10 @@ const TheHeader = () => {
               <NavLink to='/NewBook' className='nav-list__link'>새로나온책</NavLink>
             </li>
             <li className='nav-list__item'>
-              <span 
-              className={dropdownVisibility ? 'nave-list__active' : 'nav-list__link'}
+              {/* <span 
+              className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
               onClick={e => setDropdownVisibility(!dropdownVisibility)}
-              >분야찾기</span>
+              >분야찾기</span> */}
             </li>
           </ul>
         </div>
@@ -60,9 +70,9 @@ const TheHeader = () => {
           </div>
         </div>
       </nav>
-      <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu/>
-      </Dropdown>
+      {/* <Dropdown visibility={dropdownVisibility}>
+        <TagSearchMenu onTagClick = {onTagSearch}/>
+      </Dropdown> */}
     </header>
   )
 }
