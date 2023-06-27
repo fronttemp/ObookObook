@@ -2,7 +2,7 @@ import React from 'react'
 
 const BestsellerPage = () => {
   return (
-    <div>BestsellerPage</div>
+    <h1>BestsellerPage</h1>
   )
 }
 

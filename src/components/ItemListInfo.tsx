@@ -1,6 +1,7 @@
 import {Button} from 'antd'
 import { useNavigate } from 'react-router-dom'
 import './ItemList.scss'
+import AddBookCart from './AddBookCart'
 
 const ItemListInfo = ({books}) => {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ const ItemListInfo = ({books}) => {
                 <p className = 'bookPrice'>{book.priceSales}원</p>
                 {/* <a href={book.link} className = 'bookLink'>상품 보러가기</a> */}
                 <div className = 'bookBtn'>
-                  <Button className = 'cartBtn' onClick = {() => console.log(book)}>장바구니</Button>
+                  <AddBookCart className = 'addBtn' book={book}/>
                   <Button className = 'detailBtn' onClick = {() => moveDetailPage(book.isbn)}>상세보기</Button>
                 </div>
 

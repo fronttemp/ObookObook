@@ -23,7 +23,7 @@ const SearchPage = () => {
     return new URLSearchParams(useLocation().search)
   }
   const query = useQuery()
-  const searchTerm = query.get("q")
+  const searchTerm = query.get('q')
 
   useEffect(() => {
     if (searchTerm && searchTerm.trim() !== '') {
@@ -34,6 +34,7 @@ const SearchPage = () => {
         })
     }}, [fetch, searchTerm, tag, sort])
   
+
 
   const handleTagClick = (value) => {
     setTag(value)
@@ -62,8 +63,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <h1>'{searchTerm}'의 검색결과</h1>
-      
+      <h1>'{searchTerm}'의 검색결과</h1>   
       <TagSearchMenu onTagClick = {handleTagClick}/>
       <ItemSortMenu onSortChange = {handleSortClick}/>
 

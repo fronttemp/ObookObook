@@ -1,15 +1,14 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useListApi } from '../../store/useItemApi'
 import ItemListInfo from '../../components/ItemListInfo'
 import {Pagination} from 'antd'
-import ItemSortMenu from '../../components/ItemSortMenu'
 
-const NewbookPage = () => {
+const NewBookPage = () => {
   const [loading, setLoading] = useState(true)
   const {fetch, books} = useListApi()
   const [currentPage, setCurrentPage] = useState(1)
   const [trackPerPage, setTrackPerPage] = useState(10)
+
 
 
   useEffect(() => {
@@ -49,4 +48,4 @@ const NewbookPage = () => {
   )
 }
 
-export default NewbookPage
+export default NewBookPage
