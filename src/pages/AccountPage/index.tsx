@@ -111,8 +111,10 @@ const AccountPage = () => {
         <Modal
           title="비밀번호 변경 성공"
           visible={successModalVisible}
+          closable={false}
           onOk={handleModalOk}
-          onCancel={() => setSuccessModalVisible(false)}>
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
           <p>비밀번호가 성공적으로 변경되었습니다.</p>
         </Modal>
       </Form>
