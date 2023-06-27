@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge } from 'antd'
@@ -8,10 +9,13 @@ import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
 import useUserImgStore from '../store/useUserImgStore'
 import { API_HEADER } from '../api/usersApi'
+import { useListApi } from '../store/useItemApi'
 
 const TheHeader = () => {
   const navigate = useNavigate()
+  const {fetch, books} = useListApi()
   const { bookCart } = useCartStore()
+
 
   //드롭다운 메뉴 스테이트 관리
   const [dropdownVisibility, setDropdownVisibility] = useState(false)
@@ -21,8 +25,11 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-    console.log(value)
-    navigate(`/search?q=${value}`)
+    if(value.trim() !== ''){
+    navigate(`/search?q=${value.trim()}`)
+    } else {
+      navigate(`/`)
+    }
   }
 
   // 로그인 상태에 따라 헤더 변경
@@ -121,14 +128,11 @@ const TheHeader = () => {
                 새로나온책
               </NavLink>
             </li>
-            <li className="nav-list__item">
-              <span
-                className={
-                  dropdownVisibility ? 'nave-list__active' : 'nav-list__link'
-                }
-                onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                분야찾기
-              </span>
+            <li className='nav-list__item'>
+              {/* <span 
+              className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
+              onClick={e => setDropdownVisibility(!dropdownVisibility)}
+              >분야찾기</span> */}
             </li>
           </ul>
         </div>
@@ -159,9 +163,9 @@ const TheHeader = () => {
           </div>
         </div>
       </nav>
-      <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu />
-      </Dropdown>
+      {/* <Dropdown visibility={dropdownVisibility}>
+        <TagSearchMenu onTagClick = {onTagSearch}/>
+      </Dropdown> */}
     </header>
   )
 }
