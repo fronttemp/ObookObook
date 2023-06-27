@@ -1,9 +1,11 @@
 import React from 'react'
 
-const SignInPage = () => {
+const SigninPage = () => {
   return (
-    <h1>SignInPage</h1>
+    <div>
+      <div>내용 수정</div>
+    </div>
   )
 }
 
-export default SignInPage
+export default SigninPage
