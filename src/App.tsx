@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, Routes, Route } from 'react-router-dom'
+import { Outlet, Routes, Route, useLocation } from 'react-router-dom'
 import './App.scss'
 import MainPage from './pages/MainPage'
 import AccountPage from './pages/AccountPage'
@@ -17,6 +17,10 @@ import NewBookPage from './pages/NewBookPage'
 import OrderHistoryPage from './pages/OrderHistoryPage'
 import EditUserInfoPage from './pages/EditUserInfoPage'
 import EditBankInfoPage from './pages/EditBankInfoPage'
+import useAccountTokenStore from './store/useAccountTokenStore'
+import { API_HEADER } from './api/usersApi'
+import { useEffect } from 'react'
+
 
 const Layout = () => {
   return (
@@ -30,6 +34,35 @@ const Layout = () => {
 }
 
 function App() {
+  // 로그인 인증
+  const location = useLocation()
+
+  const { loginToken } = useAccountTokenStore(state => ({
+    loginToken: state.loginToken
+  }))
+
+  async function loginState() {
+    const res = await fetch(
+      'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
+      {
+        method: 'POST',
+        headers: {
+          ...API_HEADER,
+          Authorization: `Bearer ${loginToken}`
+        }
+      }
+    )
+    if (res.ok) {
+      return
+    } else {
+      console.log('로그인 인증 요청에 실패 하였습니다.')
+    }
+  }
+
+  useEffect(() => {
+    loginState()
+  }, [loginToken, location])
+
   return (
     <div className="app">
       <Routes>
