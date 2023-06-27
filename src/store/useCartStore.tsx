@@ -5,21 +5,14 @@ export const useCartStore = create(
   persist(
     set => ({
       bookCart: [],
-<<<<<<< HEAD
-=======
+
       selectedItems: [],
->>>>>>> dev
+
       addBookCart: book =>
         set(state => {
           if (state.bookCart.some(b => b.isbn === book.isbn)) {
             return state
           }
-<<<<<<< HEAD
-          return { bookCart: [...state.bookCart, {...book, id: book.isbn }]}
-        }),
-      removeBook: book =>
-        set(state => ({ bookCart: state.bookCart.filter(b => b !== book) }))
-=======
           return { bookCart: [...state.bookCart, { ...book, id: book.isbn }] }
         }),
       removeBook: book =>
@@ -31,7 +24,6 @@ export const useCartStore = create(
           )
           return { selectedItems: selectedBooks }
         })
->>>>>>> dev
     }),
     { name: 'cart' }
   )

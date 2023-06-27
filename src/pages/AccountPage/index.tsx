@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-import React from 'react'
 
-const AccountPage = () => {
-  return (
-    <h1>AccountPage</h1>
-  )
-}
-
-export default AccountPage
-=======
 import { Link, Outlet } from 'react-router-dom'
 import './AccountPage.css'
 
@@ -30,4 +20,3 @@ const AccountPage = () => {
   )
 }
 export default AccountPage
->>>>>>> dev

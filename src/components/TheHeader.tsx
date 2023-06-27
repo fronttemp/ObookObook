@@ -1,17 +1,4 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
-import { Input, Badge } from 'antd'
-import Dropdown from './Dropdown'
-import { useNavigate, NavLink } from 'react-router-dom'
-import TagSearchMenu from './TagSearchMenu'
-import { useCartStore } from '../store/useCartStore'
 
-const TheHeader = () => {
-  const navigate = useNavigate()
-  const { bookCart } = useCartStore()
-
-=======
 
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
@@ -27,11 +14,11 @@ import { useListApi } from '../store/useItemApi'
 
 const TheHeader = () => {
   const navigate = useNavigate()
-  const {fetch, books} = useListApi()
+  const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
 
 
->>>>>>> dev
+
   //드롭다운 메뉴 스테이트 관리
   const [dropdownVisibility, setDropdownVisibility] = useState(false)
 
@@ -40,20 +27,9 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-<<<<<<< HEAD
-    console.log(value)
-    navigate(`/search?q=${value}`)
-  }
 
-  return (
-    <header>
-      <div className="login-nav">
-        <NavLink to="/SignInPage">로그인</NavLink>
-        <NavLink to="/SignUpPage">회원가입</NavLink>
-      </div>
-=======
-    if(value.trim() !== ''){
-    navigate(`/search?q=${value.trim()}`)
+    if (value.trim() !== '') {
+      navigate(`/search?q=${value.trim()}`)
     } else {
       navigate(`/`)
     }
@@ -129,7 +105,6 @@ const TheHeader = () => {
           <NavLink to="/SignupPage">회원가입</NavLink>
         </div>
       )}
->>>>>>> dev
 
       <nav>
         <div className="nav-menu">
@@ -156,22 +131,13 @@ const TheHeader = () => {
                 새로나온책
               </NavLink>
             </li>
-<<<<<<< HEAD
-            <li className="nav-list__item">
-              <span
-                className={
-                  dropdownVisibility ? 'nave-list__active' : 'nav-list__link'
-                }
-                onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                분야찾기
-              </span>
-=======
+
             <li className='nav-list__item'>
               {/* <span 
               className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
               onClick={e => setDropdownVisibility(!dropdownVisibility)}
               >분야찾기</span> */}
->>>>>>> dev
+
             </li>
           </ul>
         </div>
@@ -202,15 +168,11 @@ const TheHeader = () => {
           </div>
         </div>
       </nav>
-<<<<<<< HEAD
-      <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu />
-      </Dropdown>
-=======
+
       {/* <Dropdown visibility={dropdownVisibility}>
         <TagSearchMenu onTagClick = {onTagSearch}/>
       </Dropdown> */}
->>>>>>> dev
+
     </header>
   )
 }
