@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import { Button, Card, Radio, Grid } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
@@ -41,9 +42,8 @@ const CheckoutPage = () => {
             {selectedItems.map((book, index) => (
               <div
                 key={index}
-                className={`book-item ${
-                  screen.xs ? 'book-item-xs' : 'book-item-sm'
-                }`}>
+                className={`book-item ${screen.xs ? 'book-item-xs' : 'book-item-sm'
+                  }`}>
                 <img
                   src={book.cover}
                   alt={book.title}
@@ -93,3 +93,4 @@ const CheckoutPage = () => {
 }
 
 export default CheckoutPage
+

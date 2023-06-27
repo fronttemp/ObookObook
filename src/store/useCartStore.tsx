@@ -5,7 +5,9 @@ export const useCartStore = create(
   persist(
     set => ({
       bookCart: [],
+
       selectedItems: [],
+
       addBookCart: book =>
         set(state => {
           if (state.bookCart.some(b => b.isbn === book.isbn)) {

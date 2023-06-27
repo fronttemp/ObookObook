@@ -14,6 +14,7 @@ import SearchPage from './pages/SearchPage/index'
 import TheHeader from './components/TheHeader'
 import TheFooter from './components/TheFooter'
 import NewBookPage from './pages/NewBookPage'
+
 import OrderHistoryPage from './pages/OrderHistoryPage'
 import EditUserInfoPage from './pages/EditUserInfoPage'
 import EditBankInfoPage from './pages/EditBankInfoPage'
@@ -74,6 +75,7 @@ function App() {
             element={<MainPage />}
           />
           <Route
+
             path="/Account/"
             element={<AccountPage />}>
             <Route
@@ -89,6 +91,7 @@ function App() {
               element={<EditBankInfoPage />}
             />
           </Route>
+
           <Route
             path="/Admin"
             element={<AdminPage />}

@@ -1,3 +1,4 @@
+
 // 회원가입 페이지
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -114,3 +115,4 @@ const SignUpPage = () => {
 }
 
 export default SignUpPage
+
