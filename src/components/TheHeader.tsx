@@ -1,48 +1,67 @@
-import React, { useState } from 'react';
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
-import Dropdown from './Dropdown';
-import { useNavigate, NavLink } from 'react-router-dom';
-import TagSearchMenu from './TagSearchMenu';
+import React, { useState } from 'react'
+import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { Input, Badge } from 'antd'
+import Dropdown from './Dropdown'
+import { useNavigate, NavLink } from 'react-router-dom'
+import TagSearchMenu from './TagSearchMenu'
+import { useCartStore } from '../store/useCartStore'
 
 const TheHeader = () => {
-
   const navigate = useNavigate()
-  
+  const { bookCart } = useCartStore()
+
   //드롭다운 메뉴 스테이트 관리
-  const [dropdownVisibility, setDropdownVisibility] = useState(false);
+  const [dropdownVisibility, setDropdownVisibility] = useState(false)
 
   //antd input 설정값 !!수정불가능!!
-  const { Search } = Input;
+  const { Search } = Input
 
   //input값으로 navigate
   const onSearch = (value: string) => {
     console.log(value)
     navigate(`/search?q=${value}`)
   }
-  
+
   return (
     <header>
       <div className="login-nav">
-        <NavLink to='/SigninPage'>로그인</NavLink>
-        <NavLink to='/SignupPage'>회원가입</NavLink>
+        <NavLink to="/SignInPage">로그인</NavLink>
+        <NavLink to="/SignUpPage">회원가입</NavLink>
       </div>
-      
+
       <nav>
         <div className="nav-menu">
-          <NavLink to='/' className='logo'><img src="../logo.png" alt="logo" /></NavLink>
-          <ul className='nav-list'>
-            <li className='nav-list__item'>
-              <NavLink to='/Bestseller' className='nav-list__link'>베스트셀러</NavLink>
+          <NavLink
+            to="/"
+            className="logo">
+            <img
+              src="../logo.png"
+              alt="logo"
+            />
+          </NavLink>
+          <ul className="nav-list">
+            <li className="nav-list__item">
+              <NavLink
+                to="/Bestseller"
+                className="nav-list__link">
+                베스트셀러
+              </NavLink>
             </li>
-            <li className='nav-list__item'>
-              <NavLink to='/NewBook' className='nav-list__link'>새로나온책</NavLink>
+            <li className="nav-list__item">
+              <NavLink
+                to="/NewBook"
+                className="nav-list__link">
+                새로나온책
+              </NavLink>
             </li>
-            <li className='nav-list__item'>
-              <span 
-              className={dropdownVisibility ? 'nave-list__active' : 'nav-list__link'}
-              onClick={e => setDropdownVisibility(!dropdownVisibility)}
-              >분야찾기</span>
+            <li className="nav-list__item">
+              <span
+                className={
+                  dropdownVisibility ? 'nave-list__active' : 'nav-list__link'
+                }
+                onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                분야찾기
+              </span>
             </li>
           </ul>
         </div>
@@ -55,13 +74,26 @@ const TheHeader = () => {
             />
           </div>
           <div className="icons">
-          <NavLink to='/Cart' className='icons-list'><ShoppingCartOutlined /></NavLink>
-          <NavLink to='/Account' className='icons-list'><UserOutlined /></NavLink>
+            <NavLink
+              to="/Cart"
+              className="icons-list">
+              <Badge
+                count={bookCart.length}
+                size="small">
+                <ShoppingCartOutlined style={{ fontSize: '24px' }} />
+              </Badge>
+            </NavLink>
+
+            <NavLink
+              to="/Account"
+              className="icons-list">
+              <UserOutlined />
+            </NavLink>
           </div>
         </div>
       </nav>
       <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu/>
+        <TagSearchMenu />
       </Dropdown>
     </header>
   )

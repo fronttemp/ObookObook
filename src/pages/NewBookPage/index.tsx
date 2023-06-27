@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import TagSearchMenu from '../../components/TagSearchMenu'
+import AddBookCart from '../../components/AddBookCart'
 
-const NewbookPage = () => {
+const NewBookPage = () => {
   const [books, setBooks] = useState([])
 
   useEffect(() => {
@@ -22,21 +24,24 @@ const NewbookPage = () => {
   return (
     <>
     <h1>새로나온책</h1>
+    <TagSearchMenu />
     {books &&
         books.map((book, index) => (
           <div key={index}>
-            <h2>{book.title}</h2>
             <img
               src={book.cover.replace(/coversum/g, 'cover500')}
               alt={book.title}
-            />
+              />
+              <h2>{book.title}</h2>
+              <p>{book.description}</p>  
             <p>{book.author}</p>
             <p>{book.publisher}</p>
-            <a href={book.link}>상품 보러가기</a>
+            <p>{book.priceStandard}</p>
+            <AddBookCart book={book}/>
           </div>
         ))}
     </>
   )
 }
 
-export default NewbookPage
+export default NewBookPage
