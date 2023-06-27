@@ -7,6 +7,13 @@
 
 .cart-content {
   flex: 7;
+
+  margin-right: 10px;
+}
+
+.cart-content>h1 {
+  margin-bottom: 10px;
+
 }
 
 .cart-sidebar {
@@ -27,8 +34,10 @@
   margin-bottom: 20px;
 }
 
-.cart-sidebar > .sidebar-content {
-  position: -webkit-sticky; /* For Safari */
+.cart-sidebar>.sidebar-content {
+  position: -webkit-sticky;
+  /* For Safari */
   position: sticky;
-  top: 2rem; /* space for the header */
+  top: 2rem;
+  /* space for the header */
 }

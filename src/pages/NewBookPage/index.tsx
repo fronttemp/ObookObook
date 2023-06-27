@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const NewBookPage = () => {
   const [loading, setLoading] = useState(true)
-  const {fetch, books} = useListApi()
+  const { fetch, books } = useListApi()
   const [currentPage, setCurrentPage] = useState(1)
   const [trackPerPage, setTrackPerPage] = useState(10)
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
@@ -19,17 +19,17 @@ const NewBookPage = () => {
         setLoading(false)
       })
   }, [])
-  
+
   const indexOfLastTrack = currentPage * trackPerPage;
   const indexOfFirstTrack = indexOfLastTrack - trackPerPage;
   const currentBooks = books.slice(indexOfFirstTrack, indexOfLastTrack);
-  
+
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
 
   console.log(currentBooks)
 
-  
+
   return (
     <section>
       <div className='page_title'>새로나온책</div>
