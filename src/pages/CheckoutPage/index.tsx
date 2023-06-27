@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {  Button, Card, Radio, Grid } from 'antd'
+import { Button, Card, Radio, Grid } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import './CheckoutPage.css'
@@ -25,11 +25,6 @@ const CheckoutPage = () => {
   }
 
   useEffect(() => {
-    selectedItems.map((book, index) => {
-      console.log(book)
-      // ...
-    })
-
     handleTotalPrice()
   }, [selectedItems])
 
@@ -39,7 +34,9 @@ const CheckoutPage = () => {
     <div className="checkout-page">
       <div className="left-section">
         <h1>{`주문/결제`}</h1>
-        <Card className="left-section__border" title={`주문상품 총 ${selectedItems.length} 개`}>
+        <Card
+          className="left-section__items"
+          title={`주문상품 총 ${selectedItems.length} 개`}>
           <div className="checkout-content">
             {selectedItems.map((book, index) => (
               <div
@@ -66,12 +63,16 @@ const CheckoutPage = () => {
             ))}
           </div>
         </Card>
-        <div className="payment-selection">
-          <Radio.Group>
-            <Radio value={1}>오북페이</Radio>
-            <Radio value={2}>일반결제</Radio>
-          </Radio.Group>
-        </div>
+        <Card
+          className="left-section__payment"
+          title="결제 수단">
+          <div className="payment-selection">
+            <Radio.Group>
+              <Radio value={1}>오북페이</Radio>
+              <Radio value={2}>일반결제</Radio>
+            </Radio.Group>
+          </div>
+        </Card>
       </div>
       <div className="checkout-sidebar">
         <div className="sidebar-content">
