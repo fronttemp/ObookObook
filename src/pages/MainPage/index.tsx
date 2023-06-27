@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Card, Row, Col } from 'antd';
-
-const { Meta } = Card;
+import { Carousel, Button, Card } from 'antd';
+import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
+import './MainPage.css';
 
 const MainPage = () => {
   const [quote, setQuote] = useState('');
   const [bestSellers, setBestSellers] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const carouselRef = useRef();
+  const bestSellersCarouselRef = useRef();
+  const newReleasesCarouselRef = useRef();
 
   useEffect(() => {
     fetchRandomQuote();
@@ -29,7 +32,7 @@ const MainPage = () => {
   const fetchBestSellers = async () => {
     try {
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller');
-      setBestSellers(response.data.item.slice(0, 10));
+      setBestSellers(response.data.item.slice(0, 12));
     } catch (error) {
       console.error('Failed to fetch best sellers', error);
     }
@@ -38,7 +41,7 @@ const MainPage = () => {
   const fetchNewReleases = async () => {
     try {
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll');
-      setNewReleases(response.data.item.slice(0, 10));
+      setNewReleases(response.data.item.slice(0, 12));
     } catch (error) {
       console.error('Failed to fetch new releases', error);
     }
@@ -46,68 +49,149 @@ const MainPage = () => {
 
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('/api/recommendations');
-      setRecommendations(response.data.items.slice(0, 5));
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=BlogBest');
+      setRecommendations(response.data.items.slice(0, 12));
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
     }
   };
 
+  const handlePrev = () => {
+    carouselRef.current.prev();
+  };
+
+  const handleNext = () => {
+    carouselRef.current.next();
+  };
+
+  const handleBestSellersPrev = () => {
+    bestSellersCarouselRef.current.prev();
+  };
+
+  const handleBestSellersNext = () => {
+    bestSellersCarouselRef.current.next();
+  };
+
+  const handleNewReleasesPrev = () => {
+    newReleasesCarouselRef.current.prev();
+  };
+
+  const handleNewReleasesNext = () => {
+    newReleasesCarouselRef.current.next();
+  };
+
   return (
     <>
-      <h1>오늘의 명언</h1>
-      <p>{quote}</p>
-
-      <h2>추천 도서</h2>
-      <div className="recommendation-container">
-        <button className="prev-button">이전</button>
-        <div className="recommendation-list">
-          <Row gutter={[16, 16]}>
+      <div>
+        <h1>오늘의 명언</h1>
+        <p>{quote}</p>
+      </div>
+      <div>
+        <h2>추천 도서</h2>
+        <div className="carousel-container">
+          <Carousel
+            autoplay={false}
+            ref={carouselRef}
+            dots={false}
+            draggable
+            infinite
+            swipeToSlide={false}
+          >
             {recommendations.map((book, index) => (
-              <Col xs={24} sm={12} md={8} lg={6} xl={4} key={index}>
+              <div className="carousel-item" key={index}>
                 <Card
-                  hoverable
-                  style={{ width: '100%' }}
+                  className="book-card"
                   cover={<img src={book.cover} alt={book.title} />}
                 >
-                  <Meta title={book.title} description={book.author} />
+                  <Card.Meta title={book.title} description={book.author} />
                 </Card>
-              </Col>
+              </div>
             ))}
-          </Row>
+          </Carousel>
+          <div className="carousel-controls">
+            <Button
+              onClick={handlePrev}
+              icon={<CaretLeftOutlined />}
+            />
+            <Button
+              onClick={handleNext}
+              icon={<CaretRightOutlined />}
+            />
+          </div>
         </div>
-        <button className="next-button">다음</button>
       </div>
+      <div>
+        <h2>베스트셀러</h2>
+        <div className="carousel-container">
 
-      <h2>베스트셀러</h2>
-      <Row gutter={[16, 16]}>
-        {bestSellers.map((book, index) => (
-          <Col xs={24} sm={12} md={8} lg={6} xl={4} key={index}>
-            <Card
-              hoverable
-              style={{ width: '100%' }}
-              cover={<img src={book.cover} alt={book.title} />}
-            >
-              <Meta title={book.title} description={book.author} />
-            </Card>
-          </Col>
-        ))}
-      </Row>
+          <Carousel
+            slidesToShow={4}
+            autoplay={false}
+            dots={false}
+            draggable
+            infinite
+            swipeToSlide={false}
+            ref={bestSellersCarouselRef}
+          >
+            {bestSellers.map((book, index) => (
+              <div className="carousel-item" key={index}>
+                <Card
+                  className="book-card"
+                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
+                >
+                  <Card.Meta title={book.title} description={book.author} />
+                </Card>
+              </div>
+            ))}
 
-      <h2>신간 책</h2>
-      <Row gutter={[16, 16]}>
-        {newReleases.map((book, index) => (
-          <Col xs={24} sm={12} md={8} lg={6} xl={4} key={index}>
-            <Card
-              hoverable
-              style={{ width: '100%' }}
-              cover={<img src={book.cover} alt={book.title} />}
-            >
-              <Meta title={book.title} description={book.author} />
-            </Card>
-          </Col>
-        ))}
-      </Row>
+          </Carousel>
+          <div className="carousel-controls">
+            <Button
+              onClick={handleBestSellersPrev}
+              icon={<CaretLeftOutlined />}
+            />
+            <Button
+              onClick={handleBestSellersNext}
+              icon={<CaretRightOutlined />}
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>신간 책</h2>
+        <div className="carousel-container">
+          <Carousel
+            slidesToShow={4}
+            autoplay={false}
+            dots={false}
+            draggable
+            infinite
+            swipeToSlide={false}
+            ref={newReleasesCarouselRef}
+          >
+            {newReleases.map((book, index) => (
+              <div className="carousel-item" key={index}>
+                <Card
+                  className="book-card"
+                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
+                >
+                  <Card.Meta title={book.title} description={book.author} />
+                </Card>
+              </div>
+            ))}
+          </Carousel>
+          <div className="carousel-controls">
+            <Button
+              onClick={handleNewReleasesPrev}
+              icon={<CaretLeftOutlined />}
+            />
+            <Button
+              onClick={handleNewReleasesNext}
+              icon={<CaretRightOutlined />}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

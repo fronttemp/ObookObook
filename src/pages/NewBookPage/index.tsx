@@ -18,26 +18,26 @@ const NewBookPage = () => {
         console.error('Failed to search books', error)
       }
     })();
-    }, [])
-  
-  
+  }, [])
+
+
   return (
     <>
-    <h1>새로나온책</h1>
-    <TagSearchMenu />
-    {books &&
+      <h1>새로나온책</h1>
+      <TagSearchMenu />
+      {books &&
         books.map((book, index) => (
           <div key={index}>
             <img
               src={book.cover.replace(/coversum/g, 'cover500')}
               alt={book.title}
-              />
-              <h2>{book.title}</h2>
-              <p>{book.description}</p>  
+            />
+            <h2>{book.title}</h2>
+            <p>{book.description}</p>
             <p>{book.author}</p>
             <p>{book.publisher}</p>
             <p>{book.priceStandard}</p>
-            <AddBookCart book={book}/>
+            <AddBookCart book={book} />
           </div>
         ))}
     </>
