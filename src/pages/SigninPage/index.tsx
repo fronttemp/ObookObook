@@ -11,7 +11,6 @@ const SignInPage = () => {
 
   const navigate = useNavigate()
 
-
   // Token 관리
   const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
   const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
@@ -63,7 +62,7 @@ const SignInPage = () => {
       setLoginToken(json.accessToken)
       setNickNameToken(json.user.displayName)
       setUserImgToken(json.user.profileImg)
-      console.log("json:", json)
+      console.log('json:', json)
       console.log('res:', res)
       navigate('/')
     } else {
@@ -104,14 +103,18 @@ const SignInPage = () => {
               onChange={checkEmail}
             />
             {!emailValid && email.length > 0 && (
-              <div>올바른 이메일 형식을 입력해주세요 </div>
+              <div
+                style={{
+                  color: 'red'
+                }}>
+                올바른 이메일 형식을 입력해주세요{' '}
+              </div>
             )}
           </div>
 
           {/* 패스워드 */}
           <div>비밀번호</div>
           <div className="input-pw">
-            
             <input
               className="input"
               placeholder="비밀번호"
@@ -120,6 +123,14 @@ const SignInPage = () => {
               onChange={checkPassword}
             />
           </div>
+          {!passwordValid && password.length > 0 && (
+            <div
+              style={{
+                color: 'red'
+              }}>
+              비밀번호는 8자 이상입니다.
+            </div>
+          )}
           {/* 버튼 */}
           <div className="btn">
             <button
