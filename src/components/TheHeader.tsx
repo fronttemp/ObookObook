@@ -1,8 +1,14 @@
-import { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge } from 'antd'
-import { useNavigate, NavLink } from 'react-router-dom'
+import Dropdown from './Dropdown'
+import { useNavigate, NavLink, useLocation } from 'react-router-dom'
+import TagSearchMenu from './TagSearchMenu'
 import { useCartStore } from '../store/useCartStore'
+import useAccountTokenStore from '../store/useAccountTokenStore'
+import useUserImgStore from '../store/useUserImgStore'
+import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
 
 const TheHeader = () => {
@@ -26,12 +32,76 @@ const TheHeader = () => {
     }
   }
 
+  // 로그인 상태에 따라 헤더 변경
+  const { loginToken, setIsLoggedOut } = useAccountTokenStore(state => ({
+    loginToken: state.loginToken,
+    setIsLoggedOut: state.setIsLoggedOut
+  }))
+
+  const nickName = localStorage.getItem('nickNameToken')
+  const userImg = localStorage.getItem('userImgToken')
+
+  useEffect(() => {
+    // 프로필 이미지 URL 가져오기
+    // 프로필 이미지가 로컬 스토리지에 저장되어 있다면 설정
+  }, [])
+
+  // signOutAPI
+  const handleLogout = async () => {
+    await fetch(
+      'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout',
+      {
+        method: 'POST',
+        headers: {
+          ...API_HEADER,
+          Authorization: `Bearer ${loginToken}`
+        }
+      }
+    )
+    setIsLoggedOut()
+    navigate('/')
+  }
+
+  // 로그인 상태시 해당 페이지 접근 금지
+  const location = useLocation()
+
+  useEffect(() => {
+    if (
+      loginToken &&
+      (location.pathname === '/SigninPage' ||
+        location.pathname === '/SignupPage')
+    ) {
+      navigate('/')
+    }
+  }, [loginToken, navigate, location.pathname])
+
   return (
     <header>
-      <div className="login-nav">
-        <NavLink to="/SignInPage">로그인</NavLink>
-        <NavLink to="/SignUpPage">회원가입</NavLink>
-      </div>
+      {loginToken ? (
+        <div className="login-nav">
+          <span>{nickName}님 환영합니다.</span>
+          <img
+            style={{
+              width: '20px',
+              height: '20px'
+            }}
+            src={userImg}
+            alt="프로필"
+          />
+          <button
+            style={{
+              cursor: 'pointer'
+            }}
+            onClick={handleLogout}>
+            로그아웃
+          </button>
+        </div>
+      ) : (
+        <div className="login-nav">
+          <NavLink to="/SigninPage">로그인</NavLink>
+          <NavLink to="/SignupPage">회원가입</NavLink>
+        </div>
+      )}
 
       <nav>
         <div className="nav-menu">
