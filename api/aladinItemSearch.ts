@@ -15,9 +15,9 @@ export default async function (
 
   try {
     const { data } = await axios.get(
-
-      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbckisss66601645001&SearchTarget=eBook&output=js&Version=20131101&MaxResults=50${query}${queryType}${opt}${tag}${sort}${id}
-      `
+      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbckisss66601645001&output=js&&SearchTarget=eBook&Version=20131101&MaxResults=50
+      ${query}${queryType}${opt}${tag}${sort}${id}`
+      
     )
     response.status(200).json(data)
   } catch (error) {

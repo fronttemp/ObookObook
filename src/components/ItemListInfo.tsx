@@ -2,6 +2,7 @@ import {Button} from 'antd'
 import { useNavigate } from 'react-router-dom'
 import AddBookCart from './AddBookCart'
 import { StarFilled } from '@ant-design/icons'
+import AddBookPurchase from './AddBookPurchase'
 
 const ItemListInfo = ({books}) => {
   const navigate = useNavigate()
@@ -39,6 +40,7 @@ const ItemListInfo = ({books}) => {
               <div className = 'bookBtn'>
                 <div className="Btn">
                   <AddBookCart className = 'addBtn' book={book}/>
+                  <AddBookPurchase className = 'addBtn' book={book}/>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import AddBookCart from '../../components/AddBookCart';
 import { LoadingOutlined, StarFilled } from '@ant-design/icons';
 import axios from 'axios';
 import { Spin } from 'antd';
+import AddBookPurchase from '../../components/AddBookPurchase';
 
 const DetailPage = () => {
   const [book, setBook] = useState(null)
@@ -39,7 +40,7 @@ const DetailPage = () => {
   }
 
   function renderDescription(description) {
-    const lines = description.split('<BR>');
+    const lines = description.replace(/<\/?p>/g, '').split('<BR>');
   
     return lines.map((line, index) => (
       <div key={index}>
@@ -75,7 +76,7 @@ const DetailPage = () => {
               <div className="subDetail__content">
                 <div className="subDetailBox">
                   <div className='subDetail__title'>별점</div>
-                  <div className='subDetail_text'><StarFilled /> {book.customerReviewRank}</div>
+                  <div className='subDetail_text'> <StarFilled /> {book.customerReviewRank}</div>
                 </div>
                 <div className="subDetailBox">
                   <div className='subDetail__title'>가격</div>
@@ -87,9 +88,10 @@ const DetailPage = () => {
                 </div>
               </div>
               <AddBookCart book={book}/>
+              <AddBookPurchase book={book}/>
             </div>
           </div>
-         <div className="discription">
+          <div className="discription">
             <div className="discriptionBox">
                 <div className='discription__title'>책 소개</div>
                 <div className="discription__text">{renderDescription(book.fullDescription)}</div>
@@ -115,7 +117,7 @@ const DetailPage = () => {
               {book.subInfo.toc ? (
                 <div className="discriptionBox">
                   <div className='discription__title'>목차</div>
-                  <div className="discription__text"> {book.subInfo.toc} </div>
+                  <div className="discription__text"> {renderDescription(book.subInfo.toc)} </div>
                 </div>
               ) : null}
           </div>

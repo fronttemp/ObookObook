@@ -82,7 +82,7 @@ const SignInPage = () => {
   const [notAllow, setNowAllow] = useState(true)
 
   return (
-    <div>
+    <section>
       {/* title  */}
       <h1>로그인 페이지</h1>
       <div className="titleWrap">
@@ -136,7 +136,7 @@ const SignInPage = () => {
           </div>
         </form>
       </div>
-    </div>
+    </section>
   )
 }
 

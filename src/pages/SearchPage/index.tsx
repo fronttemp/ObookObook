@@ -65,9 +65,11 @@ const SearchPage = () => {
 
   return (
     <section>
-      <h1>'{searchTerm}'의 검색결과</h1>   
-      <TagSearchMenu onTagClick = {handleTagClick}/>
-      <ItemSortMenu onSortChange = {handleSortClick}/>
+      <div className='title__text'>' <span className='hilight'>{searchTerm}</span> ' 의 검색결과</div>  
+      <div className="filterList">
+        <ItemSortMenu onSortChange = {handleSortClick}/>
+        <TagSearchMenu onTagClick = {handleTagClick}/>
+      </div> 
 
       {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div>
         :
@@ -75,13 +77,14 @@ const SearchPage = () => {
         { books.length > 0 ? 
         <div>
           <ItemListInfo books = {currentBooks}/> 
-          {/* <Button onClick = {handleAddResultsClick}> 더보기 </Button> */}
-          <Pagination
+          <div className="pagination">
+            <Pagination
             defaultCurrent={currentPage}
             onChange ={paginate}
             pageSize = {10}
             total={books.length}
             />
+          </div>
         </div>
             : 
             (<h1>

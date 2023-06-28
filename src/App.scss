@@ -18,6 +18,7 @@ html {
 body {
   font-family: "pretendard", sans-serif;
   font-weight: 400;
+  line-height: 1.4rem;
 }
 a {
   text-decoration: none;
@@ -37,6 +38,7 @@ ul {
 button {
   border: none;
   background: none;
+  cursor: pointer;
 }
 .page_title {
   font-size: 24px;
@@ -45,6 +47,14 @@ button {
 }
 .page_discription {
   color: var(--color-black-50);
+}
+.title__text {
+  font-weight: 700;
+  font-size: 28px;
+  padding: 20px 0 12px 0;
+}
+.hilight {
+  color: var(--color-primary);
 }
 
 //스타일
@@ -165,7 +175,7 @@ footer {
 .drop-list {
   padding: 0;
   background-color: var(--color-white);
-  height: 60px;
+  height: 40px;
 
   .drop-list__item {
     box-sizing: border-box;
@@ -179,6 +189,7 @@ footer {
   }
 
   .drop-list__item:hover {
+    cursor: pointer;
     border-radius: 20px;
     background-color: var(--color-primary-20);
   }
@@ -189,12 +200,7 @@ footer {
 }
 
 .title {
-  padding: 20px 0 24px 0;
-  .title__text {
-    padding-bottom: 12px;
-    font-weight: 700;
-    font-size: 28px;
-  }
+  padding-bottom: 24px;
 }
 .img_detail {
   display: flex;
@@ -236,8 +242,8 @@ footer {
 .discription {
   display: flex;
   flex-wrap: wrap;
-  .discriptionBox:not(:first-of-type) {
-    border-top: var(--color-black-10) 1px solid;
+  .discriptionBox:not(:last-of-type) {
+    border-bottom: var(--color-black-10) 1px solid;
   }
   .discriptionBox {
     display: flex;
@@ -327,6 +333,7 @@ footer {
 }
 
 .filterList {
+  padding-top: 32px;
   display: flex;
   justify-content: space-around;
 }
