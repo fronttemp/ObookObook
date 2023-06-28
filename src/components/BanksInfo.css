@@ -1,0 +1,44 @@
+.edit-bank-info-page {
+  margin-bottom: 20px;
+}
+.account-list {
+  margin-bottom: 20px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.account-item p {
+  margin-right: 10px;
+}
+
+.bank-select {
+  margin-bottom: 10px;
+}
+
+.account-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.account-input-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.account-input-field {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.signature-checkbox {
+  margin-right: 10px;
+}
+
+.connect-button {
+  margin-top: 10px;
+}
