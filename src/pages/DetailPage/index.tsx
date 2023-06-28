@@ -1,46 +1,130 @@
 
 import { useEffect, useState } from 'react';
-import { useLookupApi } from '../../store/useItemApi';
+import { useLocation } from 'react-router-dom';
+import AddBookCart from '../../components/AddBookCart';
+import { LoadingOutlined, StarFilled } from '@ant-design/icons';
+import axios from 'axios';
+import { Spin } from 'antd';
+import AddBookPurchase from '../../components/AddBookPurchase';
 
-const DetailPage = ({ isbn }) => {
-  const [loading, setLoading] = useState(true);
-  const [book, setBook] = useState(null);
+const DetailPage = () => {
+  const [book, setBook] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const location = useLocation();
+  const isbnNum = location.state?.value;
 
-  const { fetch } = useLookupApi();
+  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+
+  console.log(isbnNum)
+
 
   useEffect(() => {
-    const fetchBookDetails = async () => {
+    (async () => {
       try {
-        setLoading(true);
-        await fetch(isbn);
-        setLoading(false);
-        console.log(book)
-
+        setLoading(true)
+        const response = await axios.get(`/api/aladinItemSearch?s=ItemLookUp&id=${isbnNum}&opt=Story,authors,fulldescription,Toc`);
+        setBook(response.data.item[0]);
+        setLoading(false)
+        console.log(1)
       } catch (error) {
-        console.error('Failed to fetch book details:', error);
-        setLoading(false);
+        console.error('Failed to search books', error);
+        setLoading(false)
       }
-    };
-    fetchBookDetails();
-  }, [fetch, isbn]);
+    })();
+  }, [isbnNum]);
 
-  if (loading) {
-    return <h1>Loading...</h1>;
+  function decodeHTMLEntities(text) {
+    const element = document.createElement('div');
+    element.innerHTML = text;
+    return element.textContent;
   }
 
-  if (!book) {
-    return <h1>Failed to fetch book details.</h1>;
+  function renderDescription(description) {
+    const lines = description.replace(/<\/?p>/g, '').split('<BR>');
+  
+    return lines.map((line, index) => (
+      <div key={index}>
+        {line.includes('<b>')||line.includes('</b>') ? (
+          <strong>{line.replace(/<\/?b>/g, '')}</strong>
+        ) : (
+          line
+        )}
+        {index !== lines.length - 1 && <br />}
+      </div>
+    ));
   }
-
 
   return (
-    <div>
-      <h2>{book.title}</h2>
-      <p>Author: {book.author}</p>
-      <p>Publisher: {book.publisher}</p>
-      {/* 나머지 상세 정보 표시 */}
-    </div>
-  );
-};
+    <section>
+      {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div>
+      :
+        <div>
+          <div className="title">
+            <div className='title__text'>{book.title}</div>
+            <div className="shortDetail">
+              {book.author} {book.publisher}
+            </div>
+          </div>
+          <div className='img_detail'>
+            <div className="cover">
+              <img
+                src={book.cover.replace(/coversum/g, 'cover500')}
+                alt={book.title}
+              />
+             </div>
+            <div className="subDetail">
+              <div className="subDetail__content">
+                <div className="subDetailBox">
+                  <div className='subDetail__title'>별점</div>
+                  <div className='subDetail_text'> <StarFilled /> {book.customerReviewRank}</div>
+                </div>
+                <div className="subDetailBox">
+                  <div className='subDetail__title'>가격</div>
+                  <div className="subDetail__text">{book.priceSales}원</div>
+                </div>
+                <div className="subDetailBox">
+                  <div className='subDetail__title'>내용</div>
+                  <div className="subDetail__text">{book.description}</div>
+                </div>
+              </div>
+              <AddBookCart book={book}/>
+              <AddBookPurchase book={book}/>
+            </div>
+          </div>
+          <div className="discription">
+            <div className="discriptionBox">
+                <div className='discription__title'>책 소개</div>
+                <div className="discription__text">{renderDescription(book.fullDescription)}</div>
+            </div>
+              <div className="discriptionBox">
+                <div className='discription__title'>출판사 제공 책 소개</div>
+                <div className="discription__text">{renderDescription(book.fullDescription2)}</div>
+              </div>
+              <div className="discriptionBox">
+                <div className='discription__title'>저자 및 역자 소개</div>
+                <div className="discription__text">
+                  {book.subInfo.authors.map((author, index) => (
+                    <div className='author' key={index}>
+                      <div className="author__box">
+                        <div className='author__name'>{author.authorName}</div>
+                        <div className="author__type">{author.authorTypeDesc}</div>
+                      </div>
+                      <div className="author__info">{decodeHTMLEntities(author.authorInfo)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {book.subInfo.toc ? (
+                <div className="discriptionBox">
+                  <div className='discription__title'>목차</div>
+                  <div className="discription__text"> {renderDescription(book.subInfo.toc)} </div>
+                </div>
+              ) : null}
+          </div>
+        </div>
+      }
+    </section>
+  )
+}
 
-export default DetailPage;
+export default DetailPage

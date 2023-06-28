@@ -89,7 +89,7 @@ const SignInPage = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <section>
       {/* title  */}
       <h1>로그인 페이지</h1>
       <div className="titleWrap">
@@ -165,8 +165,14 @@ const SignInPage = (): JSX.Element => {
         cancelButtonProps={{ style: { display: 'none' } }}>
         <p>이메일 혹은 비밀번호가 일치하지 않습니다.</p>
       </Modal>
+<<<<<<< HEAD
     </div>
   )
 }
+=======
+    </section>
+  );
+};
+>>>>>>> 4323be3e67941a1f3f9d99948d73188cff0d595d
 
 export default SignInPage

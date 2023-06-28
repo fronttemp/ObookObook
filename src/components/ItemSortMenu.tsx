@@ -11,15 +11,15 @@ const ItemSortMenu = ( {onSortChange} ) => {
       onChange = {handleSortSelect}
       options = {[
         {
-          value: 'Accuracy',
+          value: '관련순',
           lavel: 'Accuracy'
         },
         {
-          value: 'Title',
+          value: '제목순',
           lavel: 'Title'
         },
         {
-          value: 'PublishTime',
+          value: '최신순',
           lavel: 'PublishTime'
         }
       ]}

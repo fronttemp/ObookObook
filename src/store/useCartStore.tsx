@@ -5,9 +5,11 @@ export const useCartStore = create(
   persist(
     set => ({
       bookCart: [],
-
       selectedItems: [],
 
+      selectSingleBook: book =>
+        set(state => ({ selectedItems: [book] }
+        )),
       addBookCart: book =>
         set(state => {
           if (state.bookCart.some(b => b.isbn === book.isbn)) {
