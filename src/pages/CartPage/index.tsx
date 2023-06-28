@@ -141,9 +141,9 @@ const CartPage = () => {
   ]
 
   return (
-    <div className="cart-page">
+    <section className="cart-page">
       <div className="cart-content">
-        <h1>{`장바구니(${selectedItems.length})`}</h1>
+        <div className='page_title'>{`장바구니(${selectedItems.length})`}</div>
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -165,7 +165,7 @@ const CartPage = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

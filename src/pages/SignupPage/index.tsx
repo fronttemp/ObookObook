@@ -1,28 +1,27 @@
-
-// 회원가입 페이지
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
-import useNickNameStore from '../../store/useNickNameStore'
 import { API_HEADER } from '../../api/usersApi'
-import useUserImgStore from '../../store/useUserImgStore'
 import './Signup.css'
 
-const SignUpPage = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [displayName, setDisplayName] = useState('')
-  const [profileImg, setprofileImg] = useState('')
+const SignUpPage = (): JSX.Element => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [displayName, setDisplayName] = useState<string>('')
+  const [profileImg, setProfileImg] = useState<string>('')
 
   const navigate = useNavigate()
 
   // 토큰 관리
-  const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
-  const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
-  const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
+  const { setLoginToken, setNickNameToken, setUserImgToken } =
+    useAccountTokenStore(state => ({
+      setLoginToken: state.setLoginToken,
+      setNickNameToken: state.setNickNameToken,
+      setUserImgToken: state.setUserImgToken
+    }))
 
   // signUpAPI
-  async function signUp(e: FormEvent) {
+  async function signUp(e: FormEvent): Promise<void> {
     e.preventDefault()
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup',
@@ -45,28 +44,28 @@ const SignUpPage = () => {
   }
 
   // 회원가입 이미지 전송
-  function uploadImage(e) {
-    const files = (e.target as HTMLInputElement).files as FileList
-    for (const file of files) {
+  function uploadImage(e: ChangeEvent<HTMLInputElement>): void {
+    const files = e.target.files as FileList
+    for (const file of Array.from(files)) {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.addEventListener('load', e => {
-        setprofileImg((e.target as FileReader).result as string)
+        setProfileImg((e.target as FileReader).result as string)
       })
     }
   }
 
   // 비밀번호 길이 제한 메세지
-  const [passwordLengh, setPasswordLengh] = useState('')
+  const [passwordLength, setPasswordLength] = useState<string>('')
 
-  function handlePasswordLenth(e) {
+  function handlePasswordLength(e: ChangeEvent<HTMLInputElement>): void {
     const newPassword = e.target.value
     setPassword(newPassword)
 
     if (newPassword.length < 8) {
-      setPasswordLengh('비밀번호는 최소 8자 이상이어야 합니다.')
+      setPasswordLength('비밀번호는 최소 8자 이상이어야 합니다.')
     } else {
-      setPasswordLengh('')
+      setPasswordLength('')
     }
   }
 
@@ -85,11 +84,13 @@ const SignUpPage = () => {
           <div className="input-pw">비밀번호</div>
           <input
             value={password}
-            onChange={handlePasswordLenth}
+            onChange={handlePasswordLength}
             placeholder="비밀번호"
             type="password"
           />
-          {passwordLengh && <div style={{ color: 'red' }}>{passwordLengh}</div>}
+          {passwordLength && (
+            <div style={{ color: 'red' }}>{passwordLength}</div>
+          )}
           <div className="input-name">닉네임</div>
           <input
             value={displayName}
@@ -115,4 +116,3 @@ const SignUpPage = () => {
 }
 
 export default SignUpPage
-

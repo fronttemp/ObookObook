@@ -19,10 +19,12 @@ export const useListApi = create((set) => ({
 }))
 
 export const useLookupApi = create((set) => ({
-  books: [],
+  bookDetail: [],
   fetch: async(id) => {
-    const response = await axios(`/api/aladinItemSearch?s=ItemLookup&id=${id}`)
-    set( { books: response.data.item})
+    const response = await axios(`/api/aladinItemSearch?s=ItemLookup&id=${id}&opt=Story,authors,fulldescription,Toc`)
+    const bookData = response.data.item[0]
+    set( { bookDetail: bookData })
+    console.log(bookData)
   }
 }))
 
