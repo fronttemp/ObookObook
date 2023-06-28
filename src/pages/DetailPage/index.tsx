@@ -10,6 +10,8 @@ const DetailPage = () => {
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const isbnNum = location.state?.value;
+  console.log(isbnNum)
+
 
   useEffect(() => {
     (async () => {
@@ -18,6 +20,7 @@ const DetailPage = () => {
         const response = await axios.get(`/api/aladinItemSearch?s=ItemLookUp&id=${isbnNum}&opt=Story,authors,fulldescription,Toc`);
         setBook(response.data.item[0]);
         setLoading(false)
+        console.log(1)
       } catch (error) {
         console.error('Failed to search books', error);
         setLoading(false)

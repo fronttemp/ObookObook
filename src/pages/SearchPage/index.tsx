@@ -1,11 +1,12 @@
 
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import {Pagination} from 'antd'
+import {Pagination, Spin} from 'antd'
 import { useSearchApi } from '../../store/useItemApi'
 import TagSearchMenu from '../../components/TagSearchMenu'
 import ItemListInfo from '../../components/ItemListInfo'
 import ItemSortMenu from '../../components/ItemSortMenu'
+import { LoadingOutlined } from '@ant-design/icons'
 
 
 const SearchPage = () => {
@@ -61,10 +62,9 @@ const SearchPage = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
-  console.log(currentBooks)
 
   return (
-    <>
+    <section>
       <h1>'{searchTerm}'의 검색결과</h1>   
       <TagSearchMenu onTagClick = {handleTagClick}/>
       <ItemSortMenu onSortChange = {handleSortClick}/>
