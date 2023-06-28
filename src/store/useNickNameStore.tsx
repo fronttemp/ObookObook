@@ -1,9 +1,13 @@
-// 로컬스토리지 토큰 관리 스토어 (닉네임)
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
+interface NickNameStoreState {
+  nickNameToken: string | null
+  setNickNameToken: (token: string) => void
+}
+
 const useNickNameStore = create(
-  persist(
+  persist<NickNameStoreState>(
     set => ({
       nickNameToken: localStorage.getItem('nickNameToken') || null,
       setNickNameToken: token => {
