@@ -1,9 +1,7 @@
 import { FormEvent, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
-import useNickNameStore from '../../store/useNickNameStore'
 import { API_HEADER } from '../../api/usersApi'
-import useUserImgStore from '../../store/useUserImgStore'
 import './Signup.css'
 
 const SignUpPage = (): JSX.Element => {
@@ -15,9 +13,12 @@ const SignUpPage = (): JSX.Element => {
   const navigate = useNavigate()
 
   // 토큰 관리
-  const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
-  const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
-  const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
+  const { setLoginToken, setNickNameToken, setUserImgToken } =
+    useAccountTokenStore(state => ({
+      setLoginToken: state.setLoginToken,
+      setNickNameToken: state.setNickNameToken,
+      setUserImgToken: state.setUserImgToken
+    }))
 
   // signUpAPI
   async function signUp(e: FormEvent): Promise<void> {
@@ -115,4 +116,3 @@ const SignUpPage = (): JSX.Element => {
 }
 
 export default SignUpPage
-
