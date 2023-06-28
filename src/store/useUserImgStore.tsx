@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 interface UserImgStoreState {
   userImgToken: string | null
   setUserImgToken: (token: string) => void
+  removeUserImgToken: () => void
 }
 
 const useUserImgStore = create(
@@ -13,6 +14,10 @@ const useUserImgStore = create(
       setUserImgToken: token => {
         set({ userImgToken: token })
         localStorage.setItem('userImgToken', token)
+      },
+      removeUserImgToken: () => {
+        set({ userImgToken: null })
+        localStorage.removeItem('userImgToken')
       }
     }),
     {

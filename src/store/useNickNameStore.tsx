@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 interface NickNameStoreState {
   nickNameToken: string | null
   setNickNameToken: (token: string) => void
+  removeNickNameToken: () => void
 }
 
 const useNickNameStore = create(
@@ -13,6 +14,10 @@ const useNickNameStore = create(
       setNickNameToken: token => {
         set({ nickNameToken: token })
         localStorage.setItem('nickNameToken', token)
+      },
+      removeNickNameToken: () => {
+        set({ nickNameToken: null })
+        localStorage.removeItem('nickNameToken')
       }
     }),
     {

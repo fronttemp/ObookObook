@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge } from 'antd'
@@ -9,6 +7,7 @@ import TagSearchMenu from './TagSearchMenu'
 import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
 import useUserImgStore from '../store/useUserImgStore'
+import useNickNameStore from '../store/useNickNameStore'
 import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
 
@@ -16,8 +15,6 @@ const TheHeader = () => {
   const navigate = useNavigate()
   const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
-
-
 
   //드롭다운 메뉴 스테이트 관리
   const [dropdownVisibility, setDropdownVisibility] = useState(false)
@@ -27,7 +24,6 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-
     if (value.trim() !== '') {
       navigate(`/search?q=${value.trim()}`)
     } else {
@@ -40,6 +36,12 @@ const TheHeader = () => {
     loginToken: state.loginToken,
     setIsLoggedOut: state.setIsLoggedOut
   }))
+
+  // 로그아웃시 로컬스토리지 정보 제거
+  const removeNickNameToken = useNickNameStore(
+    state => state.removeNickNameToken
+  )
+  const removeUserImgToken = useUserImgStore(state => state.removeUserImgToken)
 
   const nickName = localStorage.getItem('nickNameToken')
   const userImg = localStorage.getItem('userImgToken')
@@ -62,6 +64,8 @@ const TheHeader = () => {
       }
     )
     setIsLoggedOut()
+    removeNickNameToken()
+    removeUserImgToken()
     navigate('/')
   }
 
@@ -132,12 +136,11 @@ const TheHeader = () => {
               </NavLink>
             </li>
 
-            <li className='nav-list__item'>
+            <li className="nav-list__item">
               {/* <span 
               className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
               onClick={e => setDropdownVisibility(!dropdownVisibility)}
               >분야찾기</span> */}
-
             </li>
           </ul>
         </div>
@@ -172,7 +175,6 @@ const TheHeader = () => {
       {/* <Dropdown visibility={dropdownVisibility}>
         <TagSearchMenu onTagClick = {onTagSearch}/>
       </Dropdown> */}
-
     </header>
   )
 }
