@@ -65,7 +65,7 @@ const EditUserInfoPage = () => {
 
   return (
     <div className="modifyUserInfo">
-      <h1>회원 정보 수정</h1>
+      <h2>회원 정보 수정</h2>
 
       <Form
         form={form}
