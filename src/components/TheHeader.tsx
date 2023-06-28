@@ -42,8 +42,8 @@ const TheHeader = () => {
     setIsLoggedOut: state.setIsLoggedOut,
     removeNickNameToken: state.removeNickNameToken,
     removeUserImgToken: state.removeUserImgToken,
-    nickNameToken: state.nickNameToken, // 이 줄 추가
-    userImgToken: state.userImgToken // 이 줄 추가
+    nickNameToken: state.nickNameToken, 
+    userImgToken: state.userImgToken 
   }))
 
   // signOutAPI
