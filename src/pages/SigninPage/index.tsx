@@ -1,17 +1,16 @@
 
 import { API_HEADER } from '../../api/usersApi'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import useNickNameStore from '../../store/useNickNameStore'
 import useUserImgStore from '../../store/useUserImgStore'
 
-const SignInPage = () => {
+const SignInPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
   const navigate = useNavigate()
-
 
   // Token 관리
   const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
@@ -19,11 +18,11 @@ const SignInPage = () => {
   const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
 
   // 이메일, 비밀번호 입력 형식 체크 상태 (errorMessage)
-  const [emailValid, setEmailValid] = useState(false)
-  const [passwordValid, setPasswordValid] = useState(false)
+  const [emailValid, setEmailValid] = useState<boolean>(false)
+  const [passwordValid, setPasswordValid] = useState<boolean>(false)
 
-  // 형식 체크: 이메일 (@혹은.이 들어가있지 않으면 false)
-  const checkEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 형식 체크: 이메일 (@ 혹은 .이 들어가있지 않으면 false)
+  const checkEmail = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value)
     const regex =
       /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i
@@ -31,19 +30,19 @@ const SignInPage = () => {
       setEmailValid(true)
     } else setEmailValid(false)
   }
+
   // 형식 체크: 비밀번호 (8자 이하면 false)
-  const checkPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkPassword = (e: ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value)
     const regex =
       /^(?=.*[a-zA-Z])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+])[a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+]{8,}$/
-
     if (regex.test(e.target.value)) {
       setPasswordValid(true)
     } else setPasswordValid(false)
   }
 
   // SignInAPI
-  const signIn = async e => {
+  const signIn = async (e: FormEvent): Promise<void> => {
     e.preventDefault()
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login',
@@ -64,8 +63,6 @@ const SignInPage = () => {
       setLoginToken(json.accessToken)
       setNickNameToken(json.user.displayName)
       setUserImgToken(json.user.profileImg)
-      console.log("json:", json)
-      console.log('res:', res)
       navigate('/')
     } else {
       console.log(res.ok)
@@ -79,7 +76,7 @@ const SignInPage = () => {
   }, [emailValid, passwordValid])
 
   // 로그인 인풋 확인 후 로그인 버튼 활성화 상태
-  const [notAllow, setNowAllow] = useState(true)
+  const [notAllow, setNowAllow] = useState<boolean>(true)
 
   return (
     <div>
@@ -105,14 +102,18 @@ const SignInPage = () => {
               onChange={checkEmail}
             />
             {!emailValid && email.length > 0 && (
-              <div>올바른 이메일 형식을 입력해주세요 </div>
+              <div
+                style={{
+                  color: 'red'
+                }}>
+                올바른 이메일 형식을 입력해주세요{' '}
+              </div>
             )}
           </div>
 
           {/* 패스워드 */}
           <div>비밀번호</div>
           <div className="input-pw">
-
             <input
               className="input"
               placeholder="비밀번호"
@@ -121,6 +122,14 @@ const SignInPage = () => {
               onChange={checkPassword}
             />
           </div>
+          {!passwordValid && password.length > 0 && (
+            <div
+              style={{
+                color: 'red'
+              }}>
+              비밀번호는 8자 이상입니다.
+            </div>
+          )}
           {/* 버튼 */}
           <div className="btn">
             <button
@@ -141,4 +150,3 @@ const SignInPage = () => {
 }
 
 export default SignInPage
-

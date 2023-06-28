@@ -1,9 +1,13 @@
-// 로컬스토리지 토큰 관리 스토어 (프로필 이미지)
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
+interface UserImgStoreState {
+  userImgToken: string | null
+  setUserImgToken: (token: string) => void
+}
+
 const useUserImgStore = create(
-  persist(
+  persist<UserImgStoreState>(
     set => ({
       userImgToken: localStorage.getItem('userImgToken') || null,
       setUserImgToken: token => {
