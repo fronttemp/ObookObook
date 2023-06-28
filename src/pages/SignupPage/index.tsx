@@ -115,3 +115,4 @@ const SignUpPage = (): JSX.Element => {
 }
 
 export default SignUpPage
+

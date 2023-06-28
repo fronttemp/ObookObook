@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge } from 'antd'
@@ -13,8 +14,9 @@ import { useListApi } from '../store/useItemApi'
 
 const TheHeader = () => {
   const navigate = useNavigate()
-  const {fetch, books} = useListApi()
+  const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
+
 
 
   //드롭다운 메뉴 스테이트 관리
@@ -25,8 +27,9 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-    if(value.trim() !== ''){
-    navigate(`/search?q=${value.trim()}`)
+
+    if (value.trim() !== '') {
+      navigate(`/search?q=${value.trim()}`)
     } else {
       navigate(`/`)
     }
@@ -128,11 +131,13 @@ const TheHeader = () => {
                 새로나온책
               </NavLink>
             </li>
+
             <li className='nav-list__item'>
               {/* <span 
               className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
               onClick={e => setDropdownVisibility(!dropdownVisibility)}
               >분야찾기</span> */}
+
             </li>
           </ul>
         </div>
@@ -163,9 +168,11 @@ const TheHeader = () => {
           </div>
         </div>
       </nav>
+
       {/* <Dropdown visibility={dropdownVisibility}>
         <TagSearchMenu onTagClick = {onTagSearch}/>
       </Dropdown> */}
+
     </header>
   )
 }
