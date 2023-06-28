@@ -4,6 +4,7 @@ import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import { accountCheckAPI } from '../../api/accountApi'
 import './CheckoutPage.css'
+import useAccountTokenStore from '../../store/useAccountTokenStore'
 
 const { useBreakpoint } = Grid
 
@@ -13,6 +14,7 @@ const CheckoutPage = () => {
   const { selectedItems } = useCartStore()
   const navigate = useNavigate()
   const screen = useBreakpoint()
+  const { loginToken } = useAccountTokenStore();
 
   const priceKr = price => {
     return <span>{`${price.toLocaleString('ko-KR')}원`}</span>
@@ -28,7 +30,7 @@ const CheckoutPage = () => {
 
   const fetchBankAccounts = async () => {
     try {
-      const data = await accountCheckAPI()
+      const data = await accountCheckAPI(loginToken)
       if (data && data.accounts) {
         setBankAccounts(data.accounts)
       }
