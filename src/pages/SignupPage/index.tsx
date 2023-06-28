@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { API_HEADER } from '../../api/usersApi'
 import './Signup.css'
+import Modal from 'antd/es/modal/Modal'
 
 const SignUpPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
@@ -37,10 +38,14 @@ const SignUpPage = (): JSX.Element => {
       }
     )
     const json = await res.json()
-    setLoginToken(json.accessToken)
-    setNickNameToken(json.user.displayName)
-    setUserImgToken(json.user.profileImg)
-    navigate('/SigninPage')
+    if (res.ok) {
+      setLoginToken(json.accessToken)
+      setNickNameToken(json.user.displayName)
+      setUserImgToken(json.user.profileImg)
+      navigate('/SigninPage')
+    } else {
+      setSuccessModalVisible(true)
+    }
   }
 
   // 회원가입 이미지 전송
@@ -67,6 +72,14 @@ const SignUpPage = (): JSX.Element => {
     } else {
       setPasswordLength('')
     }
+  }
+
+  // 모달 관리
+  const [successModalVisible, setSuccessModalVisible] = useState(false)
+
+  // 모달 확인 버튼 클릭 시
+  const handleModalOk = () => {
+    setSuccessModalVisible(false)
   }
 
   return (
@@ -111,6 +124,15 @@ const SignUpPage = (): JSX.Element => {
           </button>
         </div>
       </form>
+
+      <Modal
+        visible={successModalVisible}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>이미 가입된 이메일입니다.</p>
+      </Modal>
     </div>
   )
 }
