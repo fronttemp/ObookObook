@@ -150,7 +150,7 @@ const SignInPage = (): JSX.Element => {
       </div>
 
       <Modal
-        title="회원정보 일치 오류"
+        title="로그인 오류"
         visible={successModalVisible}
         closable={false}
         onOk={handleModalOk}
