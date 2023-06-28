@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge } from 'antd'
-import Dropdown from './Dropdown'
 import { useNavigate, NavLink, useLocation } from 'react-router-dom'
-import TagSearchMenu from './TagSearchMenu'
 import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
-import useUserImgStore from '../store/useUserImgStore'
-import useNickNameStore from '../store/useNickNameStore'
 import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
+import Dropdown from './Dropdown'
+import TagSearchMenu from './TagSearchMenu'
 
 const TheHeader = () => {
   const navigate = useNavigate()
@@ -31,25 +29,22 @@ const TheHeader = () => {
     }
   }
 
-  // 로그인 상태에 따라 헤더 변경
-  const { loginToken, setIsLoggedOut } = useAccountTokenStore(state => ({
+  // 로그인 상태에 따라 헤더 변경 및 로그아웃 시 로컬스토리지 정보제거
+  const {
+    loginToken,
+    setIsLoggedOut,
+    removeNickNameToken,
+    removeUserImgToken,
+    nickNameToken,
+    userImgToken
+  } = useAccountTokenStore(state => ({
     loginToken: state.loginToken,
-    setIsLoggedOut: state.setIsLoggedOut
+    setIsLoggedOut: state.setIsLoggedOut,
+    removeNickNameToken: state.removeNickNameToken,
+    removeUserImgToken: state.removeUserImgToken,
+    nickNameToken: state.nickNameToken, // 이 줄 추가
+    userImgToken: state.userImgToken // 이 줄 추가
   }))
-
-  // 로그아웃시 로컬스토리지 정보 제거
-  const removeNickNameToken = useNickNameStore(
-    state => state.removeNickNameToken
-  )
-  const removeUserImgToken = useUserImgStore(state => state.removeUserImgToken)
-
-  const nickName = localStorage.getItem('nickNameToken')
-  const userImg = localStorage.getItem('userImgToken')
-
-  useEffect(() => {
-    // 프로필 이미지 URL 가져오기
-    // 프로필 이미지가 로컬 스토리지에 저장되어 있다면 설정
-  }, [])
 
   // signOutAPI
   const handleLogout = async () => {
@@ -86,13 +81,13 @@ const TheHeader = () => {
     <header>
       {loginToken ? (
         <div className="login-nav">
-          <span>{nickName}님 환영합니다.</span>
+          <span>{nickNameToken}님 환영합니다.</span>
           <img
             style={{
               width: '20px',
               height: '20px'
             }}
-            src={userImg}
+            src={userImgToken}
             alt="프로필"
           />
           <button
