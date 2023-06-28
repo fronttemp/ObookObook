@@ -2,14 +2,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import AddBookCart from '../../components/AddBookCart';
-import { StarFilled } from '@ant-design/icons';
+import { LoadingOutlined, StarFilled } from '@ant-design/icons';
 import axios from 'axios';
+import { Spin } from 'antd';
 
 const DetailPage = () => {
   const [book, setBook] = useState(null)
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const isbnNum = location.state?.value;
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+
   console.log(isbnNum)
 
 
@@ -51,7 +55,8 @@ const DetailPage = () => {
 
   return (
     <section>
-      {
+      {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div>
+      :
         <div>
           <div className="title">
             <div className='title__text'>{book.title}</div>
