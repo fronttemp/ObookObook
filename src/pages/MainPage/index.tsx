@@ -1,25 +1,39 @@
-
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Carousel, Button, Card } from 'antd';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
 import './MainPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
   const [quote, setQuote] = useState('');
-  const [bestSellers, setBestSellers] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [newRecommendations, setNewRecommendations] = useState([]);
+
+  const navigate = useNavigate()
   const carouselRef = useRef();
-  const bestSellersCarouselRef = useRef();
   const newReleasesCarouselRef = useRef();
+
+
+  const moveDetailPage = (value: string) => {
+    navigate('/Detail', { state : {value}})
+  }
+
+
 
   useEffect(() => {
     fetchRandomQuote();
-    fetchBestSellers();
     fetchNewReleases();
     fetchRecommendations();
   }, []);
+
+  useEffect(()=> {
+    setNewRecommendations(recommendations.filter(a => a.adult !== true ).slice(0, 12))
+
+  }, [recommendations])
+
+  console.log(newRecommendations)
 
   const fetchRandomQuote = async () => {
     try {
@@ -27,15 +41,6 @@ const MainPage = () => {
       setQuote(response.data.slip.advice);
     } catch (error) {
       console.error('Failed to fetch random quote', error);
-    }
-  };
-
-  const fetchBestSellers = async () => {
-    try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller');
-      setBestSellers(response.data.item.slice(0, 12));
-    } catch (error) {
-      console.error('Failed to fetch best sellers', error);
     }
   };
 
@@ -50,36 +55,30 @@ const MainPage = () => {
 
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=BlogBest');
-      setRecommendations(response.data.items.slice(0, 12));
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller');
+      setRecommendations(response.data.item)
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
     }
   };
 
+
   const handlePrev = () => {
     carouselRef.current.prev();
-  };
+  }
 
   const handleNext = () => {
     carouselRef.current.next();
-  };
-
-  const handleBestSellersPrev = () => {
-    bestSellersCarouselRef.current.prev();
-  };
-
-  const handleBestSellersNext = () => {
-    bestSellersCarouselRef.current.next();
-  };
+  }
 
   const handleNewReleasesPrev = () => {
     newReleasesCarouselRef.current.prev();
-  };
+  }
 
   const handleNewReleasesNext = () => {
     newReleasesCarouselRef.current.next();
-  };
+  }
+  
 
   return (
     <>
@@ -91,18 +90,21 @@ const MainPage = () => {
         <h2>추천 도서</h2>
         <div className="carousel-container">
           <Carousel
+            slidesToShow={4}
             autoplay={false}
             ref={carouselRef}
-            dots={false}
+            dots={ false }
             draggable
             infinite
-            swipeToSlide={false}
-          >
-            {recommendations.map((book, index) => (
-              <div className="carousel-item" key={index}>
+            swipeToSlide={false} >
+            {newRecommendations.map((book, index) => (
+              <div
+              className="carousel-item"
+              key={index}
+              onClick = {()=>moveDetailPage(book.isbn13)}>
                 <Card
                   className="book-card"
-                  cover={<img src={book.cover} alt={book.title} />}
+                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
                 >
                   <Card.Meta title={book.title} description={book.author} />
                 </Card>
@@ -121,43 +123,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <div>
-        <h2>베스트셀러</h2>
-        <div className="carousel-container">
 
-          <Carousel
-            slidesToShow={4}
-            autoplay={false}
-            dots={false}
-            draggable
-            infinite
-            swipeToSlide={false}
-            ref={bestSellersCarouselRef}
-          >
-            {bestSellers.map((book, index) => (
-              <div className="carousel-item" key={index}>
-                <Card
-                  className="book-card"
-                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
-                >
-                  <Card.Meta title={book.title} description={book.author} />
-                </Card>
-              </div>
-            ))}
-
-          </Carousel>
-          <div className="carousel-controls">
-            <Button
-              onClick={handleBestSellersPrev}
-              icon={<CaretLeftOutlined />}
-            />
-            <Button
-              onClick={handleBestSellersNext}
-              icon={<CaretRightOutlined />}
-            />
-          </div>
-        </div>
-      </div>
       <div>
         <h2>신간 책</h2>
         <div className="carousel-container">
@@ -168,10 +134,12 @@ const MainPage = () => {
             draggable
             infinite
             swipeToSlide={false}
-            ref={newReleasesCarouselRef}
-          >
+            ref={newReleasesCarouselRef}>
             {newReleases.map((book, index) => (
-              <div className="carousel-item" key={index}>
+              <div
+              className="carousel-item"
+              key={index}
+              onClick = {()=>moveDetailPage(book.isbn13)}>
                 <Card
                   className="book-card"
                   cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}

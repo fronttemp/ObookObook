@@ -109,7 +109,7 @@ function App() {
             element={<CheckoutPage />}
           />
           <Route
-            path="/:BookId"
+            path="/Detail"
             element={<DetailPage />}
           />
           <Route
