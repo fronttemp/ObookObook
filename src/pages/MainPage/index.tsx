@@ -1,26 +1,34 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Carousel, Button, Card } from 'antd';
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { Carousel, Card } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import './MainPage.css';
 import { useNavigate } from 'react-router-dom';
 
+interface Book {
+  title: string
+  author: string
+  cover: string
+  adult: boolean
+  isbn13: string
+  // 다른 도서 속성들도 추가할 수 있습니다.
+}
+
+
 const MainPage = () => {
-  const [quote, setQuote] = useState('');
-  const [newReleases, setNewReleases] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
-  const [newRecommendations, setNewRecommendations] = useState([]);
+  const [quote, setQuote] = useState<string>('');
+  const [newReleases, setNewReleases] = useState<Book[]>([]);
+  const [recommendations, setRecommendations] = useState<Book[]>([]);
+  const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
+
+
 
   const navigate = useNavigate()
-  const carouselRef = useRef();
-  const newReleasesCarouselRef = useRef();
 
 
   const moveDetailPage = (value: string) => {
     navigate('/Detail', { state : {value}})
   }
-
-
 
   useEffect(() => {
     fetchRandomQuote();
@@ -29,11 +37,8 @@ const MainPage = () => {
   }, []);
 
   useEffect(()=> {
-    setNewRecommendations(recommendations.filter(a => a.adult !== true ).slice(0, 12))
-
+    setNewRecommendations(recommendations.filter(a => a.adult !== true ))
   }, [recommendations])
-
-  console.log(newRecommendations)
 
   const fetchRandomQuote = async () => {
     try {
@@ -44,41 +49,24 @@ const MainPage = () => {
     }
   };
 
-  const fetchNewReleases = async () => {
-    try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll');
-      setNewReleases(response.data.item.slice(0, 12));
-    } catch (error) {
-      console.error('Failed to fetch new releases', error);
-    }
-  };
-
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller');
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=20');
       setRecommendations(response.data.item)
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
     }
   };
 
+  const fetchNewReleases = async () => {
+    try {
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=20');
+      setNewReleases(response.data.item.slice(0, 12));
+    } catch (error) {
+      console.error('Failed to fetch new releases', error);
+    }
+  };
 
-  const handlePrev = () => {
-    carouselRef.current.prev();
-  }
-
-  const handleNext = () => {
-    carouselRef.current.next();
-  }
-
-  const handleNewReleasesPrev = () => {
-    newReleasesCarouselRef.current.prev();
-  }
-
-  const handleNewReleasesNext = () => {
-    newReleasesCarouselRef.current.next();
-  }
-  
 
   return (
     <>
@@ -92,11 +80,11 @@ const MainPage = () => {
           <Carousel
             slidesToShow={4}
             autoplay={false}
-            ref={carouselRef}
             dots={ false }
             draggable
             infinite
-            swipeToSlide={false} >
+            swipeToSlide={false}
+            arrows prevArrow={<LeftOutlined/>} nextArrow={<RightOutlined/>}>
             {newRecommendations.map((book, index) => (
               <div
               className="carousel-item"
@@ -111,16 +99,6 @@ const MainPage = () => {
               </div>
             ))}
           </Carousel>
-          <div className="carousel-controls">
-            <Button
-              onClick={handlePrev}
-              icon={<CaretLeftOutlined />}
-            />
-            <Button
-              onClick={handleNext}
-              icon={<CaretRightOutlined />}
-            />
-          </div>
         </div>
       </div>
 
@@ -134,7 +112,7 @@ const MainPage = () => {
             draggable
             infinite
             swipeToSlide={false}
-            ref={newReleasesCarouselRef}>
+            arrows prevArrow={<LeftOutlined/>} nextArrow={<RightOutlined/>}>
             {newReleases.map((book, index) => (
               <div
               className="carousel-item"
@@ -149,16 +127,6 @@ const MainPage = () => {
               </div>
             ))}
           </Carousel>
-          <div className="carousel-controls">
-            <Button
-              onClick={handleNewReleasesPrev}
-              icon={<CaretLeftOutlined />}
-            />
-            <Button
-              onClick={handleNewReleasesNext}
-              icon={<CaretRightOutlined />}
-            />
-          </div>
         </div>
       </div>
     </>

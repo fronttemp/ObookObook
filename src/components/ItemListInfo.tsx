@@ -1,10 +1,13 @@
+import {useState, useEffect} from 'react'
 import {Button} from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import AddBookCart from './AddBookCart'
 import { StarFilled } from '@ant-design/icons'
 import AddBookPurchase from './AddBookPurchase'
 
 const ItemListInfo = ({books}) => {
+  const [bestSellerIndex, setBestSellerIndex] = useState(false)
+  const location = useLocation()
   const navigate = useNavigate()
   const moveDetailPage = (value: string) => {
     navigate('/Detail', { state : {value}})
@@ -14,11 +17,23 @@ const ItemListInfo = ({books}) => {
     return str?.length > n ? str.substring(0, n) + "..." : str;
   }
 
+  useEffect(() => {
+    if(location.pathname === '/Bestseller') {
+      setBestSellerIndex(true)
+    }
+  }, [])
+
+  console.log(location.pathname)
+
+
   return (
       <div className = 'booksInfo'>
         {books.map((book, index) => (
             <div key={index} className = 'bookInfo'>
               <div className="bookInfo_box">
+                <span className = {bestSellerIndex ? 'bestindex' : 'bestindex disable'}>
+                  {index+1}
+                </span>
                 <div className="bookImg">
                   <img
                     src={book.cover.replace(/coversum/g, 'cover200')}

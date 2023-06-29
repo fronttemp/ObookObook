@@ -12,12 +12,12 @@ export default async function (
   const tag = `&CategoryId=${request.query.t}`
   const sort = `&Sort=${request.query.sort}`
   const id = `&ItemId=${request.query.id}`
+  const mr = `&MaxResults=${request.query.mr}`
 
   try {
     const { data } = await axios.get(
-      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbckisss66601645001&output=js&&SearchTarget=eBook&Version=20131101&MaxResults=50
-      ${query}${queryType}${opt}${tag}${sort}${id}`
-      
+      `https://www.aladin.co.kr/ttb/api/${search}.aspx?ttbkey=ttbckisss66601645001&output=js&SearchTarget=eBook&Version=20131101
+      ${query}${queryType}${opt}${tag}${sort}${id}${mr}`
     )
     response.status(200).json(data)
   } catch (error) {
