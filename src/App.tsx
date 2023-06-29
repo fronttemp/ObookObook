@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, Routes, Route, useLocation } from 'react-router-dom'
+import { Outlet, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import './App.scss'
 import MainPage from './pages/MainPage'
 import AccountPage from './pages/AccountPage'
@@ -22,7 +22,6 @@ import useAccountTokenStore from './store/useAccountTokenStore'
 import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
 
-
 const Layout = () => {
   return (
     <div>
@@ -38,31 +37,63 @@ function App() {
   // 로그인 인증
   const location = useLocation()
 
-  const { loginToken } = useAccountTokenStore(state => ({
-    loginToken: state.loginToken
+  const { loginToken, nickNameToken } = useAccountTokenStore(state => ({
+    loginToken: state.loginToken,
+    nickNameToken: state.nickNameToken
   }))
+
+  const masterUser = {
+    ...API_HEADER,
+    Authorization: `Bearer ${loginToken}`,
+    materKey: 'true'
+  }
 
   async function loginState() {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
       {
         method: 'POST',
-        headers: {
-          ...API_HEADER,
-          Authorization: `Bearer ${loginToken}`
-        }
+        headers: { ...API_HEADER, Authorization: `Bearer ${loginToken}` }
       }
     )
     if (res.ok) {
+      console.log(nickNameToken)
       return
     } else {
       console.log('로그인 인증 요청에 실패 하였습니다.')
+    }
+
+    if (nickNameToken === 'admin') {
+      const res = await fetch(
+        'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
+        {
+          method: 'POST',
+          headers: masterUser
+        }
+      )
+      if (res.ok) {
+        console.log(nickNameToken)
+        return
+      } else {
+        console.log('로그인 인증 요청에 실패 하였습니다.')
+      }
     }
   }
 
   useEffect(() => {
     loginState()
   }, [loginToken, location])
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (
+      nickNameToken === 'admin' &&
+      (location.pathname === '/Account')
+    ) {
+      navigate('/admin')
+    }
+  }, [loginToken, navigate, location.pathname])
 
   return (
     <div className="app">
@@ -75,7 +106,6 @@ function App() {
             element={<MainPage />}
           />
           <Route
-
             path="/Account/"
             element={<AccountPage />}>
             <Route
@@ -96,6 +126,7 @@ function App() {
             path="/Admin"
             element={<AdminPage />}
           />
+
           <Route
             path="/Bestseller"
             element={<BestsellerPage />}
