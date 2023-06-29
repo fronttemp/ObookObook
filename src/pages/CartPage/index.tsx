@@ -4,6 +4,7 @@ import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import './CartPage.css'
 import ConfirmModal from '../../components/ConfirmModal'
+import { logCheckAPI } from '../../api/usersApi'
 
 const CartPage = () => {
   const [selectAll, setSelectAll] = useState(true)
@@ -12,6 +13,10 @@ const CartPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isRemoveAllModalVisible, setIsRemoveAllModalVisible] = useState(false)
   const [isRemoveSelectedModalVisible, setIsRemoveSelectedModalVisible] =
+    useState(false)
+  const [isNoItemSelectedModalVisible, setIsNoItemSelectedModalVisible] =
+    useState(false)
+  const [isSignInRedirectModalVisible, setIsSignInRedirectModalVisible] =
     useState(false)
 
   const {
@@ -81,8 +86,31 @@ const CartPage = () => {
     setIsRemoveSelectedModalVisible(false)
   }
 
-  const handleOrder = () => {
-    setIsModalVisible(true)
+  const handleOrder = async () => {
+    if (selectedItems.length === 0) {
+      setIsNoItemSelectedModalVisible(true)
+      return
+    }
+
+    const loginToken = JSON.parse(localStorage.getItem('accountToken')).state.loginToken;
+    
+    if (!loginToken) {
+      setIsSignInRedirectModalVisible(true)
+      return
+    }
+
+    try {
+      const userInfo = await logCheckAPI(loginToken)
+      if (userInfo.error) {
+        setIsSignInRedirectModalVisible(true)
+        return
+      }
+
+      setIsModalVisible(true)
+    } catch (error) {
+      console.error(error)
+      setIsSignInRedirectModalVisible(true)
+    }
   }
 
   const onConfirm = confirm => {
@@ -119,7 +147,7 @@ const CartPage = () => {
   }, [selectedItems])
 
   const moveDetailPage = (value: string) => {
-    navigate('/Detail', { state : {value}})
+    navigate('/Detail', { state: { value } })
   }
 
   const dataSource = bookCart.map((book, index) => ({
@@ -130,12 +158,12 @@ const CartPage = () => {
         src={book.cover}
         alt={book.title}
         style={{ width: '50px' }}
-        onClick={() =>{
-          moveDetailPage(book.isbn13)}
-
-        }
+        onClick={() => {
+          moveDetailPage(book.isbn13)
+        }}
       />
     ),
+    isbn13: book.isbn13,
     price: priceKr(book.priceStandard),
     action: (
       <Button
@@ -174,12 +202,7 @@ const CartPage = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
-        <a
-          onClick={() =>
-            moveDetailPage(record.isbn13)}
-          >
-          {text}
-        </a>
+        <a onClick={() => moveDetailPage(record.isbn13)}>{text}</a>
       )
     },
     {
@@ -238,6 +261,19 @@ const CartPage = () => {
             onConfirm={onRemoveSelectedConfirm}
             open={isRemoveSelectedModalVisible}
             setConfirmVisible={setIsRemoveSelectedModalVisible}
+          />
+          <ConfirmModal
+            content="주문할 상품을 선택해주세요"
+            onConfirm={() => setIsNoItemSelectedModalVisible(false)}
+            open={isNoItemSelectedModalVisible}
+            setConfirmVisible={setIsNoItemSelectedModalVisible}
+            showCancelButton={false}
+          />
+          <ConfirmModal
+            content="로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
+            onConfirm={() => navigate('/signInPage')}
+            open={isSignInRedirectModalVisible}
+            setConfirmVisible={setIsSignInRedirectModalVisible}
           />
         </div>
       </div>
