@@ -74,6 +74,7 @@ const MainPage = () => {
       console.error('Failed to fetch new releases', error);
     }
   };
+  
   const fetchBestsellers2 = async () => {
     try {
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10');
@@ -128,6 +129,7 @@ const MainPage = () => {
       <div style={{ textAlign: 'right', margin: '12px 0' }}>
         <Link to="./NewBook">더보기</Link>
       </div>
+
       <div>
         <div className="carousel-container">
           <Carousel

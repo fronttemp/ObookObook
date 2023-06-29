@@ -3,18 +3,33 @@ import { Table, Input, Button, Space, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import './CartPage.css'
+import ConfirmModal from '../../components/ConfirmModal'
+import { logCheckAPI } from '../../api/usersApi'
 
 const CartPage = () => {
   const [selectAll, setSelectAll] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isRemoveAllModalVisible, setIsRemoveAllModalVisible] = useState(false)
+  const [isRemoveSelectedModalVisible, setIsRemoveSelectedModalVisible] =
+    useState(false)
+  const [isNoItemSelectedModalVisible, setIsNoItemSelectedModalVisible] =
+    useState(false)
+  const [isSignInRedirectModalVisible, setIsSignInRedirectModalVisible] =
+    useState(false)
 
-  const { bookCart, removeBook, saveSelectedItems } = useCartStore()
+  const {
+    bookCart,
+    removeBook,
+    saveSelectedItems,
+    removeAllBooks,
+    removeSelectedBooks
+  } = useCartStore()
   const navigate = useNavigate()
 
   const priceKr = price => {
     return <span>{`${price.toLocaleString('ko-KR')}원`}</span>
-
   }
 
   const handleSelect = (itemId, checked) => {
@@ -22,7 +37,7 @@ const CartPage = () => {
       setSelectedItems(prev => [...prev, itemId])
     } else {
       setSelectedItems(prev => prev.filter(id => id !== itemId))
-      setSelectAll(false);
+      setSelectAll(false)
     }
   }
 
@@ -48,35 +63,92 @@ const CartPage = () => {
     removeBook(book)
   }
 
-  const handleOrder = () => {
+  const handleRemoveAll = () => {
+    setIsRemoveAllModalVisible(true)
+  }
 
-    saveSelectedItems(selectedItems)
-    navigate('/Checkout')
+  const handleRemoveSelected = () => {
+    setIsRemoveSelectedModalVisible(true)
+  }
 
+  const onRemoveAllConfirm = confirm => {
+    if (confirm) {
+      removeAllBooks()
+    }
+    setIsRemoveAllModalVisible(false)
+  }
+
+  const onRemoveSelectedConfirm = confirm => {
+    if (confirm) {
+      removeSelectedBooks(selectedItems)
+      setSelectedItems([])
+    }
+    setIsRemoveSelectedModalVisible(false)
+  }
+
+  const handleOrder = async () => {
+    if (selectedItems.length === 0) {
+      setIsNoItemSelectedModalVisible(true)
+      return
+    }
+
+    const loginToken = JSON.parse(localStorage.getItem('accountToken')).state.loginToken;
+    
+    if (!loginToken) {
+      setIsSignInRedirectModalVisible(true)
+      return
+    }
+
+    try {
+      const userInfo = await logCheckAPI(loginToken)
+      if (userInfo.error) {
+        setIsSignInRedirectModalVisible(true)
+        return
+      }
+
+      setIsModalVisible(true)
+    } catch (error) {
+      console.error(error)
+      setIsSignInRedirectModalVisible(true)
+    }
+  }
+
+  const onConfirm = confirm => {
+    if (confirm) {
+      saveSelectedItems(selectedItems)
+      navigate('/Checkout')
+    }
+    setIsModalVisible(false)
   }
 
   useEffect(() => {
-    setSelectedItems(bookCart.map(book => book.id));
-  }, []);
+    setSelectedItems(bookCart.map(book => book.id))
+  }, [])
 
   useEffect(() => {
     setSelectedItems(prevSelectedItems => {
-      const updatedSelectedItems = prevSelectedItems.filter(id => bookCart.some(book => book.id === id));
+      const updatedSelectedItems = prevSelectedItems.filter(id =>
+        bookCart.some(book => book.id === id)
+      )
       if (updatedSelectedItems.length !== prevSelectedItems.length) {
-        setSelectAll(false);
+        setSelectAll(false)
       }
-      return updatedSelectedItems;
-    });
-  }, [bookCart]);
+      return updatedSelectedItems
+    })
+  }, [bookCart])
 
   useEffect(() => {
-    handleTotalPrice();
+    handleTotalPrice()
     if (selectedItems.length !== bookCart.length) {
-      setSelectAll(false);
+      setSelectAll(false)
     } else {
-      setSelectAll(true);
+      setSelectAll(true)
     }
-  }, [selectedItems]);
+  }, [selectedItems])
+
+  const moveDetailPage = (value: string) => {
+    navigate('/Detail', { state: { value } })
+  }
 
   const dataSource = bookCart.map((book, index) => ({
     key: index,
@@ -86,8 +158,12 @@ const CartPage = () => {
         src={book.cover}
         alt={book.title}
         style={{ width: '50px' }}
+        onClick={() => {
+          moveDetailPage(book.isbn13)
+        }}
       />
     ),
+    isbn13: book.isbn13,
     price: priceKr(book.priceStandard),
     action: (
       <Button
@@ -124,7 +200,10 @@ const CartPage = () => {
     {
       title: '제목',
       dataIndex: 'name',
-      key: 'name'
+      key: 'name',
+      render: (text, record) => (
+        <a onClick={() => moveDetailPage(record.isbn13)}>{text}</a>
+      )
     },
     {
       title: <div style={{ textAlign: 'center' }}>가격</div>,
@@ -141,9 +220,11 @@ const CartPage = () => {
   ]
 
   return (
-    <div className="cart-page">
+    <section className="cart-page">
       <div className="cart-content">
-        <h1>{`장바구니(${selectedItems.length})`}</h1>
+        <div className="page_title">{`장바구니(${selectedItems.length})`}</div>
+        <Button onClick={handleRemoveAll}>전체삭제</Button>
+        <Button onClick={handleRemoveSelected}>선택삭제</Button>
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -163,9 +244,40 @@ const CartPage = () => {
             onClick={handleOrder}>
             {`주문하기(${selectedItems.length})`}
           </Button>
+          <ConfirmModal
+            content={`${selectedItems.length}개의 상품을 주문하시겠습니까`}
+            onConfirm={onConfirm}
+            open={isModalVisible}
+            setConfirmVisible={setIsModalVisible}
+          />
+          <ConfirmModal
+            content="정말 장바구니에 담긴 모든 상품을 삭제하시겠습니까?"
+            onConfirm={onRemoveAllConfirm}
+            open={isRemoveAllModalVisible}
+            setConfirmVisible={setIsRemoveAllModalVisible}
+          />
+          <ConfirmModal
+            content={`선택된 ${selectedItems.length}개의 상품을 삭제하시겠습니까?`}
+            onConfirm={onRemoveSelectedConfirm}
+            open={isRemoveSelectedModalVisible}
+            setConfirmVisible={setIsRemoveSelectedModalVisible}
+          />
+          <ConfirmModal
+            content="주문할 상품을 선택해주세요"
+            onConfirm={() => setIsNoItemSelectedModalVisible(false)}
+            open={isNoItemSelectedModalVisible}
+            setConfirmVisible={setIsNoItemSelectedModalVisible}
+            showCancelButton={false}
+          />
+          <ConfirmModal
+            content="로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
+            onConfirm={() => navigate('/signInPage')}
+            open={isSignInRedirectModalVisible}
+            setConfirmVisible={setIsSignInRedirectModalVisible}
+          />
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

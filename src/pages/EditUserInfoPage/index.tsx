@@ -4,23 +4,22 @@ import { API_HEADER } from '../../api/usersApi'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Modal } from 'antd'
 
-const EditUserInfoPage = () => {
+const EditUserInfoPage: React.FC = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
-  const { loginToken } = useAccountTokenStore(state => ({
-    loginToken: state.loginToken
+  const { loginToken, setIsLoggedOut } = useAccountTokenStore(state => ({
+    loginToken: state.loginToken,
+    setIsLoggedOut: state.setIsLoggedOut
   }))
-  const setIsLoggedOut = useAccountTokenStore(state => state.setIsLoggedOut)
 
   const [error, setError] = useState('')
   const [successModalVisible, setSuccessModalVisible] = useState(false)
 
-  const handleModifyUserInfo = async values => {
+  const handleModifyUserInfo = async (values: any) => {
     try {
       const { oldPassword, newPassword, profileImage, nickname } = values
-
       if (newPassword !== values.confirmPassword) {
-        setError('새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다.')
+        setError('변경할 비밀번호와 확인 비밀번호가 일치하지 않습니다.')
         return
       }
 
@@ -56,7 +55,6 @@ const EditUserInfoPage = () => {
       setError('오류가 발생했습니다.')
     }
   }
-
   // 모달 관리
   const handleModalOk = () => {
     setSuccessModalVisible(false)
@@ -65,7 +63,8 @@ const EditUserInfoPage = () => {
 
   return (
     <div className="modifyUserInfo">
-      <h1>회원 정보 수정</h1>
+
+      <h2>회원 정보 수정</h2>
 
       <Form
         form={form}
@@ -110,7 +109,7 @@ const EditUserInfoPage = () => {
 
         <Modal
           title="비밀번호 변경 성공"
-          open={successModalVisible}
+          visible={successModalVisible}
           closable={false}
           onOk={handleModalOk}
           okText="확인"

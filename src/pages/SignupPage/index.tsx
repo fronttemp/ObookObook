@@ -1,28 +1,28 @@
-
-// 회원가입 페이지
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
-import useNickNameStore from '../../store/useNickNameStore'
 import { API_HEADER } from '../../api/usersApi'
-import useUserImgStore from '../../store/useUserImgStore'
 import './Signup.css'
+import Modal from 'antd/es/modal/Modal'
 
-const SignUpPage = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [displayName, setDisplayName] = useState('')
-  const [profileImg, setprofileImg] = useState('')
+const SignUpPage = (): JSX.Element => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [displayName, setDisplayName] = useState<string>('')
+  const [profileImg, setProfileImg] = useState<string>('')
 
   const navigate = useNavigate()
 
   // 토큰 관리
-  const setLoginToken = useAccountTokenStore(state => state.setLoginToken)
-  const setNickNameToken = useNickNameStore(state => state.setNickNameToken)
-  const setUserImgToken = useUserImgStore(state => state.setUserImgToken)
+  const { setLoginToken, setNickNameToken, setUserImgToken } =
+    useAccountTokenStore(state => ({
+      setLoginToken: state.setLoginToken,
+      setNickNameToken: state.setNickNameToken,
+      setUserImgToken: state.setUserImgToken
+    }))
 
   // signUpAPI
-  async function signUp(e: FormEvent) {
+  async function signUp(e: FormEvent): Promise<void> {
     e.preventDefault()
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup',
@@ -38,36 +38,62 @@ const SignUpPage = () => {
       }
     )
     const json = await res.json()
-    setLoginToken(json.accessToken)
-    setNickNameToken(json.user.displayName)
-    setUserImgToken(json.user.profileImg)
-    navigate('/SigninPage')
+    if (res.ok) {
+      setLoginToken(json.accessToken)
+      setNickNameToken(json.user.displayName)
+      setUserImgToken(json.user.profileImg)
+      navigate('/SigninPage')
+    } else {
+      setSuccessModalVisible(true)
+    }
   }
 
   // 회원가입 이미지 전송
-  function uploadImage(e) {
-    const files = (e.target as HTMLInputElement).files as FileList
-    for (const file of files) {
+  function uploadImage(e: ChangeEvent<HTMLInputElement>): void {
+    const files = e.target.files as FileList
+    for (const file of Array.from(files)) {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.addEventListener('load', e => {
-        setprofileImg((e.target as FileReader).result as string)
+        setProfileImg((e.target as FileReader).result as string)
       })
     }
   }
 
-  // 비밀번호 길이 제한 메세지
-  const [passwordLengh, setPasswordLengh] = useState('')
+  // 이메일, 비밀번호 형식 체크
+  const [passwordLength, setPasswordLength] = useState<string>('')
+  const [emailError, setEmailError] = useState<string>('')
 
-  function handlePasswordLenth(e) {
+  //이메일 체크
+  function handleEmailCheck(e: ChangeEvent<HTMLInputElement>): void {
+    const newEmail = e.target.value
+    setEmail(newEmail)
+
+    if (!newEmail.includes('@') || !newEmail.includes('.')) {
+      setEmailError('이메일 형식을 확인해주세요.')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  // 비밀번호 체크
+  function handlePasswordLength(e: ChangeEvent<HTMLInputElement>): void {
     const newPassword = e.target.value
     setPassword(newPassword)
 
     if (newPassword.length < 8) {
-      setPasswordLengh('비밀번호는 최소 8자 이상이어야 합니다.')
+      setPasswordLength('비밀번호는 최소 8자 이상이어야 합니다.')
     } else {
-      setPasswordLengh('')
+      setPasswordLength('')
     }
+  }
+
+  // 모달 관리 이메일
+  const [successModalVisible, setSuccessModalVisible] = useState(false)
+
+  // 모달 확인 버튼 클릭 시
+  const handleModalOk = () => {
+    setSuccessModalVisible(false)
   }
 
   return (
@@ -79,22 +105,29 @@ const SignUpPage = () => {
           <div className="input-id">이메일</div>
           <input
             value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="이메일"
+            onChange={handleEmailCheck}
+            placeholder="[필수] 이메일"
           />
+          {emailError && (
+            <div style={{ color: 'red' }}>{emailError}</div>
+          )}
+
           <div className="input-pw">비밀번호</div>
           <input
             value={password}
-            onChange={handlePasswordLenth}
-            placeholder="비밀번호"
+            onChange={handlePasswordLength}
+            placeholder="[필수] 비밀번호"
             type="password"
           />
-          {passwordLengh && <div style={{ color: 'red' }}>{passwordLengh}</div>}
+          {passwordLength && (
+            <div style={{ color: 'red' }}>{passwordLength}</div>
+          )}
+
           <div className="input-name">닉네임</div>
           <input
             value={displayName}
             onChange={e => setDisplayName(e.target.value)}
-            placeholder="닉네임"
+            placeholder="[필수] 닉네임"
           />
           <div className="input-img">프로필 이미지</div>
           <input
@@ -110,9 +143,33 @@ const SignUpPage = () => {
           </button>
         </div>
       </form>
+
+      {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
+        <Modal
+          visible={successModalVisible}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p
+            style={{
+              color: 'red'
+            }}>
+            필수 입력정보를 확인해주세요.
+          </p>
+        </Modal>
+      ) : (
+        <Modal
+          visible={successModalVisible}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p>이미 가입된 이메일입니다.</p>
+        </Modal>
+      )}
     </div>
   )
 }
 
 export default SignUpPage
-

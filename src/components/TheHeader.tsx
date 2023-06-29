@@ -1,14 +1,9 @@
-
-
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
-import { Input, Badge } from 'antd'
-import Dropdown from './Dropdown'
+import { Input, Badge, Modal } from 'antd'
 import { useNavigate, NavLink, useLocation } from 'react-router-dom'
-import TagSearchMenu from './TagSearchMenu'
 import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
-import useUserImgStore from '../store/useUserImgStore'
 import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
 
@@ -16,8 +11,6 @@ const TheHeader = () => {
   const navigate = useNavigate()
   const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
-
-
 
   //드롭다운 메뉴 스테이트 관리
   const [dropdownVisibility, setDropdownVisibility] = useState(false)
@@ -27,7 +20,6 @@ const TheHeader = () => {
 
   //input값으로 navigate
   const onSearch = (value: string) => {
-
     if (value.trim() !== '') {
       navigate(`/search?q=${value.trim()}`)
     } else {
@@ -35,19 +27,22 @@ const TheHeader = () => {
     }
   }
 
-  // 로그인 상태에 따라 헤더 변경
-  const { loginToken, setIsLoggedOut } = useAccountTokenStore(state => ({
+  // 로그인 상태에 따라 헤더 변경 및 로그아웃 시 로컬스토리지 정보제거
+  const {
+    loginToken,
+    setIsLoggedOut,
+    removeNickNameToken,
+    removeUserImgToken,
+    nickNameToken,
+    userImgToken
+  } = useAccountTokenStore(state => ({
     loginToken: state.loginToken,
-    setIsLoggedOut: state.setIsLoggedOut
+    setIsLoggedOut: state.setIsLoggedOut,
+    removeNickNameToken: state.removeNickNameToken,
+    removeUserImgToken: state.removeUserImgToken,
+    nickNameToken: state.nickNameToken,
+    userImgToken: state.userImgToken
   }))
-
-  const nickName = localStorage.getItem('nickNameToken')
-  const userImg = localStorage.getItem('userImgToken')
-
-  useEffect(() => {
-    // 프로필 이미지 URL 가져오기
-    // 프로필 이미지가 로컬 스토리지에 저장되어 있다면 설정
-  }, [])
 
   // signOutAPI
   const handleLogout = async () => {
@@ -62,10 +57,12 @@ const TheHeader = () => {
       }
     )
     setIsLoggedOut()
+    removeNickNameToken()
+    removeUserImgToken()
     navigate('/')
   }
 
-  // 로그인 상태시 해당 페이지 접근 금지
+  // 로그인 상태에 따른 페이지 접근기능
   const location = useLocation()
 
   useEffect(() => {
@@ -76,21 +73,27 @@ const TheHeader = () => {
     ) {
       navigate('/')
     }
+    if (!loginToken && location.pathname === '/Account') {
+      navigate('/SigninPage')
+    }
   }, [loginToken, navigate, location.pathname])
+
+  // 비회원 Account페이지 진입시 모달 처리
+  const [successModalVisible, setSuccessModalVisible] = useState(false)
+
+  const handleModalOk = () => {
+    loginToken ? setSuccessModalVisible(false) : setSuccessModalVisible(true)
+  }
+
+  const handleModalClose = () => {
+    setSuccessModalVisible(false)
+  }
 
   return (
     <header>
       {loginToken ? (
         <div className="login-nav">
-          <span>{nickName}님 환영합니다.</span>
-          <img
-            style={{
-              width: '20px',
-              height: '20px'
-            }}
-            src={userImg}
-            alt="프로필"
-          />
+          <span>{nickNameToken}님 환영합니다.</span>
           <button
             style={{
               cursor: 'pointer'
@@ -132,12 +135,11 @@ const TheHeader = () => {
               </NavLink>
             </li>
 
-            <li className='nav-list__item'>
+            <li className="nav-list__item">
               {/* <span 
               className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
               onClick={e => setDropdownVisibility(!dropdownVisibility)}
               >분야찾기</span> */}
-
             </li>
           </ul>
         </div>
@@ -162,8 +164,20 @@ const TheHeader = () => {
 
             <NavLink
               to="/Account"
-              className="icons-list">
-              <UserOutlined />
+              className="icons-list"
+              onClick={handleModalOk}>
+              {loginToken ? (
+                <img
+                  style={{
+                    width: '20px',
+                    height: '20px'
+                  }}
+                  src={userImgToken !== null ? userImgToken : '/user.png'}
+                  alt="프로필"
+                />
+              ) : (
+                <UserOutlined />
+              )}
             </NavLink>
           </div>
         </div>
@@ -173,6 +187,18 @@ const TheHeader = () => {
         <TagSearchMenu onTagClick = {onTagSearch}/>
       </Dropdown> */}
 
+      <Modal
+        visible={successModalVisible}
+        closable={false}
+        onOk={handleModalClose}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>
+          로그인이 필요한 서비스입니다.
+          <br />
+          로그인 페이지로 이동합니다.
+        </p>
+      </Modal>
     </header>
   )
 }

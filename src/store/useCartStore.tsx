@@ -5,9 +5,9 @@ export const useCartStore = create(
   persist(
     set => ({
       bookCart: [],
-
       selectedItems: [],
 
+      selectSingleBook: book => set(state => ({ selectedItems: [book] })),
       addBookCart: book =>
         set(state => {
           if (state.bookCart.some(b => b.isbn === book.isbn)) {
@@ -17,6 +17,14 @@ export const useCartStore = create(
         }),
       removeBook: book =>
         set(state => ({ bookCart: state.bookCart.filter(b => b !== book) })),
+
+      removeAllBooks: () => set({ bookCart: [] }),
+
+      removeSelectedBooks: selectedIds =>
+        set(state => ({
+          bookCart: state.bookCart.filter(b => !selectedIds.includes(b.id))
+        })),
+
       saveSelectedItems: items =>
         set(state => {
           const selectedBooks = state.bookCart.filter(book =>
