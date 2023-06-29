@@ -8,7 +8,7 @@ import { Spin } from 'antd';
 import AddBookPurchase from '../../components/AddBookPurchase';
 
 const DetailPage = () => {
-  const [book, setBook] = useState(null)
+  const [book, setBook] = useState([])
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const isbnNum = location.state?.value;
@@ -87,8 +87,11 @@ const DetailPage = () => {
                   <div className="subDetail__text">{book.description}</div>
                 </div>
               </div>
-              <AddBookCart book={book}/>
-              <AddBookPurchase book={book}/>
+              <div className = 'addBtn'>
+                <AddBookCart book={book}/>
+                <AddBookPurchase book={book}/>
+              </div>
+
             </div>
           </div>
           <div className="discription">

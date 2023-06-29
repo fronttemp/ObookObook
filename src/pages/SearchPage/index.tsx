@@ -1,19 +1,18 @@
-
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import {Pagination, Spin} from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { useSearchApi } from '../../store/useItemApi'
 import TagSearchMenu from '../../components/TagSearchMenu'
 import ItemListInfo from '../../components/ItemListInfo'
 import ItemSortMenu from '../../components/ItemSortMenu'
-import { LoadingOutlined } from '@ant-design/icons'
 
 
 const SearchPage = () => {
   const [loading, setLoading] = useState(true)
-  const [tag, setTag] = useState(null)
+  const [tag, setTag] = useState('')
   const [sort, setSort] = useState('')
-  const { fetch, books } = useSearchApi()
+  const { fetch, books } = useSearchApi() as {fetch: (searchTerm: string, tag: string, sort: string) => Promise<void>, books: (string | number)[]}
   const [currentPage, setCurrentPage] = useState(1)
   const [trackPerPage, setTrackPerPage] = useState(10)
 
@@ -39,28 +38,26 @@ const SearchPage = () => {
 
 
 
-  const handleTagClick = (value) => {
+  const handleTagClick = (value: string) => {
     setTag(value)
     console.log(value)
   }
 
-  const handleSortClick = (value) => {
+  const handleSortClick = (value: string) => {
     setSort(value)
     console.log(value)
   }
 
 
-  // const handleAddResultsClick = async () => {
-  //   setMaxResults(maxResults => maxResults + 10)
-  //   await fetch(searchTerm, tag, maxResults)
-  //   console.log(books)
-  // }
-
   const indexOfLastTrack = currentPage * trackPerPage;
   const indexOfFirstTrack = indexOfLastTrack - trackPerPage;
   const currentBooks = books.slice(indexOfFirstTrack, indexOfLastTrack);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  const paginate = (pageNumber: number) => {
+      setCurrentPage(pageNumber)
+      window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+  }
 
 
   return (
@@ -76,10 +73,18 @@ const SearchPage = () => {
         <div>
         { books.length > 0 ? 
         <div>
+          <div className="pagination">
+            <Pagination
+            current={currentPage}
+            onChange = {paginate}
+            pageSize = {10}
+            total={books.length}
+            />
+          </div>          
           <ItemListInfo books = {currentBooks}/> 
           <div className="pagination">
             <Pagination
-            defaultCurrent={currentPage}
+            current={currentPage}
             onChange ={paginate}
             pageSize = {10}
             total={books.length}
