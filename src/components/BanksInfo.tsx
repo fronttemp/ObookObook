@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { bankChoiceAPI, accountCheckAPI, accountConnectAPI, accountDeleteAPI } from '../api/accountApi';
 import { Button, Input, Checkbox } from 'antd';
 import './BanksInfo.css';
+import useAccountTokenStore from '../store/useAccountTokenStore';
 
 const BanksInfo = () => {
   const [banks, setBanks] = useState([]);
@@ -11,10 +12,13 @@ const BanksInfo = () => {
   const [accountNumber, setAccountNumber] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [signature, setSignature] = useState(false);
+  const { loginToken } = useAccountTokenStore();
+  
+  console.log("loginToken : ", loginToken);
 
   const fetchBanks = async () => {
     try {
-      const data = await bankChoiceAPI();
+      const data = await bankChoiceAPI(loginToken);
       if (data) setBanks(data);
     } catch (error) {
       console.error('Fetching banks failed:', error);
@@ -23,7 +27,7 @@ const BanksInfo = () => {
 
   const fetchAccounts = async () => {
     try {
-      const data = await accountCheckAPI();
+      const data = await accountCheckAPI(loginToken);
       if (data && data.accounts) setAccounts(data.accounts);
     } catch (error) {
       console.error('Fetching accounts failed:', error);
@@ -55,7 +59,7 @@ const BanksInfo = () => {
 
   const handleAccountConnect = async () => {
     if (signature) {
-      await accountConnectAPI(selectedBankCode, accountNumber, phoneNumber, signature);
+      await accountConnectAPI(loginToken,selectedBankCode, accountNumber, phoneNumber, signature);
       fetchBanks(); // 은행 목록 다시 가져오기
       fetchAccounts(); // 계좌 연결 후 다시 계좌 정보를 가져옴
     } else {
@@ -65,6 +69,9 @@ const BanksInfo = () => {
 
   // 연결 가능한 은행 목록 필터링
   const availableBanks = banks.filter(bank => !accounts.find(account => account.bankCode === bank.code));
+
+  // 계좌번호 최대 입력 길이 계산
+  const maxAccountLength = selectedBankDigits.reduce((acc, val) => acc + val, 0);
 
   return (
     <div>
@@ -98,13 +105,21 @@ const BanksInfo = () => {
           className="account-input"
           placeholder="계좌번호"
           value={accountNumber}
-          onChange={(e) => setAccountNumber(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.length <= maxAccountLength) {
+              setAccountNumber(e.target.value)
+            }
+          }}
         />
         <Input
           className="account-input"
           placeholder="전화번호"
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.length <= 11) {
+              setPhoneNumber(e.target.value)
+            }
+          }}
         />
         <Checkbox
           className="signature-checkbox"

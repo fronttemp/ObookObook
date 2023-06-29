@@ -4,6 +4,8 @@ import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import { accountCheckAPI } from '../../api/accountApi'
 import './CheckoutPage.css'
+import useAccountTokenStore from '../../store/useAccountTokenStore'
+import ConfirmModal from '../../components/ConfirmModal'
 
 const { useBreakpoint } = Grid
 
@@ -11,11 +13,13 @@ const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [bankAccounts, setBankAccounts] = useState([])
   const { selectedItems } = useCartStore()
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const navigate = useNavigate()
   const screen = useBreakpoint()
+  const { loginToken } = useAccountTokenStore()
 
   const priceKr = price => {
-    return <span>{`${price.toLocaleString('ko-KR')}원`}</span>
+    return `${price.toLocaleString('ko-KR')}원`
   }
 
   const handleTotalPrice = () => {
@@ -28,7 +32,7 @@ const CheckoutPage = () => {
 
   const fetchBankAccounts = async () => {
     try {
-      const data = await accountCheckAPI()
+      const data = await accountCheckAPI(loginToken)
       if (data && data.accounts) {
         setBankAccounts(data.accounts)
       }
@@ -37,19 +41,26 @@ const CheckoutPage = () => {
     }
   }
 
+  const handleBankAccountSelect = accountId => {
+    // Handle selection of bank account
+    console.log('Selected bank account:', accountId)
+  }
+
   useEffect(() => {
     handleTotalPrice()
     fetchBankAccounts()
   }, [selectedItems])
 
   const handlePayment = () => {
-    // Handle payment logic here
-    console.log('Payment initiated')
+    setIsModalVisible(true)
   }
 
-  const handleBankAccountSelect = accountId => {
-    // Handle selection of bank account
-    console.log('Selected bank account:', accountId)
+  const onConfirm = confirm => {
+    setIsModalVisible(false)
+    if (confirm) {
+      // 실제 결제 로직을 여기에 추가해주세요.
+      console.log('Payment initiated')
+    }
   }
 
   return (
@@ -124,6 +135,18 @@ const CheckoutPage = () => {
             onClick={handlePayment}>
             결제하기
           </Button>
+          <ConfirmModal
+            content={
+              <>
+                총 {selectedItems.length}개의 상품, {priceKr(totalPrice)}를
+                <br />
+                결제하시겠습니까?
+              </>
+            }
+            onConfirm={onConfirm}
+            open={isModalVisible}
+            setConfirmVisible={setIsModalVisible}
+          />
         </div>
       </div>
     </div>

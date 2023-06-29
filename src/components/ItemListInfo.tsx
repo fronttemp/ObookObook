@@ -9,7 +9,7 @@ const ItemListInfo = ({books}) => {
   const moveDetailPage = (value: string) => {
     navigate('/Detail', { state : {value}})
   }
-
+  
   const truncate = (str, n) => {
     return str?.length > n ? str.substring(0, n) + "..." : str;
   }
