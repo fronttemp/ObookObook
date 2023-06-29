@@ -51,7 +51,6 @@ const SignInPage = (): JSX.Element => {
         method: 'POST',
         headers: {
           ...API_HEADER,
-          Authorization: `Bearer ${localStorage.getItem('accountToken')}`
         },
         body: JSON.stringify({
           email,
