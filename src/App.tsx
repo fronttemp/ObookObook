@@ -1,5 +1,11 @@
 import React from 'react'
-import { Outlet, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import {
+  Outlet,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate
+} from 'react-router-dom'
 import './App.scss'
 import MainPage from './pages/MainPage'
 import AccountPage from './pages/AccountPage'
@@ -87,11 +93,10 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (
-      nickNameToken === 'admin' &&
-      (location.pathname === '/Account')
-    ) {
+    if (nickNameToken === 'admin' && location.pathname === '/Account') {
       navigate('/admin')
+    }  else if (nickNameToken !== 'admin' && location.pathname === '/admin') {
+      navigate('/')
     }
   }, [loginToken, navigate, location.pathname])
 
@@ -105,6 +110,7 @@ function App() {
             index
             element={<MainPage />}
           />
+
           <Route
             path="/Account/"
             element={<AccountPage />}>
