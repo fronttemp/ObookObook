@@ -40,12 +40,17 @@ const DetailPage = () => {
   }
 
   function renderDescription(description) {
-    const lines = description.replace(/<\/?p>/g, '').split('<BR>');
-  
+    const regexpBold = /<\/?\s*b\s*>/gi
+    const regexpBR = /<\/?\s*br\s*\/?>/gi
+    const regexPha = /<\/?\s*p\s*>/gi
+
+    const lines = description.replace(regexPha, '').split(regexpBR)
+
+    
     return lines.map((line, index) => (
       <div key={index}>
-        {line.includes('<b>')||line.includes('</b>') ? (
-          <strong>{line.replace(/<\/?b>/g, '')}</strong>
+        {line.replace(regexpBR,'').match(regexpBold) ? (
+          <strong>{line.replace(/<\/?\s*b\s*>/gi, '')}</strong>
         ) : (
           line
         )}
@@ -82,26 +87,34 @@ const DetailPage = () => {
                   <div className='subDetail__title'>가격</div>
                   <div className="subDetail__text">{book.priceSales}원</div>
                 </div>
+                
                 <div className="subDetailBox">
                   <div className='subDetail__title'>내용</div>
-                  <div className="subDetail__text">{book.description}</div>
+                  <div className="subDetail__text">{book.description ? book.description : "등록된 내용이 없습니다."}</div>
                 </div>
               </div>
-              <AddBookCart book={book}/>
-              <AddBookPurchase book={book}/>
+              <div className='buttonBox'>
+                <AddBookCart book={book}/>
+                <AddBookPurchase book={book}/>
+              </div>
             </div>
           </div>
           <div className="discription">
-            <div className="discriptionBox">
+            {book.fullDescription ? (
+              <div className="discriptionBox">
                 <div className='discription__title'>책 소개</div>
                 <div className="discription__text">{renderDescription(book.fullDescription)}</div>
-            </div>
+              </div>
+            ) : null}
+            {book.fullDescription2 ? (
               <div className="discriptionBox">
                 <div className='discription__title'>출판사 제공 책 소개</div>
                 <div className="discription__text">{renderDescription(book.fullDescription2)}</div>
               </div>
+            ) : null}
+            {book.subInfo.authors ? (
               <div className="discriptionBox">
-                <div className='discription__title'>저자 및 역자 소개</div>
+                <div className='discription__title'>저자 및 역자</div>
                 <div className="discription__text">
                   {book.subInfo.authors.map((author, index) => (
                     <div className='author' key={index}>
@@ -114,6 +127,7 @@ const DetailPage = () => {
                   ))}
                 </div>
               </div>
+            ) : null}
               {book.subInfo.toc ? (
                 <div className="discriptionBox">
                   <div className='discription__title'>목차</div>

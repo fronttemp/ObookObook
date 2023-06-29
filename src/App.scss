@@ -2,6 +2,7 @@
   margin: 0;
 }
 
+//color
 html {
   --color-black: #141414;
   --color-white: #fff;
@@ -11,7 +12,17 @@ html {
   --color-black-10: rgba(0, 0, 0, 0.1);
   --color-black-5: rgba(0, 0, 0, 0.05);
   --color-primary: #5e90f2;
+  --color-primary-hover: #497de4;
   --color-primary-20: rgba(94, 144, 242, 0.2);
+}
+
+
+//antd 색 설정
+.ant-btn-primary{
+  background-color: var(--color-primary);
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
+  background-color: var(--color-primary-hover);
 }
 
 //전역스타일
@@ -51,10 +62,20 @@ button {
 .title__text {
   font-weight: 700;
   font-size: 28px;
-  padding: 20px 0 12px 0;
+  padding: 20px 0 20px 0;
 }
 .hilight {
   color: var(--color-primary);
+}
+.buttonBox {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  button {
+    height: 36px;
+  }
 }
 
 //스타일
@@ -200,7 +221,7 @@ footer {
 }
 
 .title {
-  padding-bottom: 24px;
+  padding-bottom: 14px;
 }
 .img_detail {
   display: flex;
@@ -231,6 +252,12 @@ footer {
         flex-shrink: 0;
       }
     }
+    .buttonBox {
+      width: 100%;
+      button {
+        height: 50px;
+      }
+    }
   }
 }
 
@@ -255,6 +282,7 @@ footer {
       flex-shrink: 0;
     }
     .discription__text {
+      width: 100%;
       .author {
         padding-bottom: 24px;
         .author__box {
@@ -276,7 +304,7 @@ footer {
 }
 
 .booksInfo {
-  padding: 20px 0 40px 0;
+  padding: 20px 36px 40px 36px;
   .bookInfo:not(:first-of-type) {
     border-top: var(--color-black-10) 1px solid;
   }
@@ -287,12 +315,12 @@ footer {
     .bookInfo_box {
       display: flex;
       gap: 24px;
+      height: 175px;
       .bookImg {
-        overflow: hidden;
-        border-radius: 20px;
-        img {
-          width: 140px;
-        }
+        border-radius: 10px;
+        width: 124px;
+        background-size: cover;
+        background-position: center;
       }
       .bookImg:hover {
         cursor: pointer;
@@ -320,9 +348,6 @@ footer {
           }
         }
       }
-      .bookBtn {
-        padding: 30px 0;
-      }
     }
   }
 }
@@ -335,5 +360,5 @@ footer {
 .filterList {
   padding-top: 32px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
