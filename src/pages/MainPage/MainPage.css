@@ -1,31 +1,152 @@
+.today-quote {
+  display: flex;
+  height: 44px;
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: rgb(238, 238, 238);
+  padding-left: 82px;
+}
+
+.Bestseller-title {
+  margin-left: 30px;
+}
+
+.carousel-item-info {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+}
+
+.carousel-item-info h3,
+.carousel-item-info p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .carousel-container {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
+  object-fit: cover;
+  border: none;
+  /* 외부 상자의 테두리를 없애기 */
+  box-shadow: none;
+  /* 외부 상자의 그림자 효과를 없애기 */
 }
 
 .carousel-item {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-.book-card {
-  width: 200px;
-  height: 300px;
+.carousel-item-image img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.Bestseller-card {
+  width: 300px;
+  height: 430px;
   margin: 0 10px;
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
+  position: relative;
 }
 
-.carousel-controls {
+.book-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  height: 60px;
+  /* 작가와 지은이 컨테이너의 높이를 일정한 값으로 지정 */
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+}
+
+.book-info h3,
+.book-info p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ItemNewAll-card {
+  width: 150;
+  height: 160px;
+  margin: 0 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ItemNewAll-author {
+  color: #9b9a9ae4;
+}
+
+.ant-carousel .slick-prev,
+.ant-carousel .slick-prev:hover,
+.ant-carousel .slick-prev:focus {
+  font-size: 50px;
+  left: -60px;
+  z-index: 2;
+  color: rgb(244, 237, 237);
+}
+
+.ant-carousel .slick-next,
+.ant-carousel .slick-next:hover,
+.ant-carousel .slick-next:focus {
+  font-size: 50px;
+  right: -50px;
+  z-index: 2;
+  color: rgb(244, 237, 237);
+}
+
+.carousel-item-title {
+  text-align: center;
   margin-top: 10px;
 }
 
-.carousel-controls button {
-  border: none;
-  background: none;
+h2 {
+  padding-left: 82px;
+}
+
+.Bestseller2-card {
+  width: 300px;
+  height: 430px;
   margin: 0 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.Bestseller2-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  height: 60px;
+  /* 작가와 지은이 컨테이너의 높이를 일정한 값으로 지정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
