@@ -35,7 +35,6 @@ const AccountPage = (): JSX.Element => {
       }
     )
     if (res.ok) {
-      console.log(setNewNickName(''))
       setNickNameToken(newNickName)
     }
   }
@@ -64,8 +63,11 @@ const AccountPage = (): JSX.Element => {
       }
     )
     if (res.ok) {
-      console.log(setUserImgToken(''))
-      setUserImgToken(newUserImg)
+      if (newUserImg === '') {
+        setUserImgToken('/user.png')
+      } else {
+        setUserImgToken(newUserImg)
+      }
     }
   }
 
@@ -104,6 +106,18 @@ const AccountPage = (): JSX.Element => {
                 src={newUserImg || userImgToken} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
               />
               <div className="current-userName">{nickNameToken}</div>
+              <div className="imgInputWrap">
+                <input
+                  className="userImg-input"
+                  type="file"
+                  onChange={uploadImage}
+                />
+                <button
+                  className="userImg-btn"
+                  type="submit">
+                  프로필 사진 변경
+                </button>
+              </div>
             </form>
             {/* 닉네임 변경 */}
             <form onSubmit={modifyUserName}>
@@ -115,18 +129,6 @@ const AccountPage = (): JSX.Element => {
               />
               <button type="submit">닉네임 변경</button>
             </form>
-            <div className="imgInputWrap">
-              <input
-                className="userImg-input"
-                type="file"
-                onChange={uploadImage}
-              />
-              <button
-                className="userImg-btn"
-                type="submit">
-                프로필 사진 변경
-              </button>
-            </div>
           </section>
         </div>
       </div>

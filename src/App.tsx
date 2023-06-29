@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Outlet,
   Routes,
@@ -54,6 +53,7 @@ function App() {
     materKey: 'true'
   }
 
+  // /admin =>
   async function loginState() {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',

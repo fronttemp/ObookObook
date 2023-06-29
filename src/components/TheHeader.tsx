@@ -172,7 +172,7 @@ const TheHeader = () => {
                     width: '20px',
                     height: '20px'
                   }}
-                  src={userImgToken !== null ? userImgToken : '/user.png'}
+                  src={userImgToken !== (null || '') ? userImgToken : '/user.png'}
                   alt="프로필"
                 />
               ) : (
