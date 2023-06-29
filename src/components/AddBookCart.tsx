@@ -38,16 +38,18 @@ const AddBookCart = props => {
   }
 
   return (
-    <div>
+    <>
       <Button onClick={handleAddToCart}>장바구니 추가</Button>
-      <ConfirmModal
-        content={modalContent}
-        onConfirm={onConfirm}
-        open={isModalVisible}
-        setConfirmVisible={setIsModalVisible}
-        showCancelButton={showCancel}
-      />
-    </div>
+      <div>
+        <ConfirmModal
+          content={modalContent}
+          onConfirm={onConfirm}
+          open={isModalVisible}
+          setConfirmVisible={setIsModalVisible}
+          showCancelButton={showCancel}
+        />
+      </div>
+    </>
   )
 }
 

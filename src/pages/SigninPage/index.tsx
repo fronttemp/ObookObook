@@ -3,6 +3,8 @@ import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import Modal from 'antd/es/modal/Modal'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 
 const SignInPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
@@ -90,69 +92,53 @@ const SignInPage = (): JSX.Element => {
 
   return (
     <section>
-      {/* title  */}
-      <h1>로그인 페이지</h1>
-      <div className="titleWrap">
-        아이디와 비밀번호를
-        <br />
-        입력해주세요.
-      </div>
-
-      {/* content */}
       <div className="contentWrap">
-        <div>이메일 주소</div>
+        <div className= 'page_title'>로그인</div>
         <form onSubmit={signIn}>
-          {/* 이메일 */}
-          <div className="input-id">
-            <input
-              type="text"
-              className="input"
-              placeholder="아이디"
-              value={email}
-              onChange={checkEmail}
-            />
+          <div className="inputBox ">
+              <input
+                type="text"
+                className="input input-id"
+                placeholder="아이디를 입력해 주세요."
+                value={email}
+                onChange={checkEmail}
+              />
+              <input
+                className="input input-pw"
+                placeholder="비밀번호를 입력해 주세요."
+                defaultValue={password}
+                type="password"
+                onChange={checkPassword}
+              />
+            </div>
+          <div className="valid_desc">
             {!emailValid && email.length > 0 && (
-              <div
-                style={{
-                  color: 'red'
-                }}>
-                올바른 이메일 형식을 입력해주세요{' '}
+                <div className='valid'>
+                  <InfoCircleOutlined />
+                  올바른 이메일 형식을 입력해주세요{' '}
+                </div>
+              )}
+            {!passwordValid && password.length > 0 && (
+              <div className='valid'>
+                <InfoCircleOutlined />
+                비밀번호는 8자 이상입니다.
               </div>
             )}
           </div>
-
-          {/* 패스워드 */}
-          <div>비밀번호</div>
-          <div className="input-pw">
-            <input
-              className="input"
-              placeholder="비밀번호"
-              defaultValue={password}
-              type="password"
-              onChange={checkPassword}
-            />
-          </div>
-          {!passwordValid && password.length > 0 && (
-            <div
-              style={{
-                color: 'red'
-              }}>
-              비밀번호는 8자 이상입니다.
-            </div>
-          )}
           {/* 버튼 */}
           <div className="btn">
+            <Button>로그인</Button>
             <button
-              className="login__btn"
+              className="loginPage__btn"
               type="submit"
               disabled={notAllow}>
               로그인
             </button>
+            <div className="loginPage__btn">
+              <Link to="/SignupPage">회원가입</Link>
+            </div>
           </div>
-          <hr />
-          <div className="btn__toJoin">
-            <Link to="/SignupPage">회원가입</Link>
-          </div>
+
         </form>
       </div>
 

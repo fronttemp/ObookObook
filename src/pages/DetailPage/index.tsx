@@ -71,12 +71,11 @@ const DetailPage = () => {
             </div>
           </div>
           <div className='img_detail'>
-            <div className="cover">
-              <img
-                src={book.cover.replace(/coversum/g, 'cover500')}
-                alt={book.title}
-              />
-             </div>
+            <div 
+            className="cover"
+            style={
+              {backgroundImage: `url(${book.cover.replace(/coversum/g, 'cover500')})`}
+            }></div>
             <div className="subDetail">
               <div className="subDetail__content">
                 <div className="subDetailBox">
@@ -84,13 +83,20 @@ const DetailPage = () => {
                   <div className='subDetail_text'> <StarFilled /> {book.customerReviewRank}</div>
                 </div>
                 <div className="subDetailBox">
+                  <div className='subDetail__title'>카테고리</div>
+                  <div className="subDetail__text">{book.categoryName.split('>')[1]}</div>
+                </div>
+                <div className="subDetailBox">
                   <div className='subDetail__title'>가격</div>
                   <div className="subDetail__text">{book.priceSales}원</div>
                 </div>
-                
                 <div className="subDetailBox">
                   <div className='subDetail__title'>내용</div>
-                  <div className="subDetail__text">{book.description ? book.description : "등록된 내용이 없습니다."}</div>
+                  <div className="subDetail__text">
+                    {book.description ? 
+                    decodeHTMLEntities(book.description) 
+                    : "등록된 내용이 없습니다."}
+                  </div>
                 </div>
               </div>
               <div className='buttonBox'>
@@ -103,7 +109,7 @@ const DetailPage = () => {
             {book.fullDescription ? (
               <div className="discriptionBox">
                 <div className='discription__title'>책 소개</div>
-                <div className="discription__text">{renderDescription(book.fullDescription)}</div>
+                <div className="discription__text">{renderDescription(decodeHTMLEntities(book.fullDescription))}</div>
               </div>
             ) : null}
             {book.fullDescription2 ? (

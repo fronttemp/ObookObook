@@ -87,9 +87,9 @@ const SearchPage = () => {
           </div>
         </div>
             : 
-            (<h1>
-              {searchTerm} 검색 결과가 없습니다.
-            </h1>)
+            (<div className='noResult'>
+              검색 결과가 없습니다.
+            </div>)
           }
         </div>
       }

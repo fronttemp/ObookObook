@@ -15,7 +15,9 @@ const AddBookPurchase = props => {
   return (
     <Button onClick={() => {
       handleOneClickOrder(props.book)
-    }}> 즉시 구매 </Button>
+    }}
+    type="primary"
+    > 즉시 구매 </Button>
   )
 }
 

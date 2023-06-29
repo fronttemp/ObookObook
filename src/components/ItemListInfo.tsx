@@ -30,7 +30,8 @@ const ItemListInfo = ({books}) => {
                 <div className = 'book'>
                   <div className="book_top">
                     <div className = 'bookTitle' onClick = {()=>moveDetailPage(book.isbn13)}>{truncate(book.title, 40)}</div>
-                    <div className = 'bookAuthor'>{book.author ? book.author+'·' : null} {book.publisher}</div>
+                    <div className = 'bookAuthor'>{book.author ? truncate(book.author, 30)+' · ' : null} {book.publisher}</div>
+                    <div className="bookTag">{book.categoryName.split('>')[1]}</div>
                   </div>
                   <div className="book_bottom">
                     <div className="bookreview"><StarFilled /> {book.customerReviewRank}</div>

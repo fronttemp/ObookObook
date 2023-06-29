@@ -77,6 +77,19 @@ button {
     height: 36px;
   }
 }
+.noResult {
+  color: var(--color-black-30);
+  font-size: 24px;
+  padding: 200px 0 100px 0;
+  text-align: center;
+}
+section {
+  padding: 0 122px;
+}
+.loadingAnimation {
+  padding: 200px 0 100px 0;
+  text-align: center;
+}
 
 //스타일
 .app {
@@ -88,7 +101,7 @@ button {
 }
 
 
-
+//헤더
 header {
   background-color: var(--color-white);
   padding: 0 30px;
@@ -178,10 +191,8 @@ header {
   }
 }
 
-section {
-  padding: 0 122px;
-}
 
+//푸터
 footer {
   padding: 160px 0 40px 0;
   display: flex;
@@ -231,10 +242,10 @@ footer {
   .cover {
     overflow: hidden;
     width: 400px;
+    height: 600px;
     border-radius: 20px;
-    img {
-      width: 400px;
-    }
+    background-position: center;
+    background-size: cover;
   } 
   .subDetail {
     display: flex;
@@ -262,11 +273,8 @@ footer {
   }
 }
 
-.loadingAnimation {
-  padding: 150px 0;
-  text-align: center;
-}
 
+//디테일페이지
 .discription {
   display: flex;
   flex-wrap: wrap;
@@ -316,10 +324,11 @@ footer {
     .bookInfo_box {
       display: flex;
       gap: 24px;
-      height: 175px;
       .bookImg {
+        flex-shrink: 0;
+        width: 140px;
+        height: 200px;
         border-radius: 10px;
-        width: 124px;
         background-size: cover;
         background-position: center;
       }
@@ -327,7 +336,7 @@ footer {
         cursor: pointer;
       }
       .book {
-        padding: 24px 0;
+        padding: 16px 0;
         color: var(--color-black-50);
         display: flex;
         flex-direction: column;
@@ -362,4 +371,42 @@ footer {
   padding-top: 32px;
   display: flex;
   justify-content: space-between;
+}
+
+//로그인페이지
+.contentWrap {
+  padding: 200px 0 100px 0;
+  margin: 0 auto;
+  width: 300px;
+  box-sizing: border-box;
+  .page_title {
+    text-align: center;
+  }
+  .inputBox {
+    overflow: hidden;
+    .input {
+      box-sizing: border-box;
+      border: var(--color-black-20) 1px solid;
+      display: inline-block;
+      height: 44px;
+      padding: 0 14px 2px;
+      color: var(--color-black-20);
+      margin: 0;
+      width: 100%;
+    }
+    .input::placeholder {
+      color: var(--color-black-30);
+    }
+    .input.input-id {
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+    }
+    .input.input-pw {
+      border-radius: 0 0 10px 10px;
+    }
+    .input:focus {
+      outline: none;
+    }
+  }
+
 }
