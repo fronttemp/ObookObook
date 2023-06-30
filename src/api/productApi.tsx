@@ -49,12 +49,9 @@ export async function ItemAddAPI(title: string, price: number, description: stri
       ...API_HEADER,
       'masterKey': 'true'},
     body: JSON.stringify({
-      title,
-      price,
-      description,
-      tags,
-      thumbnailBase64,
-      photoBase64
+      "title" : `${title}`,
+      "price" : price,
+      "description" : `${description}`,
     })
   })
   const data = await res.json()
@@ -119,15 +116,15 @@ export async function ItemSearchAPI(searchText?: string, searchTags?: string[]) 
 }
 
 ///// 제품 거래(구매) 신청 /////
-export async function ItemBuyAPI(productId: string, accountId: string) {
+export async function ItemBuyAPI(loginToken: string, productId: string, accountId: string) {
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/buy', {
     method : 'POST',
     headers: {
       ...API_HEADER,
-      'Authorization': 'Bearer <accessToken>'},
+      'Authorization': `Bearer ${loginToken}`},
       body: JSON.stringify({
-        productId,
-        accountId
+        "productId" : `${productId}`,
+        "accountId" : `${accountId}`,
       })
   })
   const data = await res.json()
@@ -159,12 +156,12 @@ export async function ItemConfirmAPI() {
 }
 
 ///// 제품 전체 거래(구매) 내역 /////
-export async function ItemAllBuymAPI() {
+export async function ItemAllBuymAPI(loginToken: string) {
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details', {
     method : 'GET',
     headers: {
       ...API_HEADER,
-      'Authorization': 'Bearer <accessToken>'},
+      'Authorization': `Bearer ${loginToken}`},
   })
   const data = await res.json()
   return data
