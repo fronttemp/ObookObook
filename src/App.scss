@@ -2,6 +2,7 @@
   margin: 0;
 }
 
+//color
 html {
   --color-black: #141414;
   --color-white: #fff;
@@ -11,6 +12,7 @@ html {
   --color-black-10: rgba(0, 0, 0, 0.1);
   --color-black-5: rgba(0, 0, 0, 0.05);
   --color-primary: #5e90f2;
+  --color-primary-hover: #497de4;
   --color-primary-20: rgba(94, 144, 242, 0.2);
 }
 
@@ -51,11 +53,67 @@ button {
 .title__text {
   font-weight: 700;
   font-size: 28px;
-  padding: 20px 0 12px 0;
+  padding: 20px 0 20px 0;
 }
 .hilight {
   color: var(--color-primary);
 }
+.buttonBox {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  button {
+    height: 36px;
+  }
+}
+.noResult {
+  color: var(--color-black-30);
+  font-size: 24px;
+  padding: 200px 0 100px 0;
+  text-align: center;
+}
+section {
+  padding: 0 122px;
+}
+.loadingAnimation {
+  padding: 200px 0 100px 0;
+  text-align: center;
+}
+
+
+//antd 설정
+.ant-btn-primary{
+  background-color: var(--color-primary);
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
+  background-color: var(--color-primary-hover);
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-card .ant-card-body {
+  padding: 0;
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-carousel .slick-list .slick-slide >div>div {
+  overflow: hidden;
+  border: none;
+  padding: 5px;
+}
+.ant-carousel .slick-prev,
+.ant-carousel .slick-prev:hover,
+.ant-carousel .slick-prev:focus {
+  font-size: 40px;
+  left: -45px;
+  z-index: 2;
+  color: var(--color-black-10);
+}
+.ant-carousel .slick-next,
+.ant-carousel .slick-next:hover,
+.ant-carousel .slick-next:focus {
+  font-size: 40px;
+  z-index: 2;
+  color: var(--color-black-10);
+}
+
 
 //스타일
 .app {
@@ -67,7 +125,7 @@ button {
 }
 
 
-
+//헤더
 header {
   background-color: var(--color-white);
   padding: 0 30px;
@@ -81,10 +139,9 @@ header {
   .login-nav {
     display: flex;
     justify-content: end;
-    gap: 24px;
+    gap: 20px;
     padding-top: 20px;
-
-    a {
+    a, button, span {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -96,18 +153,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     .nav-menu {
       display: flex;
       flex-grow: 1;
       align-items: center;
-
       .logo {
         img {
           height: 24px;
         }
       }
-
       .nav-list {
         margin-left: 42px;
         padding: 0;
@@ -123,20 +177,13 @@ header {
           padding-bottom: 3px;
           border-bottom: var(--color-primary) solid 2px;
         }
-        .nav-list__active {
-
-          font-weight: 700;
-          color: var(--color-primary);
-          padding-bottom: 2px;
-          border-bottom: var(--color-primary) solid 2px;
-          cursor: pointer;
-        }
       }
     }
 
     .nav-extra {
       display: flex;
       gap: 24px;
+      align-items: center;
 
       .search {
         padding-right: 25;
@@ -145,22 +192,28 @@ header {
       .icons {
         font-size: 24px;
         display: flex;
-        gap: 24px;
+        gap: 20px;
         height: 36px;
 
         .icons-list {
           display: flex;
           align-items: center;
+          .tokenimg {
+            width: 26px;
+            height: 26px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            outline: var(--color-black-30) 1px solid;
+          }
         }
       }
     }
   }
 }
 
-section {
-  padding: 0 122px;
-}
 
+//푸터
 footer {
   padding: 160px 0 40px 0;
   display: flex;
@@ -201,7 +254,7 @@ footer {
 }
 
 .title {
-  padding-bottom: 24px;
+  padding-bottom: 14px;
 }
 .img_detail {
   display: flex;
@@ -210,10 +263,10 @@ footer {
   .cover {
     overflow: hidden;
     width: 400px;
+    height: 600px;
     border-radius: 20px;
-    img {
-      width: 400px;
-    }
+    background-position: center;
+    background-size: cover;
   } 
   .subDetail {
     display: flex;
@@ -232,14 +285,17 @@ footer {
         flex-shrink: 0;
       }
     }
+    .buttonBox {
+      width: 100%;
+      button {
+        height: 50px;
+      }
+    }
   }
 }
 
-.loadingAnimation {
-  padding: 150px 0;
-  text-align: center;
-}
 
+//디테일페이지
 .discription {
   display: flex;
   flex-wrap: wrap;
@@ -247,6 +303,7 @@ footer {
     border-bottom: var(--color-black-10) 1px solid;
   }
   .discriptionBox {
+    width: 100%;
     display: flex;
     padding: 40px 0;
     .discription__title {
@@ -277,7 +334,7 @@ footer {
 }
 
 .booksInfo {
-  padding: 20px 0 40px 0;
+  padding: 20px 36px 40px 36px;
   .bookInfo:not(:first-of-type) {
     border-top: var(--color-black-10) 1px solid;
   }
@@ -289,17 +346,18 @@ footer {
       display: flex;
       gap: 24px;
       .bookImg {
-        overflow: hidden;
-        border-radius: 20px;
-        img {
-          width: 140px;
-        }
+        flex-shrink: 0;
+        width: 140px;
+        height: 200px;
+        border-radius: 10px;
+        background-size: cover;
+        background-position: center;
       }
       .bookImg:hover {
         cursor: pointer;
       }
       .book {
-        padding: 24px 0;
+        padding: 16px 0;
         color: var(--color-black-50);
         display: flex;
         flex-direction: column;
@@ -321,9 +379,6 @@ footer {
           }
         }
       }
-      .bookBtn {
-        padding: 30px 0;
-      }
     }
   }
 }
@@ -336,9 +391,161 @@ footer {
 .filterList {
   padding-top: 32px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+//로그인페이지
+.contentWrap {
+  padding: 200px 0 100px 0;
+  margin: 0 auto;
+  width: 300px;
+  box-sizing: border-box;
+  .page_title {
+    text-align: center;
+  }
+  .inputBox {
+    overflow: hidden;
+    .input {
+      box-sizing: border-box;
+      border: var(--color-black-20) 1px solid;
+      display: inline-block;
+      height: 44px;
+      padding: 0 14px 2px;
+      color: var(--color-black-20);
+      margin: 0;
+      width: 100%;
+    }
+    .input::placeholder {
+      color: var(--color-black-30);
+    }
+    .input.input-id {
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+    }
+    .input.input-pw {
+      border-radius: 0 0 10px 10px;
+    }
+    .input:focus {
+      outline: none;
+    }
+  }
+
 }
 
 .disable {
   display: none;
+}
+
+//메인페이지
+.event {
+  margin: 8px 0 20px 0;
+  display: flex;
+  height: 44px;
+  align-items: center;
+  border-radius: 8px;
+  background-color: var(--color-black-10);
+  padding: 6px 20px;
+  gap: 16px;
+  .event-img {
+    height: 28px;
+    width: 28px;
+    background-position: center;
+    background-size: cover;
+  }
+}
+.slideBox {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 35px;
+  .event__slide {
+    background-color: var(--color-primary);
+  }
+}
+.listBox{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 40px 0 60px 0;
+  .list {
+    width: 100%;
+    .itemsBox {
+      display: flex;
+      justify-content: space-between;
+      .items {
+      display: flex;
+      flex-direction: column;
+        .card {
+          outline: var(--color-black-20) 1px solid;
+          width: 152px;
+          height: 217px;
+          border-radius: 4px;
+          overflow: hidden;
+          cursor: pointer;
+          margin: 0;
+          background-size: cover;
+          background-position: center;
+        }
+        .item-desc {
+          display: flex;
+          flex-direction: column;
+          .item-title {
+            font-weight: 700;
+            padding-top: 15px;
+          }
+          .item-author {
+            color: var(--color-black-50);
+          }
+        }
+      }
+    }
+    
+    .headSection {
+      display: flex;
+      justify-content: space-between ;
+      .title__text {
+        font-size: 16px;
+      }
+      .linkbutton {
+        display: flex;
+        align-items: center;
+        a {
+          font-size: 12px;
+          color: var(--color-black-30);
+        }
+      }
+    }
+  }
+}
+.carousel-item-image-box {
+  border-radius: 8px;
+  overflow: hidden;
+  border: var(--color-black-10) 1px solid;
+  .carousel-item-image {
+    height: 452px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
+    .main-item-info {
+      transition: 1s;
+      background: linear-gradient( to top, rgba(255, 255, 255, 1)5%, rgba(0,0,0,0));
+      color: #000;
+      text-align: center;
+      width: 100%;
+      height: 60%;
+      position: absolute;
+      bottom: 0;
+      .main-item-info-desc {
+        padding: 0 24px;
+        box-sizing: border-box;
+        width: 100%;
+        position: absolute;
+        bottom: 30px;
+      }
+    }
+  }
+  // .carousel-item-image:hover{
+  //   .main-item-info {
+  //   }
+  // } 
 }

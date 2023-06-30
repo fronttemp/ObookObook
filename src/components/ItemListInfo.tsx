@@ -34,17 +34,19 @@ const ItemListInfo = ({books}) => {
                 <span className = {bestSellerIndex ? 'bestindex' : 'bestindex disable'}>
                   {index+1}
                 </span>
-                <div className="bookImg">
-                  <img
-                    src={book.cover.replace(/coversum/g, 'cover200')}
-                    alt={book.title}
-                    onClick = {()=>moveDetailPage(book.isbn13)}
-                  />
+                <div
+                  className="bookImg"
+                  style={
+                    {backgroundImage: `url(${book.cover.replace(/coversum/g, 'cover200')})`}
+                  }
+                  onClick = {()=>moveDetailPage(book.isbn)}
+                >
                 </div>
                 <div className = 'book'>
                   <div className="book_top">
-                    <div className = 'bookTitle' onClick = {()=>moveDetailPage(book.isbn13)}>{truncate(book.title, 40)}</div>
-                    <div className = 'bookAuthor'>{book.author} · {book.publisher}</div>
+                    <div className = 'bookTitle' onClick = {()=>moveDetailPage(book.isbn)}>{truncate(book.title, 40)}</div>
+                    <div className = 'bookAuthor'>{book.author ? truncate(book.author, 30)+' · ' : null} {book.publisher}</div>
+                    <div className="bookTag">{book.categoryName.split('>')[1]}</div>
                   </div>
                   <div className="book_bottom">
                     <div className="bookreview"><StarFilled /> {book.customerReviewRank}</div>
@@ -52,11 +54,9 @@ const ItemListInfo = ({books}) => {
                   </div>
                 </div>
               </div>
-              <div className = 'bookBtn'>
-                <div className="Btn">
-                  <AddBookCart className = 'addBtn' book={book}/>
-                  <AddBookPurchase className = 'addBtn' book={book}/>
-                </div>
+              <div className = 'buttonBox'>
+                <AddBookCart book={book}/>
+                <AddBookPurchase className = 'addBtn' book={book}/>
               </div>
             </div>
         ))}
