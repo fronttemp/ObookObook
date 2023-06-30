@@ -11,14 +11,8 @@ const TheHeader = () => {
   const navigate = useNavigate()
   const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
-
-  //드롭다운 메뉴 스테이트 관리
-  const [dropdownVisibility, setDropdownVisibility] = useState(false)
-
-  //antd input 설정값 !!수정불가능!!
   const { Search } = Input
 
-  //input값으로 navigate
   const onSearch = (value: string) => {
     if (value.trim() !== '') {
       navigate(`/search?q=${value.trim()}`)
@@ -93,7 +87,7 @@ const TheHeader = () => {
     <header>
       {loginToken ? (
         <div className="login-nav">
-          <span>{nickNameToken}님 환영합니다.</span>
+          <span>{nickNameToken}님, 환영합니다!</span>
           <button
             style={{
               cursor: 'pointer'
@@ -136,10 +130,6 @@ const TheHeader = () => {
             </li>
 
             <li className="nav-list__item">
-              {/* <span 
-              className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
-              onClick={e => setDropdownVisibility(!dropdownVisibility)}
-              >분야찾기</span> */}
             </li>
           </ul>
         </div>
@@ -147,7 +137,7 @@ const TheHeader = () => {
           <div className="search">
             <Search
               placeholder="제목을 입력하세요"
-              onSearch={onSearch} //antd 기능 : 엔터 혹은 버튼 클릭시 input value값 전달
+              onSearch={onSearch}
               style={{ width: 200 }}
             />
           </div>
@@ -158,7 +148,7 @@ const TheHeader = () => {
               <Badge
                 count={bookCart.length}
                 size="small">
-                <ShoppingCartOutlined style={{ fontSize: '24px' }} />
+                <ShoppingCartOutlined style={{ fontSize: '26px' }} />
               </Badge>
             </NavLink>
 
@@ -167,13 +157,9 @@ const TheHeader = () => {
               className="icons-list"
               onClick={handleModalOk}>
               {loginToken ? (
-                <img
-                  style={{
-                    width: '20px',
-                    height: '20px'
-                  }}
-                  src={userImgToken !== null ? userImgToken : '/user.png'}
-                  alt="프로필"
+                <div 
+                  className='tokenimg'
+                  style={{backgroundImage: `url(${userImgToken !== null ? userImgToken : '/user.png'})`}}
                 />
               ) : (
                 <UserOutlined />
@@ -182,10 +168,6 @@ const TheHeader = () => {
           </div>
         </div>
       </nav>
-
-      {/* <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu onTagClick = {onTagSearch}/>
-      </Dropdown> */}
 
       <Modal
         visible={successModalVisible}
