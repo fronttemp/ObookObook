@@ -22,7 +22,11 @@ const BestsellerPage = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
     fetchBestseller()
+    .then(() => {
+      setLoading(false)
+    })
   }, [])
 
   useEffect(() => {

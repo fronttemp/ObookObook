@@ -2,8 +2,9 @@ import { FormEvent, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { API_HEADER } from '../../api/usersApi'
-import './Signup.css'
 import Modal from 'antd/es/modal/Modal'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 
 const SignUpPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
@@ -70,7 +71,7 @@ const SignUpPage = (): JSX.Element => {
     setEmail(newEmail)
 
     if (!newEmail.includes('@') || !newEmail.includes('.')) {
-      setEmailError('이메일 형식을 확인해주세요.')
+      setEmailError(` 올바른 이메일 형식을 입력해 주세요.`)
     } else {
       setEmailError('')
     }
@@ -97,78 +98,87 @@ const SignUpPage = (): JSX.Element => {
   }
 
   return (
-    <div className="signPage">
-      <h1>회원가입 페이지</h1>
+    <section>
+      <div className="contentWrap">
+        <div className= 'page_title'>회원가입</div>
 
-      <form onSubmit={signUp}>
-        <div className="inputWrap">
-          <div className="input-id">이메일</div>
-          <input
-            value={email}
-            onChange={handleEmailCheck}
-            placeholder="[필수] 이메일"
-          />
-          {emailError && (
-            <div style={{ color: 'red' }}>{emailError}</div>
-          )}
+        <form onSubmit={signUp}>
+          <div className="signup-inputBox">
+            <div className="input-title">이메일</div>
+            <input
+              className='signup-input'
+              value={email}
+              onChange={handleEmailCheck}
+              placeholder="(필수) 이메일을 입력해주세요."
+            />
+            {emailError && (
+              <div className="valid_desc">
+                <InfoCircleOutlined className='valid__icon' />
+                {emailError}
+              </div>
+            )}
 
-          <div className="input-pw">비밀번호</div>
-          <input
-            value={password}
-            onChange={handlePasswordLength}
-            placeholder="[필수] 비밀번호"
-            type="password"
-          />
-          {passwordLength && (
-            <div style={{ color: 'red' }}>{passwordLength}</div>
-          )}
+            <div className="input-title">비밀번호</div>
+            <input
+              className='signup-input'
+              value={password}
+              onChange={handlePasswordLength}
+              placeholder="(필수) 비밀번호를 입력해 주세요."
+              type="password"
+            />
+            {passwordLength && (
+              <div className="valid_desc">
+                <InfoCircleOutlined className='valid__icon' />
+                {passwordLength}
+              </div>
+            )}
 
-          <div className="input-name">닉네임</div>
-          <input
-            value={displayName}
-            onChange={e => setDisplayName(e.target.value)}
-            placeholder="[필수] 닉네임"
-          />
-          <div className="input-img">프로필 이미지</div>
-          <input
-            type="file"
-            onChange={uploadImage}
-          />
-          <button
-            type="submit"
-            style={{
-              cursor: 'pointer'
-            }}>
-            회원가입
-          </button>
-        </div>
-      </form>
+            <div className="input-title">닉네임</div>
+            <input
+              className='signup-input'
+              value={displayName}
+              onChange={e => setDisplayName(e.target.value)}
+              placeholder="(필수) 닉네임을 입력해 주세요."
+            />
+            <div className="input-title">프로필 이미지</div>
+            <input
+              className='imginput'
+              type="file"
+              onChange={uploadImage}
+            />
+          </div>
+          <div className="sign-btn">
+            <Button type="primary" htmlType={'Submit'}>회원가입</Button>
+          </div>
 
-      {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
-        <Modal
-          visible={successModalVisible}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
-          <p
-            style={{
-              color: 'red'
-            }}>
-            필수 입력정보를 확인해주세요.
-          </p>
-        </Modal>
-      ) : (
-        <Modal
-          visible={successModalVisible}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
-          <p>이미 가입된 이메일입니다.</p>
-        </Modal>
-      )}
-    </div>
+        </form>
+
+        {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
+          <Modal
+            visible={successModalVisible}
+            closable={false}
+            onOk={handleModalOk}
+            okText="확인"
+            cancelButtonProps={{ style: { display: 'none' } }}>
+            <p
+              style={{
+                color: 'red'
+              }}>
+              필수 입력정보를 확인해주세요.
+            </p>
+          </Modal>
+        ) : (
+          <Modal
+            visible={successModalVisible}
+            closable={false}
+            onOk={handleModalOk}
+            okText="확인"
+            cancelButtonProps={{ style: { display: 'none' } }}>
+            <p>이미 가입된 이메일입니다.</p>
+          </Modal>
+        )}
+      </div>
+    </section>
   )
 }
 

@@ -19,8 +19,7 @@ const ItemListInfo = ({books}) => {
 
   useEffect(() => {
     if(location.pathname === '/Bestseller') {
-      setBestSellerIndex(true)
-    }
+      setBestSellerIndex(true)    }
   }, [])
 
   console.log(location.pathname)
@@ -31,9 +30,7 @@ const ItemListInfo = ({books}) => {
         {books.map((book, index) => (
             <div key={index} className = 'bookInfo'>
               <div className="bookInfo_box">
-                <span className = {bestSellerIndex ? 'bestindex' : 'bestindex disable'}>
-                  {index+1}
-                </span>
+                {bestSellerIndex ? (<span className = 'bestindex'> {index+1} </span>) : null}
                 <div
                   className="bookImg"
                   style={
@@ -50,7 +47,7 @@ const ItemListInfo = ({books}) => {
                   </div>
                   <div className="book_bottom">
                     <div className="bookreview"><StarFilled /> {book.customerReviewRank}</div>
-                    <div className = 'bookPrice'>{book.priceSales}원</div>
+                    <div className = 'bookPrice'>{book.priceSales.toLocaleString()}원</div>
                   </div>
                 </div>
               </div>

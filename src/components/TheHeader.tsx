@@ -136,7 +136,7 @@ const TheHeader = () => {
         <div className="nav-extra">
           <div className="search">
             <Search
-              placeholder="제목을 입력하세요"
+              placeholder="제목, 작가를 입력하세요"
               onSearch={onSearch}
               style={{ width: 200 }}
             />

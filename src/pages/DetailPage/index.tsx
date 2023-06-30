@@ -88,7 +88,7 @@ const DetailPage = () => {
                 </div>
                 <div className="subDetailBox">
                   <div className='subDetail__title'>가격</div>
-                  <div className="subDetail__text">{book.priceSales}원</div>
+                  <div className="subDetail__text">{book.priceSales.toLocaleString()}원</div>
                 </div>
                 <div className="subDetailBox">
                   <div className='subDetail__title'>내용</div>
