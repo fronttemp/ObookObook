@@ -3,7 +3,6 @@ import { Button, Card, Radio, Grid } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import { accountCheckAPI } from '../../api/accountApi'
-import './CheckoutPage.css'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import ConfirmModal from '../../components/ConfirmModal'
 import { ItemAddAPI, ItemBuyAPI } from '../../api/productApi'
@@ -21,7 +20,7 @@ const CheckoutPage = () => {
   const { loginToken } = useAccountTokenStore()
 
   const priceKr = price => {
-    return `${price.toLocaleString('ko-KR')}원`
+    return `${price.toLocaleString('ko-KR')} 원`
   }
 
   const handleTotalPrice = () => {
@@ -44,7 +43,6 @@ const CheckoutPage = () => {
   }
 
   const handleBankAccountSelect = accountId => {
-    // Handle selection of bank account
     setSelectedAccountId(accountId)
   }
   console.log('Selected bank account:', selectedAccountId)
@@ -98,9 +96,9 @@ const CheckoutPage = () => {
     }
   }
   return (
-    <div className="checkout-page">
+    <section className="checkout-page">
       <div className="left-section">
-        <h1>주문/결제</h1>
+        <div className="page_title">결제</div>
         <Card
           className="left-section__items"
           title={`주문상품 총 ${selectedItems.length} 개`}>
@@ -111,21 +109,15 @@ const CheckoutPage = () => {
                 className={`book-item ${
                   screen.xs ? 'book-item-xs' : 'book-item-sm'
                 }`}>
-                <img
-                  src={book.cover}
-                  alt={book.title}
-                  style={{ width: '100px' }}
-                />
-                <p
-                  style={{
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                    WebkitLineClamp: '2',
-                    overflow: 'hidden'
-                  }}>
-                  {book.title}
-                </p>
-                <p>{priceKr(book.priceStandard)}</p>
+                <div className="item-decs">
+                    <img
+                    src={book.cover}
+                    alt={book.title}
+                    style={{ height: '120px', width: '80px' }}
+                    />
+                  <div className='item-title'>{book.title.length > 7 ? book.title.slice(0,6)+'...' : book.title}</div>
+                  <div>{priceKr(book.priceStandard)}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -133,9 +125,6 @@ const CheckoutPage = () => {
         <Card
           className="left-section__payment"
           title="결제 수단">
-          <div className="payment-selection">
-            <p>오북페이</p>
-          </div>
           <div className="bank-account-list">
             {bankAccounts.length > 0 ? (
               <Radio.Group
@@ -156,16 +145,15 @@ const CheckoutPage = () => {
           </div>
         </Card>
       </div>
-      <div className="checkout-sidebar">
+      <div className="sidebar">
         <div className="sidebar-content">
           <div className="total-price-container">
-            <h2>최종 결제 금액</h2>
-            <h2>{priceKr(totalPrice)}</h2>
+            <div className='total-price-title'>최종 결제 금액</div>
+            <div className='total-price'>{priceKr(totalPrice)}</div>
           </div>
           <Button
             type="primary"
             size="large"
-            style={{ width: '80%' }}
             onClick={handlePayment}>
             결제하기
           </Button>
@@ -183,7 +171,7 @@ const CheckoutPage = () => {
           />
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

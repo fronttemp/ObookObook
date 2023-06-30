@@ -80,8 +80,6 @@ const MainPage = () => {
         style={{backgroundImage: 'url(/icon.png)'}}></div>
         <div className='event-text'>오북오북은 E-Book 판매 사이트입니다!</div>
       </div>
-      <h2>베스트셀러에세이</h2>
-      <br></br>
       <div>
         <div className="carousel-container">
           <Carousel

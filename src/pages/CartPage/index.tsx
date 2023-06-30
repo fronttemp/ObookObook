@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Table, Input, Button, Space, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
-import './CartPage.css'
 import ConfirmModal from '../../components/ConfirmModal'
 import { logCheckAPI } from '../../api/usersApi'
 
@@ -11,7 +10,6 @@ const CartPage = () => {
   const [selectedItems, setSelectedItems] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [isRemoveAllModalVisible, setIsRemoveAllModalVisible] = useState(false)
   const [isRemoveSelectedModalVisible, setIsRemoveSelectedModalVisible] =
     useState(false)
   const [isNoItemSelectedModalVisible, setIsNoItemSelectedModalVisible] =
@@ -23,13 +21,12 @@ const CartPage = () => {
     bookCart,
     removeBook,
     saveSelectedItems,
-    removeAllBooks,
     removeSelectedBooks
   } = useCartStore()
   const navigate = useNavigate()
 
   const priceKr = price => {
-    return <span>{`${price.toLocaleString('ko-KR')}원`}</span>
+    return <span>{`${price.toLocaleString('ko-KR')} 원`}</span>
   }
 
   const handleSelect = (itemId, checked) => {
@@ -63,20 +60,10 @@ const CartPage = () => {
     removeBook(book)
   }
 
-  const handleRemoveAll = () => {
-    setIsRemoveAllModalVisible(true)
-  }
-
   const handleRemoveSelected = () => {
     setIsRemoveSelectedModalVisible(true)
   }
 
-  const onRemoveAllConfirm = confirm => {
-    if (confirm) {
-      removeAllBooks()
-    }
-    setIsRemoveAllModalVisible(false)
-  }
 
   const onRemoveSelectedConfirm = confirm => {
     if (confirm) {
@@ -152,18 +139,18 @@ const CartPage = () => {
 
   const dataSource = bookCart.map((book, index) => ({
     key: index,
-    name: book.title,
+    name: (<div onClick={() => moveDetailPage(book.isbn)}>{book.title.length > 20 ? book.title.slice(0,19)+'...' : book.title}</div>),
     cover: (
       <img
         src={book.cover}
         alt={book.title}
         style={{ width: '50px' }}
         onClick={() => {
-          moveDetailPage(book.isbn13)
+          moveDetailPage(book.isbn)
         }}
       />
     ),
-    isbn13: book.isbn13,
+    isbn: book.isbn,
     price: priceKr(book.priceStandard),
     action: (
       <Button
@@ -200,64 +187,52 @@ const CartPage = () => {
     {
       title: '제목',
       dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => (
-        <a onClick={() => moveDetailPage(record.isbn13)}>{text}</a>
-      )
+      key: 'name'
     },
     {
-      title: <div style={{ textAlign: 'center' }}>가격</div>,
+      title: <div style={{ textAlign: 'center', width:'80px'}}>가격</div>,
       dataIndex: 'price',
       key: 'price',
-      width: '12%',
       align: 'right'
     },
     {
-      title: '',
+      title: <Button onClick={handleRemoveSelected}>선택삭제</Button>,
       dataIndex: 'action',
-      key: 'action'
+      key: 'action',
+      align: 'center'
     }
   ]
 
   return (
     <section className="cart-page">
       <div className="cart-content">
-        <div className="page_title">{`장바구니(${selectedItems.length})`}</div>
-        <Button onClick={handleRemoveAll}>전체삭제</Button>
-        <Button onClick={handleRemoveSelected}>선택삭제</Button>
+        <div className="page_title">{`장바구니 (${selectedItems.length})`}</div>
         <Table
           dataSource={dataSource}
           columns={columns}
           pagination={false}
         />
       </div>
-      <div className="cart-sidebar">
+      <div className="sidebar">
         <div className="sidebar-content">
           <div className="total-price-container">
-            <h2>결제 예정 금액</h2>
-            <h2>{priceKr(totalPrice)}</h2>
+            <div className='total-price-title'>결제 예정 금액</div>
+            <div className='total-price'>{priceKr(totalPrice)}</div>
           </div>
           <Button
             type="primary"
             size="large"
-            style={{ width: '80%' }}
             onClick={handleOrder}>
-            {`주문하기(${selectedItems.length})`}
+            {`주문하기 (${selectedItems.length})`}
           </Button>
           <ConfirmModal
-            content={`${selectedItems.length}개의 상품을 주문하시겠습니까`}
+            content={`${selectedItems.length} 개의 상품을 주문하시겠습니까?`}
             onConfirm={onConfirm}
             open={isModalVisible}
             setConfirmVisible={setIsModalVisible}
           />
           <ConfirmModal
-            content="정말 장바구니에 담긴 모든 상품을 삭제하시겠습니까?"
-            onConfirm={onRemoveAllConfirm}
-            open={isRemoveAllModalVisible}
-            setConfirmVisible={setIsRemoveAllModalVisible}
-          />
-          <ConfirmModal
-            content={`선택된 ${selectedItems.length}개의 상품을 삭제하시겠습니까?`}
+            content={`선택된 ${selectedItems.length} 개의 상품을 삭제하시겠습니까?`}
             onConfirm={onRemoveSelectedConfirm}
             open={isRemoveSelectedModalVisible}
             setConfirmVisible={setIsRemoveSelectedModalVisible}

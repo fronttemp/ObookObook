@@ -94,50 +94,42 @@ const SignInPage = (): JSX.Element => {
       <div className="contentWrap">
         <div className= 'page_title'>로그인</div>
         <form onSubmit={signIn}>
-          <div className="inputBox ">
-              <input
-                type="text"
-                className="input input-id"
-                placeholder="아이디를 입력해 주세요."
-                value={email}
-                onChange={checkEmail}
-              />
-              <input
-                className="input input-pw"
-                placeholder="비밀번호를 입력해 주세요."
-                defaultValue={password}
-                type="password"
-                onChange={checkPassword}
-              />
-            </div>
-          <div className="valid_desc">
-            {!emailValid && email.length > 0 && (
+          <div className="inputBox">
+            <input
+              type="text"
+              className="input-id"
+              placeholder="아이디를 입력해 주세요."
+              value={email}
+              onChange={checkEmail}
+            />
+            <input
+              className="input-pw"
+              placeholder="비밀번호를 입력해 주세요."
+              defaultValue={password}
+              type="password"
+              onChange={checkPassword}
+            />
+            <div className="valid_desc">
+              {!emailValid && email.length > 0 && (
+                  <div className='valid'>
+                    <InfoCircleOutlined className='valid__icon' />
+                    올바른 이메일 형식을 입력해 주세요.
+                  </div>
+                )}
+              {!passwordValid && password.length > 0 && (
                 <div className='valid'>
-                  <InfoCircleOutlined />
-                  올바른 이메일 형식을 입력해주세요{' '}
+                  <InfoCircleOutlined className='valid__icon' />
+                  비밀번호는 8자 이상입니다.
                 </div>
               )}
-            {!passwordValid && password.length > 0 && (
-              <div className='valid'>
-                <InfoCircleOutlined />
-                비밀번호는 8자 이상입니다.
-              </div>
-            )}
-          </div>
-          {/* 버튼 */}
-          <div className="btn">
-            <Button>로그인</Button>
-            <button
-              className="loginPage__btn"
-              type="submit"
-              disabled={notAllow}>
-              로그인
-            </button>
-            <div className="loginPage__btn">
-              <Link to="/SignupPage">회원가입</Link>
             </div>
           </div>
-
+          <div className="sign-btn">
+            <Button type="primary" htmlType={'Submit'}>로그인</Button>
+            <Link to="/SignupPage">
+              <Button>회원가입</Button>
+            </Link>
+          </div>
         </form>
       </div>
 
