@@ -1,8 +1,8 @@
-import React from 'react'
-
 const OrderHistoryPage = () => {
   return (
-    <div>OrderHistoryPage</div>
+    <div>
+      <h1>주문 내역 페이지</h1>
+    </div>
   )
 }
 

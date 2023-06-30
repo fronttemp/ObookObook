@@ -6,7 +6,6 @@ import { accountCheckAPI } from '../../api/accountApi'
 import './CheckoutPage.css'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import ConfirmModal from '../../components/ConfirmModal'
-
 const { useBreakpoint } = Grid
 
 const CheckoutPage = () => {
