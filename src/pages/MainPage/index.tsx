@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { Carousel, Card } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -20,8 +19,6 @@ const MainPage = () => {
   const [newReleases, setNewReleases] = useState<Book[]>([]);
   const [recommendations, setRecommendations] = useState<Book[]>([]);
   const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
-  const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
-  const [newbestsellers2, setnewbestsellers2] = useState<Book[]>([]);
   const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
   const [newbestsellers2, setnewbestsellers2] = useState<Book[]>([]);
 
@@ -43,8 +40,6 @@ const MainPage = () => {
 
   useEffect(() => {
     setNewRecommendations(recommendations.filter(a => a.adult !== true))
-  useEffect(() => {
-    setNewRecommendations(recommendations.filter(a => a.adult !== true))
   }, [recommendations])
 
   useEffect(() => {
@@ -54,7 +49,6 @@ const MainPage = () => {
   const fetchRecommendations = async () => {
     try {
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10&t=56387');
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10&t=56387');
       setRecommendations(response.data.item)
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
@@ -63,8 +57,6 @@ const MainPage = () => {
 
   const fetchNewReleases = async () => {
     try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=10');
-      setNewReleases(response.data.item.slice(0, 6));
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=10');
       setNewReleases(response.data.item.slice(0, 6));
     } catch (error) {
@@ -98,10 +90,6 @@ const MainPage = () => {
             dots={false}
             infinite
             swipeToSlide={false}
-            arrows
-            prevArrow={<LeftOutlined />}
-            nextArrow={<RightOutlined />}
-          >
             arrows
             prevArrow={<LeftOutlined />}
             nextArrow={<RightOutlined />}
