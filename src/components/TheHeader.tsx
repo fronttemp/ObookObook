@@ -153,7 +153,7 @@ const TheHeader = () => {
             </NavLink>
 
             <NavLink
-              to="/Account"
+              to="/Account/EditUserInfo"
               className="icons-list"
               onClick={handleModalOk}>
               {loginToken ? (

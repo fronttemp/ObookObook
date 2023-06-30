@@ -3,7 +3,7 @@
   height: 300px;
   display: block;
   margin: 0 auto;
-  border: 5px solid cyan;
+  border: 5px solid yellow;
   border-radius: 150px;
 }
 .imgInputWrap {
@@ -11,7 +11,14 @@
   width: 400px;
   margin: 30px auto 0;
   justify-content: center;
-  border: 5px solid chartreuse;
+  border: 5px solid cyan;
+}
+.userNameWrap {
+  display: flex;
+  width: 400px;
+  margin: 30px auto 0;
+  justify-content: center;
+  border: 5px solid tomato;
 }
 
 .current-userName {
@@ -21,4 +28,3 @@
   font-size: 30px;
   font-weight: 500;
 }
-
