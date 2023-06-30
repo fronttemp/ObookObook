@@ -20,6 +20,11 @@ const OrderHistoryPage = () => {
     fetchOrderHistory()
   }, [loginToken])  // loginToken 값이 변경될 때마다 이 useEffect는 다시 실행됩니다.
 
+  const formatDateTime = dateTimeString => {
+    const dateTime = new Date(dateTimeString)
+    return dateTime.toLocaleString()
+  }
+
   return (
     <>
       <h2>OrderHistoryPage</h2>
@@ -27,7 +32,7 @@ const OrderHistoryPage = () => {
         const parsedTitle = JSON.parse(order.product.title);
         return (
           <div key={order.detailId}>
-            <p>{index+1}</p>
+            <p>{formatDateTime(order.timePaid)}</p>
             <p>Price: {order.product.price}</p>
             <p>Description: {order.product.description}</p>
             {/* 추가적으로 더 많은 정보를 출력하고 싶다면 여기에 코드를 추가하세요 */}
@@ -35,7 +40,7 @@ const OrderHistoryPage = () => {
               <div key={index}>
                 <img src={book.cover} alt={book.title} />
                 <h3>{book.title}</h3>
-                <p>Price: {book.priceSales}</p>
+                <p>결제금액 : {book.priceSales}</p>
               </div>
             ))}
           </div>

@@ -57,6 +57,10 @@ const CheckoutPage = () => {
     setIsModalVisible(true)
   }
 
+  const handleBankAccounts = async () => {
+    navigate('/Account/EditBankInfo')
+  }
+
   const onConfirm = async confirm => {
     setIsModalVisible(false)
     if (confirm) {
@@ -64,21 +68,17 @@ const CheckoutPage = () => {
       console.log('Payment initiated')
 
       // 결제 정보를 하나의 string으로 변환하기
-      const title = JSON.stringify(selectedItems);
+      const title = JSON.stringify(selectedItems)
 
       console.log(selectedItems)
 
       try {
-        const description = "ebook"
-        const price = totalPrice 
+        const description = 'ebook'
+        const price = totalPrice
         // 제품 추가 (구매 신청 전 먼저 등록 필요)
-        const responseAddProduct = await ItemAddAPI(
-          title,
-          price,
-          description
-        )
-        
-        const productId =responseAddProduct.id
+        const responseAddProduct = await ItemAddAPI(title, price, description)
+
+        const productId = responseAddProduct.id
 
         //제품 구매 신청
         const response = await ItemBuyAPI(
@@ -134,7 +134,15 @@ const CheckoutPage = () => {
           className="left-section__payment"
           title="결제 수단">
           <div className="payment-selection">
-            <p>오북페이</p>
+            <>
+              <p>오북페이</p>
+              <Button
+                type="primary"
+                size="samll"
+                onClick={handleBankAccounts}>
+                계좌설정
+              </Button>
+            </>
           </div>
           <div className="bank-account-list">
             {bankAccounts.length > 0 ? (
