@@ -16,15 +16,6 @@ html {
   --color-primary-20: rgba(94, 144, 242, 0.2);
 }
 
-
-//antd 색 설정
-.ant-btn-primary{
-  background-color: var(--color-primary);
-}
-:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
-  background-color: var(--color-primary-hover);
-}
-
 //전역스타일
 body {
   font-family: "pretendard", sans-serif;
@@ -91,6 +82,39 @@ section {
   text-align: center;
 }
 
+
+//antd 설정
+.ant-btn-primary{
+  background-color: var(--color-primary);
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
+  background-color: var(--color-primary-hover);
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-card .ant-card-body {
+  padding: 0;
+}
+:where(.css-dev-only-do-not-override-1wazalj).ant-carousel .slick-list .slick-slide >div>div {
+  overflow: hidden;
+  border: none;
+  padding: 5px;
+}
+.ant-carousel .slick-prev,
+.ant-carousel .slick-prev:hover,
+.ant-carousel .slick-prev:focus {
+  font-size: 40px;
+  left: -45px;
+  z-index: 2;
+  color: var(--color-black-10);
+}
+.ant-carousel .slick-next,
+.ant-carousel .slick-next:hover,
+.ant-carousel .slick-next:focus {
+  font-size: 40px;
+  z-index: 2;
+  color: var(--color-black-10);
+}
+
+
 //스타일
 .app {
   color: var(--color-black);
@@ -115,10 +139,9 @@ header {
   .login-nav {
     display: flex;
     justify-content: end;
-    gap: 24px;
+    gap: 20px;
     padding-top: 20px;
-
-    a {
+    a, button, span {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -130,18 +153,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     .nav-menu {
       display: flex;
       flex-grow: 1;
       align-items: center;
-
       .logo {
         img {
           height: 24px;
         }
       }
-
       .nav-list {
         margin-left: 42px;
         padding: 0;
@@ -157,20 +177,13 @@ header {
           padding-bottom: 3px;
           border-bottom: var(--color-primary) solid 2px;
         }
-        .nav-list__active {
-
-          font-weight: 700;
-          color: var(--color-primary);
-          padding-bottom: 2px;
-          border-bottom: var(--color-primary) solid 2px;
-          cursor: pointer;
-        }
       }
     }
 
     .nav-extra {
       display: flex;
       gap: 24px;
+      align-items: center;
 
       .search {
         padding-right: 25;
@@ -179,12 +192,20 @@ header {
       .icons {
         font-size: 24px;
         display: flex;
-        gap: 24px;
+        gap: 20px;
         height: 36px;
 
         .icons-list {
           display: flex;
           align-items: center;
+          .tokenimg {
+            width: 26px;
+            height: 26px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            outline: var(--color-black-30) 1px solid;
+          }
         }
       }
     }
@@ -282,6 +303,7 @@ footer {
     border-bottom: var(--color-black-10) 1px solid;
   }
   .discriptionBox {
+    width: 100%;
     display: flex;
     padding: 40px 0;
     .discription__title {
@@ -291,7 +313,6 @@ footer {
       flex-shrink: 0;
     }
     .discription__text {
-      width: 100%;
       .author {
         padding-bottom: 24px;
         .author__box {
@@ -409,4 +430,122 @@ footer {
     }
   }
 
+}
+
+.disable {
+  display: none;
+}
+
+//메인페이지
+.event {
+  margin: 8px 0 20px 0;
+  display: flex;
+  height: 44px;
+  align-items: center;
+  border-radius: 8px;
+  background-color: var(--color-black-10);
+  padding: 6px 20px;
+  gap: 16px;
+  .event-img {
+    height: 28px;
+    width: 28px;
+    background-position: center;
+    background-size: cover;
+  }
+}
+.slideBox {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 35px;
+  .event__slide {
+    background-color: var(--color-primary);
+  }
+}
+.listBox{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 40px 0 60px 0;
+  .list {
+    width: 100%;
+    .itemsBox {
+      display: flex;
+      justify-content: space-between;
+      .items {
+      display: flex;
+      flex-direction: column;
+        .card {
+          outline: var(--color-black-20) 1px solid;
+          width: 152px;
+          height: 217px;
+          border-radius: 4px;
+          overflow: hidden;
+          cursor: pointer;
+          margin: 0;
+          background-size: cover;
+          background-position: center;
+        }
+        .item-desc {
+          display: flex;
+          flex-direction: column;
+          .item-title {
+            font-weight: 700;
+            padding-top: 15px;
+          }
+          .item-author {
+            color: var(--color-black-50);
+          }
+        }
+      }
+    }
+    
+    .headSection {
+      display: flex;
+      justify-content: space-between ;
+      .title__text {
+        font-size: 16px;
+      }
+      .linkbutton {
+        display: flex;
+        align-items: center;
+        a {
+          font-size: 12px;
+          color: var(--color-black-30);
+        }
+      }
+    }
+  }
+}
+.carousel-item-image-box {
+  border-radius: 8px;
+  overflow: hidden;
+  border: var(--color-black-10) 1px solid;
+  .carousel-item-image {
+    height: 452px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
+    .main-item-info {
+      transition: 1s;
+      background: linear-gradient( to top, rgba(255, 255, 255, 1)5%, rgba(0,0,0,0));
+      color: #000;
+      text-align: center;
+      width: 100%;
+      height: 60%;
+      position: absolute;
+      bottom: 0;
+      .main-item-info-desc {
+        padding: 0 24px;
+        box-sizing: border-box;
+        width: 100%;
+        position: absolute;
+        bottom: 30px;
+      }
+    }
+  }
+  // .carousel-item-image:hover{
+  //   .main-item-info {
+  //   }
+  // } 
 }

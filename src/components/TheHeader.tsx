@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
-import { Input, Badge } from 'antd'
+import { Input, Badge, Modal } from 'antd'
 import { useNavigate, NavLink, useLocation } from 'react-router-dom'
 import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
 import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
-import Dropdown from './Dropdown'
-import TagSearchMenu from './TagSearchMenu'
 
 const TheHeader = () => {
   const navigate = useNavigate()
   const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
-
-  //드롭다운 메뉴 스테이트 관리
-  const [dropdownVisibility, setDropdownVisibility] = useState(false)
-
-  //antd input 설정값 !!수정불가능!!
   const { Search } = Input
 
-  //input값으로 navigate
   const onSearch = (value: string) => {
     if (value.trim() !== '') {
       navigate(`/search?q=${value.trim()}`)
@@ -42,8 +34,8 @@ const TheHeader = () => {
     setIsLoggedOut: state.setIsLoggedOut,
     removeNickNameToken: state.removeNickNameToken,
     removeUserImgToken: state.removeUserImgToken,
-    nickNameToken: state.nickNameToken, 
-    userImgToken: state.userImgToken 
+    nickNameToken: state.nickNameToken,
+    userImgToken: state.userImgToken
   }))
 
   // signOutAPI
@@ -64,7 +56,7 @@ const TheHeader = () => {
     navigate('/')
   }
 
-  // 로그인 상태시 해당 페이지 접근 금지
+  // 로그인 상태에 따른 페이지 접근기능
   const location = useLocation()
 
   useEffect(() => {
@@ -75,21 +67,27 @@ const TheHeader = () => {
     ) {
       navigate('/')
     }
+    if (!loginToken && location.pathname === '/Account') {
+      navigate('/SigninPage')
+    }
   }, [loginToken, navigate, location.pathname])
+
+  // 비회원 Account페이지 진입시 모달 처리
+  const [successModalVisible, setSuccessModalVisible] = useState(false)
+
+  const handleModalOk = () => {
+    loginToken ? setSuccessModalVisible(false) : setSuccessModalVisible(true)
+  }
+
+  const handleModalClose = () => {
+    setSuccessModalVisible(false)
+  }
 
   return (
     <header>
       {loginToken ? (
         <div className="login-nav">
-          <span>{nickNameToken}님 환영합니다.</span>
-          <img
-            style={{
-              width: '20px',
-              height: '20px'
-            }}
-            src={userImgToken}
-            alt="프로필"
-          />
+          <span>{nickNameToken}님, 환영합니다!</span>
           <button
             style={{
               cursor: 'pointer'
@@ -132,10 +130,6 @@ const TheHeader = () => {
             </li>
 
             <li className="nav-list__item">
-              {/* <span 
-              className={dropdownVisibility ? 'nav-list__active' : 'nav-list__link'}
-              onClick={e => setDropdownVisibility(!dropdownVisibility)}
-              >분야찾기</span> */}
             </li>
           </ul>
         </div>
@@ -143,7 +137,7 @@ const TheHeader = () => {
           <div className="search">
             <Search
               placeholder="제목을 입력하세요"
-              onSearch={onSearch} //antd 기능 : 엔터 혹은 버튼 클릭시 input value값 전달
+              onSearch={onSearch}
               style={{ width: 200 }}
             />
           </div>
@@ -154,22 +148,39 @@ const TheHeader = () => {
               <Badge
                 count={bookCart.length}
                 size="small">
-                <ShoppingCartOutlined style={{ fontSize: '24px' }} />
+                <ShoppingCartOutlined style={{ fontSize: '26px' }} />
               </Badge>
             </NavLink>
 
             <NavLink
               to="/Account"
-              className="icons-list">
-              <UserOutlined />
+              className="icons-list"
+              onClick={handleModalOk}>
+              {loginToken ? (
+                <div 
+                  className='tokenimg'
+                  style={{backgroundImage: `url(${userImgToken !== null ? userImgToken : '/user.png'})`}}
+                />
+              ) : (
+                <UserOutlined />
+              )}
             </NavLink>
           </div>
         </div>
       </nav>
 
-      {/* <Dropdown visibility={dropdownVisibility}>
-        <TagSearchMenu onTagClick = {onTagSearch}/>
-      </Dropdown> */}
+      <Modal
+        visible={successModalVisible}
+        closable={false}
+        onOk={handleModalClose}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>
+          로그인이 필요한 서비스입니다.
+          <br />
+          로그인 페이지로 이동합니다.
+        </p>
+      </Modal>
     </header>
   )
 }

@@ -3,8 +3,8 @@ import axios from 'axios'
 
 export const useSearchApi = create((set) => ({
   books: [],
-  fetch: async (searchTerm, tag, sort) => {
-    const response = await axios(`/api/aladinItemSearch?s=ItemSearch&q=${searchTerm}&t=${tag}&sort=${sort}`)     
+  fetch: async (searchTerm: string, tag:string, sort:string) => {
+    const response = await axios(`/api/aladinItemSearch?s=ItemSearch&mr=50&q=${searchTerm}&t=${tag}&sort=${sort}`)     
     set( { books: response.data.item}) 
   }
 }))  
@@ -13,14 +13,14 @@ export const useSearchApi = create((set) => ({
 export const useListApi = create((set) => ({
   books: [],
   fetch: async () => {
-    const response = await axios(`/api/aladinItemSearch?s=ItemList&qt=ItemNewAll`)
+    const response = await axios(`/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=50`)
     set( {books: response.data.item})
   }
 }))
 
 export const useLookupApi = create((set) => ({
   bookDetail: [],
-  fetch: async(id) => {
+  fetch: async(id:string) => {
     const response = await axios(`/api/aladinItemSearch?s=ItemLookup&id=${id}&opt=Story,authors,fulldescription,Toc`)
     const bookData = response.data.item[0]
     set( { bookDetail: bookData })

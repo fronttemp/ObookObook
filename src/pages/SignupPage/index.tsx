@@ -60,9 +60,23 @@ const SignUpPage = (): JSX.Element => {
     }
   }
 
-  // 비밀번호 길이 제한 메세지
+  // 이메일, 비밀번호 형식 체크
   const [passwordLength, setPasswordLength] = useState<string>('')
+  const [emailError, setEmailError] = useState<string>('')
 
+  //이메일 체크
+  function handleEmailCheck(e: ChangeEvent<HTMLInputElement>): void {
+    const newEmail = e.target.value
+    setEmail(newEmail)
+
+    if (!newEmail.includes('@') || !newEmail.includes('.')) {
+      setEmailError('이메일 형식을 확인해주세요.')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  // 비밀번호 체크
   function handlePasswordLength(e: ChangeEvent<HTMLInputElement>): void {
     const newPassword = e.target.value
     setPassword(newPassword)
@@ -74,7 +88,7 @@ const SignUpPage = (): JSX.Element => {
     }
   }
 
-  // 모달 관리
+  // 모달 관리 이메일
   const [successModalVisible, setSuccessModalVisible] = useState(false)
 
   // 모달 확인 버튼 클릭 시
@@ -91,24 +105,29 @@ const SignUpPage = (): JSX.Element => {
           <div className="input-id">이메일</div>
           <input
             value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="이메일"
+            onChange={handleEmailCheck}
+            placeholder="[필수] 이메일"
           />
+          {emailError && (
+            <div style={{ color: 'red' }}>{emailError}</div>
+          )}
+
           <div className="input-pw">비밀번호</div>
           <input
             value={password}
             onChange={handlePasswordLength}
-            placeholder="비밀번호"
+            placeholder="[필수] 비밀번호"
             type="password"
           />
           {passwordLength && (
             <div style={{ color: 'red' }}>{passwordLength}</div>
           )}
+
           <div className="input-name">닉네임</div>
           <input
             value={displayName}
             onChange={e => setDisplayName(e.target.value)}
-            placeholder="닉네임"
+            placeholder="[필수] 닉네임"
           />
           <div className="input-img">프로필 이미지</div>
           <input
@@ -125,14 +144,30 @@ const SignUpPage = (): JSX.Element => {
         </div>
       </form>
 
-      <Modal
-        visible={successModalVisible}
-        closable={false}
-        onOk={handleModalOk}
-        okText="확인"
-        cancelButtonProps={{ style: { display: 'none' } }}>
-        <p>이미 가입된 이메일입니다.</p>
-      </Modal>
+      {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
+        <Modal
+          visible={successModalVisible}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p
+            style={{
+              color: 'red'
+            }}>
+            필수 입력정보를 확인해주세요.
+          </p>
+        </Modal>
+      ) : (
+        <Modal
+          visible={successModalVisible}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p>이미 가입된 이메일입니다.</p>
+        </Modal>
+      )}
     </div>
   )
 }

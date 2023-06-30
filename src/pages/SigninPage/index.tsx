@@ -38,7 +38,7 @@ const SignInPage = (): JSX.Element => {
   const checkPassword = (e: ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value)
     const regex =
-      /^(?=.*[a-zA-Z])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+])[a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+]{8,}$/
+      /^(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+])[a-zA-Z0-9$`~!@$!%*#^?&\\()\-=+]{8,}$/
     if (regex.test(e.target.value)) {
       setPasswordValid(true)
     } else setPasswordValid(false)
@@ -53,7 +53,6 @@ const SignInPage = (): JSX.Element => {
         method: 'POST',
         headers: {
           ...API_HEADER,
-          Authorization: `Bearer ${localStorage.getItem('accountToken')}`
         },
         body: JSON.stringify({
           email,

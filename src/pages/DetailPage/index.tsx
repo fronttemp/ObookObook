@@ -8,7 +8,7 @@ import { Spin } from 'antd';
 import AddBookPurchase from '../../components/AddBookPurchase';
 
 const DetailPage = () => {
-  const [book, setBook] = useState(null)
+  const [book, setBook] = useState([])
   const [loading, setLoading] = useState(true)
   const location = useLocation();
   const isbnNum = location.state?.value;

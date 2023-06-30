@@ -1,167 +1,165 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Carousel, Button, Card } from 'antd';
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons';
-import './MainPage.css';
+import { Link } from 'react-router-dom';
+import { Carousel, Card } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
+interface Book {
+  title: string
+  author: string
+  cover: string
+  adult: boolean
+  isb3: string
+  // 다른 도서 속성들도 추가할 수 있습니다.
+}
+
+
 const MainPage = () => {
-  const [quote, setQuote] = useState('');
-  const [newReleases, setNewReleases] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
-  const [newRecommendations, setNewRecommendations] = useState([]);
+  const [newReleases, setNewReleases] = useState<Book[]>([]);
+  const [recommendations, setRecommendations] = useState<Book[]>([]);
+  const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
+  const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
+  const [newbestsellers2, setnewbestsellers2] = useState<Book[]>([]);
+
+
 
   const navigate = useNavigate()
-  const carouselRef = useRef();
-  const newReleasesCarouselRef = useRef();
 
 
   const moveDetailPage = (value: string) => {
-    navigate('/Detail', { state : {value}})
+    navigate('/Detail', { state: { value } })
   }
 
-
-
   useEffect(() => {
-    fetchRandomQuote();
     fetchNewReleases();
     fetchRecommendations();
+    fetchBestsellers2();
   }, []);
 
-  useEffect(()=> {
-    setNewRecommendations(recommendations.filter(a => a.adult !== true ).slice(0, 12))
-
+  useEffect(() => {
+    setNewRecommendations(recommendations.filter(a => a.adult !== true))
   }, [recommendations])
 
-  console.log(newRecommendations)
-
-  const fetchRandomQuote = async () => {
-    try {
-      const response = await axios.get('https://api.adviceslip.com/advice');
-      setQuote(response.data.slip.advice);
-    } catch (error) {
-      console.error('Failed to fetch random quote', error);
-    }
-  };
-
-  const fetchNewReleases = async () => {
-    try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll');
-      setNewReleases(response.data.item.slice(0, 12));
-    } catch (error) {
-      console.error('Failed to fetch new releases', error);
-    }
-  };
+  useEffect(() => {
+    setnewbestsellers2(bestsellers2.filter(a => a.adult !== true).slice(0,6))
+  }, [bestsellers2])
 
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller');
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10&t=56387');
       setRecommendations(response.data.item)
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
     }
   };
 
-
-  const handlePrev = () => {
-    carouselRef.current.prev();
-  }
-
-  const handleNext = () => {
-    carouselRef.current.next();
-  }
-
-  const handleNewReleasesPrev = () => {
-    newReleasesCarouselRef.current.prev();
-  }
-
-  const handleNewReleasesNext = () => {
-    newReleasesCarouselRef.current.next();
-  }
-  
+  const fetchNewReleases = async () => {
+    try {
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=10');
+      setNewReleases(response.data.item.slice(0, 6));
+    } catch (error) {
+      console.error('Failed to fetch new releases', error);
+    }
+  };
+  const fetchBestsellers2 = async () => {
+    try {
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=20');
+      setBestsellers2(response.data.item);
+    } catch (error) {
+      console.error('Failed to fetch bestsellers2', error);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <h1>오늘의 명언</h1>
-        <p>{quote}</p>
+    <section>
+      <div className='event'>
+        <div
+        className="event-img"
+        style={{backgroundImage: 'url(/icon.png)'}}></div>
+        <div className='event-text'>오북오북은 E-Book 판매 사이트입니다!</div>
       </div>
       <div>
-        <h2>추천 도서</h2>
         <div className="carousel-container">
           <Carousel
-            slidesToShow={4}
-            autoplay={false}
-            ref={carouselRef}
-            dots={ false }
-            draggable
-            infinite
-            swipeToSlide={false} >
-            {newRecommendations.map((book, index) => (
-              <div
-              className="carousel-item"
-              key={index}
-              onClick = {()=>moveDetailPage(book.isbn13)}>
-                <Card
-                  className="book-card"
-                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
-                >
-                  <Card.Meta title={book.title} description={book.author} />
-                </Card>
-              </div>
-            ))}
-          </Carousel>
-          <div className="carousel-controls">
-            <Button
-              onClick={handlePrev}
-              icon={<CaretLeftOutlined />}
-            />
-            <Button
-              onClick={handleNext}
-              icon={<CaretRightOutlined />}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h2>신간 책</h2>
-        <div className="carousel-container">
-          <Carousel
-            slidesToShow={4}
-            autoplay={false}
+            slidesToShow={3}
+            autoplay
             dots={false}
-            draggable
             infinite
             swipeToSlide={false}
-            ref={newReleasesCarouselRef}>
-            {newReleases.map((book, index) => (
-              <div
-              className="carousel-item"
-              key={index}
-              onClick = {()=>moveDetailPage(book.isbn13)}>
-                <Card
-                  className="book-card"
-                  cover={<img src={book.cover.replace(/coversum/g, 'cover500')} alt={book.title} />}
-                >
-                  <Card.Meta title={book.title} description={book.author} />
-                </Card>
-              </div>
+            arrows
+            prevArrow={<LeftOutlined />}
+            nextArrow={<RightOutlined />}
+          >
+            {newRecommendations.map((book, index) => (
+              <Card
+                className="carousel-item"
+                key={index}
+                onClick={() => moveDetailPage(book.isbn)}
+              >
+                <div className="carousel-item-image-box">
+                  <div
+                    className="carousel-item-image"
+                    style={{backgroundImage:`url(${book.cover.replace(/coversum/g, 'cover500')})`}}>
+                    <div className="main-item-info">
+                      <div className="main-item-info-desc">
+                        <h3>{book.title.split('-')[0]}</h3>
+                        <p>{book.author.split('(')[0].length > 8 ? `${book.author.split('(')[0].slice(0,8)}...` : book.author.split('(')[0]}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </Card>
             ))}
           </Carousel>
-          <div className="carousel-controls">
-            <Button
-              onClick={handleNewReleasesPrev}
-              icon={<CaretLeftOutlined />}
-            />
-            <Button
-              onClick={handleNewReleasesNext}
-              icon={<CaretRightOutlined />}
-            />
+        </div>
+      </div>
+      <div className='listBox'>
+        <div className="list">
+          <div className="headSection">
+            <div className='title__text'>새로나온 책</div>
+              <div className="linkbutton">
+                <Link to="./NewBook">더보기</Link>
+              </div>
+          </div>
+          <div className="itemsBox">
+            {newReleases.map((book, index) => (
+              <div className="items" key={index} onClick={()=>moveDetailPage(book.isbn)}>
+                <div 
+                  className="card"
+                  style={{backgroundImage:`url(${book.cover.replace(/coversum/g, 'cover200')})`}}>
+                </div>
+                <div className="item-desc">
+                  <p className='item-title'>{book.title.length > 8 ? `${book.title.slice(0, 10)}…` : book.title}</p>
+                  <p className="item-author">{book.author.split('(')[0].length > 8 ? `${book.author.split('(')[0].slice(0,8)}...` : book.author.split('(')[0]}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="list">
+          <div className="headSection">
+            <div className='title__text'>베스트셀러</div>
+            <div className="linkbutton">
+              <Link to="./Bestsellers">더보기</Link>
+            </div>
+          </div>
+          <div className="itemsBox">
+            {newbestsellers2.map((book, index) => (
+            <div className="items" key={index} onClick={()=>moveDetailPage(book.isbn)}>
+              <div className="card"
+              style={{backgroundImage:`url(${book.cover.replace(/coversum/g, 'cover200')})`}}></div>
+              <div className="item-desc">
+                <p className="item-title">{book.title.length > 8 ? `${book.title.slice(0, 8)}…` : book.title}</p>
+                <p className="item-author">{book.author.split('(')[0].length > 8 ? `${book.author.split('(')[0].slice(0,8)}...` : book.author.split('(')[0]}</p>
+              </div>
+            </div>
+            ))}
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

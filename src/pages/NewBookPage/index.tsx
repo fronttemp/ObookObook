@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const NewBookPage = () => {
   const [loading, setLoading] = useState(true)
-  const { fetch, books } = useListApi()
+  const { fetch, books } = useListApi() as {fetch: () => Promise<void>, books: (string | number)[]}
   const [currentPage, setCurrentPage] = useState(1)
   const [trackPerPage, setTrackPerPage] = useState(10)
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
@@ -24,10 +24,11 @@ const NewBookPage = () => {
   const indexOfFirstTrack = indexOfLastTrack - trackPerPage;
   const currentBooks = books.slice(indexOfFirstTrack, indexOfLastTrack);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
-
-  console.log(currentBooks)
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }
 
 
   return (
@@ -37,10 +38,18 @@ const NewBookPage = () => {
       {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div>
       :
       <div>
+        <div className="pagination">
+          <Pagination
+          current={currentPage}
+          onChange ={paginate}
+          pageSize = {10}
+          total={books.length}
+        />
+        </div>
         <ItemListInfo books = {currentBooks}/>
         <div className="pagination">
           <Pagination
-          defaultCurrent={currentPage}
+          current={currentPage}
           onChange ={paginate}
           pageSize = {10}
           total={books.length}
