@@ -1,4 +1,4 @@
-import { isValidElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usersCheckAPI } from '../../api/usersApi'
 import {ItemAllSellCheckAPI, ItemSellCheckAPI} from '../../api/productApi'
 import {Button} from 'antd'
@@ -64,7 +64,7 @@ const AdminPage = () => {
     }
   }
 
-  const truncate = (str, n) => {
+  const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n) + "..." : str;
   }
 
