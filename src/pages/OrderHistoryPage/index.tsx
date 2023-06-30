@@ -3,7 +3,7 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi' 
 
 const OrderHistoryPage = () => {
-  const [orderHistory, setOrderHistory] = useState(null)
+  const [orderHistory, setOrderHistory] = useState([])
   const { loginToken } = useAccountTokenStore()
 
   useEffect(() => {
