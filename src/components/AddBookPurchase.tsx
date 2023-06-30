@@ -36,7 +36,9 @@ const AddBookPurchase = props => {
 
   return (
     <>
-      <Button onClick={() => handleOneClickOrder(props.book)}>즉시 구매</Button>
+      <Button 
+      type="primary"
+      onClick={() => handleOneClickOrder(props.book)}>즉시 구매</Button>
       <ConfirmModal
         content="로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
         onConfirm={() => navigate('/signInPage')}
