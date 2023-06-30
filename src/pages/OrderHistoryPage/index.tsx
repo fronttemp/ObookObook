@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 import React, { useState, useEffect } from 'react'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi' 
 
->>>>>>> c2c696ddb5ff673bb73a8a2618d933ca3cbf345b
 const OrderHistoryPage = () => {
   const [orderHistory, setOrderHistory] = useState(null)
   const { loginToken } = useAccountTokenStore()
@@ -24,11 +21,6 @@ const OrderHistoryPage = () => {
   }, [loginToken])  // loginToken 값이 변경될 때마다 이 useEffect는 다시 실행됩니다.
 
   return (
-<<<<<<< HEAD
-    <div>
-      <h1>주문 내역 페이지</h1>
-    </div>
-=======
     <>
       <h2>OrderHistoryPage</h2>
       {orderHistory && orderHistory.map((order, index) => {
@@ -50,7 +42,6 @@ const OrderHistoryPage = () => {
         );
       })}
     </>
->>>>>>> c2c696ddb5ff673bb73a8a2618d933ca3cbf345b
   )
 }
 

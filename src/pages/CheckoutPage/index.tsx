@@ -6,11 +6,14 @@ import { accountCheckAPI } from '../../api/accountApi'
 import './CheckoutPage.css'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import ConfirmModal from '../../components/ConfirmModal'
+import { ItemAddAPI, ItemBuyAPI } from '../../api/productApi'
+
 const { useBreakpoint } = Grid
 
 const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [bankAccounts, setBankAccounts] = useState([])
+  const [selectedAccountId, setSelectedAccountId] = useState('')
   const { selectedItems } = useCartStore()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const navigate = useNavigate()
@@ -42,9 +45,9 @@ const CheckoutPage = () => {
 
   const handleBankAccountSelect = accountId => {
     // Handle selection of bank account
-    console.log('Selected bank account:', accountId)
+    setSelectedAccountId(accountId)
   }
-
+  console.log('Selected bank account:', selectedAccountId)
   useEffect(() => {
     handleTotalPrice()
     fetchBankAccounts()
@@ -54,14 +57,46 @@ const CheckoutPage = () => {
     setIsModalVisible(true)
   }
 
-  const onConfirm = confirm => {
+  const onConfirm = async confirm => {
     setIsModalVisible(false)
     if (confirm) {
       // 실제 결제 로직을 여기에 추가해주세요.
       console.log('Payment initiated')
+
+      // 결제 정보를 하나의 string으로 변환하기
+      const title = JSON.stringify(selectedItems);
+
+      console.log(selectedItems)
+
+      try {
+        const description = "ebook"
+        const price = totalPrice 
+        // 제품 추가 (구매 신청 전 먼저 등록 필요)
+        const responseAddProduct = await ItemAddAPI(
+          title,
+          price,
+          description
+        )
+        
+        const productId =responseAddProduct.id
+
+        //제품 구매 신청
+        const response = await ItemBuyAPI(
+          loginToken,
+          productId,
+          selectedAccountId
+        )
+        if (response === true) {
+          console.log('Payment successful')
+          navigate('/Account/OrderHistory') // 결제가 성공하면 내 계정-주문내역 페이지로 이동
+        } else {
+          console.log('Payment failed:', response)
+        }
+      } catch (error) {
+        console.error('Payment failed:', error)
+      }
     }
   }
-
   return (
     <div className="checkout-page">
       <div className="left-section">
@@ -110,7 +145,7 @@ const CheckoutPage = () => {
                     key={account.id}
                     value={account.id}>
                     <div>
-                      <p>{`${account.bankName} - ${account.accountNumber}`}</p>
+                      <p>{`${account.bankName} ${account.accountNumber}`}</p>
                     </div>
                   </Radio>
                 ))}
