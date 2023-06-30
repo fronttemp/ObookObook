@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Carousel, Card } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +22,8 @@ const MainPage = () => {
   const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
   const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
   const [newbestsellers2, setnewbestsellers2] = useState<Book[]>([]);
+  const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
+  const [newbestsellers2, setnewbestsellers2] = useState<Book[]>([]);
 
 
 
@@ -35,8 +38,11 @@ const MainPage = () => {
     fetchNewReleases();
     fetchRecommendations();
     fetchBestsellers2();
+    fetchBestsellers2();
   }, []);
 
+  useEffect(() => {
+    setNewRecommendations(recommendations.filter(a => a.adult !== true))
   useEffect(() => {
     setNewRecommendations(recommendations.filter(a => a.adult !== true))
   }, [recommendations])
@@ -48,6 +54,7 @@ const MainPage = () => {
   const fetchRecommendations = async () => {
     try {
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10&t=56387');
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=Bestseller&mr=10&t=56387');
       setRecommendations(response.data.item)
     } catch (error) {
       console.error('Failed to fetch recommendations', error);
@@ -56,6 +63,8 @@ const MainPage = () => {
 
   const fetchNewReleases = async () => {
     try {
+      const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=10');
+      setNewReleases(response.data.item.slice(0, 6));
       const response = await axios.get('/api/aladinItemSearch?s=ItemList&qt=ItemNewAll&mr=10');
       setNewReleases(response.data.item.slice(0, 6));
     } catch (error) {
@@ -79,6 +88,8 @@ const MainPage = () => {
         style={{backgroundImage: 'url(/icon.png)'}}></div>
         <div className='event-text'>오북오북은 E-Book 판매 사이트입니다!</div>
       </div>
+      <h2>베스트셀러에세이</h2>
+      <br></br>
       <div>
         <div className="carousel-container">
           <Carousel
@@ -87,6 +98,10 @@ const MainPage = () => {
             dots={false}
             infinite
             swipeToSlide={false}
+            arrows
+            prevArrow={<LeftOutlined />}
+            nextArrow={<RightOutlined />}
+          >
             arrows
             prevArrow={<LeftOutlined />}
             nextArrow={<RightOutlined />}
