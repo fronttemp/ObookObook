@@ -27,6 +27,7 @@ import useAccountTokenStore from './store/useAccountTokenStore'
 import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
 
+
 const Layout = () => {
   return (
     <div>
@@ -39,8 +40,11 @@ const Layout = () => {
 }
 
 function App() {
+
+
   // 로그인 인증
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { loginToken, nickNameToken } = useAccountTokenStore(state => ({
     loginToken: state.loginToken,
@@ -87,10 +91,13 @@ function App() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     loginState()
   }, [loginToken, location])
 
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (nickNameToken === 'admin' && location.pathname === '/Account/EditUserInfo') {

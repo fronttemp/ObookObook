@@ -180,6 +180,7 @@ const OrderHistoryPage: React.FC = () => {
     setConfirmModal(false)
   }
 
+
   return (
     <>
       <h1>주문내역 페이지</h1>
@@ -254,7 +255,7 @@ const OrderHistoryPage: React.FC = () => {
 
       {/* cancel */}
       <Modal
-        visible={cancelModal}
+        open={cancelModal}
         closable={false}
         onOk={handleModalOk}
         okText="확인"
@@ -264,7 +265,7 @@ const OrderHistoryPage: React.FC = () => {
 
       {/* confirm */}
       <Modal
-        visible={confirmModal}
+        open={confirmModal}
         closable={false}
         onOk={handleModalOk}
         okText="확인"

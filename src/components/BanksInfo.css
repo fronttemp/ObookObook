@@ -5,6 +5,10 @@
   margin-bottom: 20px;
 }
 
+.account-list {
+  margin-top: 20px;
+}
+
 .account-item {
   display: flex;
   align-items: center;
@@ -15,30 +19,29 @@
   margin-right: 10px;
 }
 
-.bank-select {
-  margin-bottom: 10px;
+.bank-account-page {
+  display : flex;
+  
+}
+.account-list-card {
+  
+  width : 500px;
 }
 
-.account-input {
+.account-connect-card {
+  width : 280px; 
+  margin-left : 10px;
+}
+
+.account-connect {
+  margin : 15px;
+}
+
+.buttons-container {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  justify-content:center;
 }
-
-.account-input-label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.account-input-field {
-  width: 200px;
-  margin-right: 10px;
-}
-
-.signature-checkbox {
-  margin-right: 10px;
-}
-
 .connect-button {
-  margin-top: 10px;
+  margin-right : 10px;
 }
+

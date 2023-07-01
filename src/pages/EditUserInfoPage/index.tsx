@@ -146,8 +146,6 @@ const EditUserInfoPage: React.FC = () => {
 
   return (
     <div className="modifyUserInfo">
-      <h2>회원 정보 수정</h2>
-
       <section className="myProfile">
         {/* 프로필 사진 변경 */}
         <form onSubmit={modifyUserImg}>
@@ -158,16 +156,16 @@ const EditUserInfoPage: React.FC = () => {
           />
           <div className="current-userName">{nickNameToken}</div>
           <div className="imgInputWrap">
-            <input
+            <Input
               className="userImg-input"
               type="file"
               onChange={uploadImage}
             />
-            <button
+            <Button
               className="userImg-btn"
               type="submit">
               프로필 사진 변경
-            </button>
+            </Button>
           </div>
         </form>
         {/* 닉네임 변경 */}
@@ -232,7 +230,7 @@ const EditUserInfoPage: React.FC = () => {
 
           <Modal
             title="비밀번호 변경 성공"
-            visible={successModalVisible}
+            open={successModalVisible}
             closable={false}
             onOk={handleModalOk}
             okText="확인"
