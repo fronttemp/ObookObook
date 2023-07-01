@@ -7,7 +7,7 @@ import useAccountTokenStore from '../store/useAccountTokenStore'
 import { API_HEADER } from '../api/usersApi'
 import { useListApi } from '../store/useItemApi'
 
-const TheHeader = () => {
+const TheHeader = (): JSX.Element => {
   const navigate = useNavigate()
   const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
@@ -67,7 +67,7 @@ const TheHeader = () => {
     ) {
       navigate('/')
     }
-    if (!loginToken && location.pathname === '/Account') {
+    if (!loginToken && location.pathname === '/Account/EditUserInfo') {
       navigate('/SigninPage')
     }
   }, [loginToken, navigate, location.pathname])
@@ -185,4 +185,4 @@ const TheHeader = () => {
   )
 }
 
-export default TheHeader
+export default TheHeader;
