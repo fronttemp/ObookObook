@@ -43,7 +43,7 @@ export async function ItemSellCheckAPI(detailId: string, isCanceled: boolean, do
 }
 
 ///// 제품 추가 /////
-export async function ItemAddAPI(title: string, price: number, description: string, tags?: string[], thumbnailBase64?: string, photoBase64?: string) {
+export async function ItemAddAPI(title: string, price: number, description: string) {
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products', {
     method : 'POST',
     headers: {
