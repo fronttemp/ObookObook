@@ -1,0 +1,120 @@
+/* @font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+.modifyUserInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.modifyUserInfo h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
+  font-weight: 300;
+  /* font-family: 'SUITE-Regular'; */
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.myProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.userImg {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.current-userName {
+  font-size: 25px;
+  margin-top: 5px;
+  font-weight: 300;
+  /* font-family: 'SUITE-Regular'; */
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.imgInputWrap {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.userImg-input {
+  border: 1px solid #d9d9d9;
+  display: inline-block;
+  padding: 0 10px 0 0;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  border-radius: 2px;
+  width: 60%;
+  color: #999999;
+  overflow: hidden;
+}
+
+.userImg-btn {
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: none;
+  background-color: #5e90f2;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.userNameWrap input {
+  width: 200px;
+  padding: 6px 12px;
+  margin-right: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+.userNameWrap button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #5e90f2;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.myProfile-img-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  width: 400px;
+}
+
+.input .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.success-modal {
+  text-align: center;
+}
+
+.antd-btn {
+  border-radius: 2px;
+}

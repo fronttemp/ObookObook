@@ -1,7 +1,29 @@
-.sellListItem {
-  display: flex;
-  img {
-    width: 50px;
-    height: 100px;
+#user-list{
+  text-align: center;
+  .ant-table-content{
+    justify-content: center;
+    align-items: center;
+  }
+  .ant-table-cell{
+    text-align: center;
+  }
+}
+
+#sell-list{
+  text-align: center;
+  .ant-table-cell{
+    text-align: center;
+  }
+  .listNumber {
+    width: 40px;
+  }
+  .sellListItem {
+    width: 300px;
+  }
+  .totalPrice{
+    width: 100px;
+  }
+  .userBank{
+    width: 170px;
   }
 }
