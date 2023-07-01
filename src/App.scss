@@ -18,9 +18,16 @@ html {
 
 //전역스타일
 body {
-  font-family: "pretendard", sans-serif;
+  font-family: 'pretendard', sans-serif;
   font-weight: 400;
   line-height: 1.4rem;
+}
+.app {
+  color: var(--color-black);
+  width: 1200px;
+  font-size: 14px;
+  padding: 0;
+  margin: 0 auto;
 }
 a {
   text-decoration: none;
@@ -44,7 +51,7 @@ button {
 }
 .page_title {
   font-size: 24px;
-  padding: 20px 0;
+  padding: 40px 0 40px 0;
   font-weight: 700;
 }
 .page_discription {
@@ -81,19 +88,27 @@ section {
   padding: 200px 0 100px 0;
   text-align: center;
 }
-
+input:focus {
+  outline: none;
+}
 
 //antd 설정
-.ant-btn-primary{
+.ant-btn-primary {
   background-color: var(--color-primary);
 }
-:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
+:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(
+    :disabled
+  ):hover {
   background-color: var(--color-primary-hover);
 }
 :where(.css-dev-only-do-not-override-1wazalj).ant-card .ant-card-body {
   padding: 0;
 }
-:where(.css-dev-only-do-not-override-1wazalj).ant-carousel .slick-list .slick-slide >div>div {
+:where(.css-dev-only-do-not-override-1wazalj).ant-carousel
+  .slick-list
+  .slick-slide
+  > div
+  > div {
   overflow: hidden;
   border: none;
   padding: 5px;
@@ -114,19 +129,9 @@ section {
   color: var(--color-black-10);
 }
 
-
-//스타일
-.app {
-  color: var(--color-black);
-  width: 1200px;
-  font-size: 14px;
-  padding: 0;
-  margin: 0 auto;
-}
-
-
 //헤더
 header {
+  box-sizing: border-box;
   background-color: var(--color-white);
   padding: 0 30px;
   height: 124px;
@@ -141,7 +146,9 @@ header {
     justify-content: end;
     gap: 20px;
     padding-top: 20px;
-    a, button, span {
+    a,
+    button,
+    span {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -199,8 +206,8 @@ header {
           display: flex;
           align-items: center;
           .tokenimg {
-            width: 26px;
-            height: 26px;
+            width: 44px;
+            height: 44px;
             background-size: cover;
             background-position: center;
             border-radius: 50%;
@@ -211,7 +218,6 @@ header {
     }
   }
 }
-
 
 //푸터
 footer {
@@ -253,21 +259,24 @@ footer {
   }
 }
 
+//디테일페이지
+
 .title {
   padding-bottom: 14px;
 }
 .img_detail {
   display: flex;
-  gap: 60px;
+  justify-content: space-around;
   padding: 24px 0 64px 0;
   .cover {
     overflow: hidden;
     width: 400px;
     height: 600px;
-    border-radius: 20px;
+    border-radius: 10px;
+    outline: var(--color-black-10) 1px solid;
     background-position: center;
     background-size: cover;
-  } 
+  }
   .subDetail {
     display: flex;
     flex-wrap: wrap;
@@ -293,9 +302,6 @@ footer {
     }
   }
 }
-
-
-//디테일페이지
 .discription {
   display: flex;
   flex-wrap: wrap;
@@ -327,12 +333,13 @@ footer {
           .author__type {
             color: var(--color-black-50);
           }
-        }  
+        }
       }
     }
   }
 }
 
+//책 리스트
 .booksInfo {
   padding: 20px 36px 40px 36px;
   .bookInfo:not(:first-of-type) {
@@ -345,13 +352,21 @@ footer {
     .bookInfo_box {
       display: flex;
       gap: 24px;
+      .bestindex {
+        color: var(--color-black-30);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        padding-right: 20px;
+      }
       .bookImg {
         flex-shrink: 0;
         width: 140px;
         height: 200px;
-        border-radius: 10px;
+        border-radius: 4px;
         background-size: cover;
         background-position: center;
+        outline: var(--color-black-10) 1px solid;
       }
       .bookImg:hover {
         cursor: pointer;
@@ -384,56 +399,76 @@ footer {
 }
 
 .pagination {
+  padding-top: 32px;
   width: fit-content;
   margin: 0 auto;
 }
 
 .filterList {
-  padding-top: 32px;
+  padding: 32px 0 20px 0;
   display: flex;
   justify-content: space-between;
 }
 
-//로그인페이지
+//로그인, 회원가입 페이지
+
 .contentWrap {
-  padding: 200px 0 100px 0;
+  padding-top: 60px;
   margin: 0 auto;
   width: 300px;
   box-sizing: border-box;
+  input {
+    box-sizing: border-box;
+    border: var(--color-black-20) 1px solid;
+    display: inline-block;
+    height: 44px;
+    padding: 0 14px;
+    margin: 0;
+    width: 100%;
+  }
   .page_title {
     text-align: center;
   }
+  .input-title {
+    padding: 16px 0 8px 0;
+  }
   .inputBox {
-    overflow: hidden;
-    .input {
-      box-sizing: border-box;
-      border: var(--color-black-20) 1px solid;
-      display: inline-block;
-      height: 44px;
-      padding: 0 14px 2px;
-      color: var(--color-black-20);
-      margin: 0;
-      width: 100%;
-    }
-    .input::placeholder {
-      color: var(--color-black-30);
-    }
-    .input.input-id {
+    height: 200px;
+    padding-top: 20px;
+    .input-id {
       border-bottom: none;
       border-radius: 10px 10px 0 0;
     }
-    .input.input-pw {
+    .input-pw {
       border-radius: 0 0 10px 10px;
     }
-    .input:focus {
-      outline: none;
+  }
+  .signup-inputBox {
+    padding-bottom: 32px;
+    .imginput {
+      border: none;
+      padding: 10px 20px 0;
+    }
+    .signup-input {
+      border-radius: 10px;
     }
   }
-
-}
-
-.disable {
-  display: none;
+  .sign-btn button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 12px;
+  }
+  .valid_desc {
+    color: rgb(220, 32, 32);
+    padding-top: 4px;
+    font-size: 12px;
+    .valid__icon {
+      margin-right: 5px;
+    }
+  }
+  input::placeholder {
+    color: var(--color-black-30);
+  }
 }
 
 //메인페이지
@@ -461,7 +496,7 @@ footer {
     background-color: var(--color-primary);
   }
 }
-.listBox{
+.listBox {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
@@ -472,8 +507,8 @@ footer {
       display: flex;
       justify-content: space-between;
       .items {
-      display: flex;
-      flex-direction: column;
+        display: flex;
+        flex-direction: column;
         .card {
           outline: var(--color-black-20) 1px solid;
           width: 152px;
@@ -498,10 +533,10 @@ footer {
         }
       }
     }
-    
+
     .headSection {
       display: flex;
-      justify-content: space-between ;
+      justify-content: space-between;
       .title__text {
         font-size: 16px;
       }
@@ -528,7 +563,11 @@ footer {
     cursor: pointer;
     .main-item-info {
       transition: 1s;
-      background: linear-gradient( to top, rgba(255, 255, 255, 1)5%, rgba(0,0,0,0));
+      background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 1) 5%,
+        rgba(0, 0, 0, 0)
+      );
       color: #000;
       text-align: center;
       width: 100%;
@@ -544,8 +583,83 @@ footer {
       }
     }
   }
-  // .carousel-item-image:hover{
-  //   .main-item-info {
-  //   }
-  // } 
 }
+
+//카트, 결제 페이지
+.cart-page {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  .cart-content {
+    flex: 7;
+    margin-right: 10px;
+  }
+}
+.checkout-page {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  .checkout-content {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    .item-decs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 12px;
+      .item-title {
+        padding-top: 10px;
+        font-weight: 700;
+      }
+    }
+  }
+  .left-section {
+    flex: 7;
+    .left-section__payment {
+      margin-top: 10px;
+      .payment-selection {
+        padding-top: 10px;
+        padding-left: 30px;
+        p {
+          display : inline-block;
+          padding-right: 20px;
+          font-weight: bold; 
+          font-size: larger;
+          color : var(--color-primary)
+        }
+      }
+      .bank-account-list {
+        padding: 32px;
+      }
+    }
+  }
+}
+.sidebar {
+  flex: 2;
+  position: sticky;
+  top: 240px;
+  height: 400px;
+  .sidebar-content {
+    position: sticky;
+    .total-price-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 32px;
+      .total-price {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .total-price-title {
+        font-size: 16px;
+      }
+    }
+    button {
+      width: 100%;
+    }
+  }
+}
+
+//계좌관리 페이지

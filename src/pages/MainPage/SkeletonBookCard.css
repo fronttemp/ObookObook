@@ -1,0 +1,47 @@
+/* SkeletonBookCard.css */
+.skeleton-book-card {
+  display: inline-block;
+  width: 200px;
+  height: 320px;
+  margin: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  animation: loading 1s infinite;
+}
+
+.skeleton-book-card-image {
+  width: 100%;
+  height: 60%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #ddd;
+}
+
+.skeleton-book-card-title {
+  width: 80%;
+  height: 20px;
+  margin: 10px auto;
+  background-color: #ddd;
+}
+
+.skeleton-book-card-author {
+  width: 60%;
+  height: 16px;
+  margin: 0 auto;
+  background-color: #ddd;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}

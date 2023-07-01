@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Button, Card, Radio, Grid } from 'antd'
+import { Button, Card, Radio, Row, Col, Grid } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import { accountCheckAPI } from '../../api/accountApi'
-import './CheckoutPage.css'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import ConfirmModal from '../../components/ConfirmModal'
 import { ItemAddAPI, ItemBuyAPI } from '../../api/productApi'
@@ -14,14 +13,17 @@ const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [bankAccounts, setBankAccounts] = useState([])
   const [selectedAccountId, setSelectedAccountId] = useState('')
-  const { selectedItems } = useCartStore()
+  const { selectedItems, removeSelectedBooks } = useCartStore()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isPaymentSuccessModalVisible, setIsPaymentSuccessModalVisible] =
+    useState(false)
+  const [modalContent, setModalContent] = useState()
   const navigate = useNavigate()
   const screen = useBreakpoint()
   const { loginToken } = useAccountTokenStore()
 
   const priceKr = price => {
-    return `${price.toLocaleString('ko-KR')}원`
+    return `${price.toLocaleString('ko-KR')} 원`
   }
 
   const handleTotalPrice = () => {
@@ -37,6 +39,7 @@ const CheckoutPage = () => {
       const data = await accountCheckAPI(loginToken)
       if (data && data.accounts) {
         setBankAccounts(data.accounts)
+        setSelectedAccountId(data.accounts[0].id)
       }
     } catch (error) {
       console.error('Fetching bank accounts failed:', error)
@@ -44,17 +47,31 @@ const CheckoutPage = () => {
   }
 
   const handleBankAccountSelect = accountId => {
-    // Handle selection of bank account
     setSelectedAccountId(accountId)
   }
   console.log('Selected bank account:', selectedAccountId)
+
   useEffect(() => {
     handleTotalPrice()
     fetchBankAccounts()
   }, [selectedItems])
 
   const handlePayment = () => {
-    setIsModalVisible(true)
+    if (selectedAccountId === '') {
+      setModalContent('결제수단을 선택해주세요')
+      setIsModalVisible(true)
+    } else {
+      // 실제 결제 로직을 여기에 추가해주세요.
+      console.log('Payment initiated')
+      setModalContent(
+        <>
+          총 {selectedItems.length}개의 상품, {priceKr(totalPrice)}를
+          <br />
+          결제하시겠습니까?
+        </>
+      )
+      setIsModalVisible(true)
+    }
   }
 
   const handleBankAccounts = async () => {
@@ -64,23 +81,15 @@ const CheckoutPage = () => {
   const onConfirm = async confirm => {
     setIsModalVisible(false)
     if (confirm) {
-      // 실제 결제 로직을 여기에 추가해주세요.
-      console.log('Payment initiated')
-
-      // 결제 정보를 하나의 string으로 변환하기
       const title = JSON.stringify(selectedItems)
-
       console.log(selectedItems)
-
       try {
         const description = 'ebook'
         const price = totalPrice
-        // 제품 추가 (구매 신청 전 먼저 등록 필요)
-        const responseAddProduct = await ItemAddAPI(title, price, description)
 
+        const responseAddProduct = await ItemAddAPI(title, price, description)
         const productId = responseAddProduct.id
 
-        //제품 구매 신청
         const response = await ItemBuyAPI(
           loginToken,
           productId,
@@ -88,19 +97,37 @@ const CheckoutPage = () => {
         )
         if (response === true) {
           console.log('Payment successful')
-          navigate('/Account/OrderHistory') // 결제가 성공하면 내 계정-주문내역 페이지로 이동
+
+          const selectedIds = selectedItems.map(item => item.id)
+          removeSelectedBooks(selectedIds)
+
+          setModalContent(
+            <>
+              결제가 정상 처리 되었습니다.
+              <br /> 주문내역 페이지로 이동합니다.
+            </>
+          )
+          setIsPaymentSuccessModalVisible(true)
         } else {
-          console.log('Payment failed:', response)
+          console.log('Payment failed1:', response)
         }
       } catch (error) {
-        console.error('Payment failed:', error)
+        console.error('Payment failed2:', error)
       }
     }
   }
+
+  const onPaymentSuccessConfirm = confirm => {
+    setIsPaymentSuccessModalVisible(false)
+    if (confirm) {
+      navigate('/Account/OrderHistory')
+    }
+  }
+
   return (
-    <div className="checkout-page">
+    <section className="checkout-page">
       <div className="left-section">
-        <h1>주문/결제</h1>
+        <div className="page_title">결제</div>
         <Card
           className="left-section__items"
           title={`주문상품 총 ${selectedItems.length} 개`}>
@@ -111,21 +138,19 @@ const CheckoutPage = () => {
                 className={`book-item ${
                   screen.xs ? 'book-item-xs' : 'book-item-sm'
                 }`}>
-                <img
-                  src={book.cover}
-                  alt={book.title}
-                  style={{ width: '100px' }}
-                />
-                <p
-                  style={{
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                    WebkitLineClamp: '2',
-                    overflow: 'hidden'
-                  }}>
-                  {book.title}
-                </p>
-                <p>{priceKr(book.priceStandard)}</p>
+                <div className="item-decs">
+                  <img
+                    src={book.cover}
+                    alt={book.title}
+                    style={{ height: '120px', width: '80px' }}
+                  />
+                  <div className="item-title">
+                    {book.title.length > 7
+                      ? book.title.slice(0, 6) + '...'
+                      : book.title}
+                  </div>
+                  <div>{priceKr(book.priceStandard)}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -138,7 +163,7 @@ const CheckoutPage = () => {
               <p>오북페이</p>
               <Button
                 type="primary"
-                size="samll"
+                size="small"
                 onClick={handleBankAccounts}>
                 계좌설정
               </Button>
@@ -146,52 +171,63 @@ const CheckoutPage = () => {
           </div>
           <div className="bank-account-list">
             {bankAccounts.length > 0 ? (
-              <Radio.Group
-                onChange={e => handleBankAccountSelect(e.target.value)}>
+              <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
                 {bankAccounts.map(account => (
-                  <Radio
+                  <Col
                     key={account.id}
-                    value={account.id}>
-                    <div>
-                      <p>{`${account.bankName} ${account.accountNumber}`}</p>
-                    </div>
-                  </Radio>
+                    span={12}>
+                    <Radio
+                      value={account.id}
+                      checked={selectedAccountId === account.id}
+                      onChange={e => handleBankAccountSelect(e.target.value)}
+                      >
+                      <div>
+                        <p>{`${account.bankName} ${account.accountNumber}`}</p>
+                      </div>
+                    </Radio>
+                  </Col>
                 ))}
-              </Radio.Group>
+              </Row>
             ) : (
               <p>사용 가능한 은행 계좌가 없습니다. 계좌를 연결해주세요.</p>
             )}
           </div>
         </Card>
       </div>
-      <div className="checkout-sidebar">
+      <div className="sidebar">
         <div className="sidebar-content">
           <div className="total-price-container">
-            <h2>최종 결제 금액</h2>
-            <h2>{priceKr(totalPrice)}</h2>
+            <div className="total-price-title">최종 결제 금액</div>
+            <div className="total-price">{priceKr(totalPrice)}</div>
           </div>
           <Button
             type="primary"
             size="large"
-            style={{ width: '80%' }}
             onClick={handlePayment}>
             결제하기
           </Button>
           <ConfirmModal
-            content={
-              <>
-                총 {selectedItems.length}개의 상품, {priceKr(totalPrice)}를
-                <br />
-                결제하시겠습니까?
-              </>
-            }
+            content={modalContent}
             onConfirm={onConfirm}
             open={isModalVisible}
             setConfirmVisible={setIsModalVisible}
           />
+          <ConfirmModal
+            content={modalContent}
+            onConfirm={onConfirm}
+            open={isModalVisible}
+            setConfirmVisible={setIsModalVisible}
+          />
+          <ConfirmModal
+            content={modalContent}
+            onConfirm={onPaymentSuccessConfirm}
+            open={isPaymentSuccessModalVisible}
+            setConfirmVisible={setIsPaymentSuccessModalVisible}
+            showCancelButton={false}
+          />
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

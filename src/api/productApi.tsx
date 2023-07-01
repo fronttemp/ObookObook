@@ -27,14 +27,15 @@ export async function ItemAllSellCheckAPI() {
 }
 
 ///// 거래(판매) 내역 완료/취소 및 해제
-export async function ItemSellCheckAPI(inCanceled: boolean) {
-  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/:detailId', {
+export async function ItemSellCheckAPI(detailId: string, isCanceled: boolean, done: boolean) {
+  const res = await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/${detailId}`, {
     method : 'PUT',
     headers: {
       ...API_HEADER,
       'masterKey': 'true'},
     body: JSON.stringify({
-      inCanceled
+      'isCanceled' : isCanceled,
+      'done' : done
     })
   })
   const data = await res.json()

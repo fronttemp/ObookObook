@@ -3,7 +3,7 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi' 
 
 const OrderHistoryPage = () => {
-  const [orderHistory, setOrderHistory] = useState(null)
+  const [orderHistory, setOrderHistory] = useState([])
   const { loginToken } = useAccountTokenStore()
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const OrderHistoryPage = () => {
 
   return (
     <>
-      <h2>OrderHistoryPage</h2>
+      <h2>주문내역</h2>
       {orderHistory && orderHistory.map((order, index) => {
         const parsedTitle = JSON.parse(order.product.title);
         return (

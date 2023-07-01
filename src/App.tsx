@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Outlet,
   Routes,
@@ -14,8 +13,8 @@ import BestsellerPage from './pages/BestsellerPage'
 import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import DetailPage from './pages/DetailPage'
-import SignInPage from './pages/SignInPage'
-import SignUpPage from './pages/SignUpPage'
+import SignInPage from './pages/SigninPage'
+import SignUpPage from './pages/SignupPage'
 import SearchPage from './pages/SearchPage/index'
 import TheHeader from './components/TheHeader'
 import TheFooter from './components/TheFooter'
@@ -27,6 +26,7 @@ import EditBankInfoPage from './pages/EditBankInfoPage'
 import useAccountTokenStore from './store/useAccountTokenStore'
 import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
+
 
 const Layout = () => {
   return (
@@ -40,8 +40,11 @@ const Layout = () => {
 }
 
 function App() {
+
+
   // 로그인 인증
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { loginToken, nickNameToken } = useAccountTokenStore(state => ({
     loginToken: state.loginToken,
@@ -54,6 +57,7 @@ function App() {
     materKey: 'true'
   }
 
+  // /admin =>
   async function loginState() {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
@@ -87,10 +91,13 @@ function App() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     loginState()
   }, [loginToken, location])
 
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (nickNameToken === 'admin' && location.pathname === '/Account') {
