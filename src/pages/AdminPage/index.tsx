@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { usersCheckAPI } from '../../api/usersApi';
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi';
-import { Button, Table } from 'antd';
+import { Button, Table, Modal } from 'antd';
 import { Navigate } from 'react-router-dom';
 import './Admin.scss';
 
@@ -37,6 +37,10 @@ const AdminPage = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [nickNameToken, setNickNameToken] = useState<string | undefined>(undefined);
   const [itemSellList, setItemSellList] = useState<ItemSell[]>([]);
+  const [confirmContent, setConfirmContent] = useState<string>('')
+  const [confirmModal, setConfirmModal] = useState<boolean>(false)
+  const [cancelContent, setCancelContent] = useState<string>('')
+  const [cancelModal, setCancelModal] = useState<boolean>(false)
 
   useEffect(() => {
     const accountToken = JSON.parse(localStorage.getItem('accountToken') || '');
@@ -67,35 +71,54 @@ const AdminPage = () => {
 
   const handleSellCancel = async (detailId: string) => {
     try {
-      await ItemSellCheckAPI(detailId, true, false);
-      updateOrderStatus(detailId, 'canceled');
+      const response = await ItemSellCheckAPI(detailId, true, false);
+      if (response) {
+        setCancelContent('판매 취소가 완료되었습니다.')
+        setCancelModal(true)
+      } else {
+        setCancelContent(
+          '이미 주문 취소가 완료되었거나, 구매가 확정된 상품입니다.'
+        )
+        setCancelModal(true)
+      }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const handleSellConfirm = async (detailId: string) => {
     try {
-      await ItemSellCheckAPI(detailId, false, true);
-      updateOrderStatus(detailId, 'confirmed');
+      const response = await ItemSellCheckAPI(detailId, false, true);
+      if (response) {
+        setConfirmContent('판매가 확정되었습니다.')
+        setConfirmModal(true)
+      } else {
+        setConfirmContent('이미 판매가 확정되었거나, 취소된 상품입니다.')
+        setConfirmModal(true)
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateOrderStatus = (detailId: string, status: string) => {
-    setItemSellList((prevList) =>
-      prevList.map((order) => {
-        if (order.detailId === detailId) {
-          return {
-            ...order,
-            orderStatus: status,
-          };
-        }
-        return order;
-      })
-    );
-  };
+  // const updateOrderStatus = (detailId: string, status: string) => {
+  //   setItemSellList((prevList) =>
+  //     prevList.map((order) => {
+  //       if (order.detailId === detailId) {
+  //         return {
+  //           ...order,
+  //           orderStatus: status,
+  //         };
+  //       }
+  //       return order;
+  //     })
+  //   );
+  // };
+
+  const handleModalOk = () => {
+    setCancelModal(false)
+    setConfirmModal(false)
+  }
 
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n) + '...' : str;
@@ -158,7 +181,9 @@ const AdminPage = () => {
             </div>
           ))}
           </div>),
-    price: priceKr(order.product.price),
+    price: (<div className = 'totalPrice'>
+              <span>{priceKr(order.product.price)}</span>
+            </div>),
     userName: order.user.email,
     userBank: (<div className = 'userBank'>
                 <div>{order.account.bankName}</div>
@@ -166,14 +191,12 @@ const AdminPage = () => {
                 <a className = 'sellTime'>{formatDateTime(order.timePaid)}</a>
               </div>),
     action: (
-      <div className="sellListFeat">
-        <Button onClick={() => handleSellConfirm(order.detailId)}>확인</Button>
-        <Button onClick={() => handleSellCancel(order.detailId)}>취소</Button>
-        <div>
-          {order.orderStatus === 'canceled' && <span>판매가 취소되었습니다</span>}
-          {order.orderStatus === 'confirmed' && <span>판매가 확정되었습니다</span>}
-        </div> 
-      </div>
+      <>
+        <div className="sellListFeat">
+          <Button onClick={() => handleSellCancel(order.detailId)}>판매 취소</Button>
+          <Button onClick={() => handleSellConfirm(order.detailId)}>판매 확정</Button>
+        </div>
+      </>
     )
   }))
 
@@ -204,7 +227,7 @@ const AdminPage = () => {
       key: 'userBank', 
     },
     {
-      title: '취소, 확정 여부',
+      title: '',
       dataIndex: 'action',
       key: 'action',
     },
@@ -231,6 +254,23 @@ const AdminPage = () => {
         pagination = {false}
         />
       </div>
+      <Modal
+          visible={cancelModal}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>{cancelContent}</p>
+        </Modal>
+
+        <Modal
+          visible={confirmModal}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p>{confirmContent}</p>
+        </Modal>
     </section>
   );
 };
