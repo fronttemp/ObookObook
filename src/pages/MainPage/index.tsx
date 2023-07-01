@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Carousel, Card } from 'antd';
@@ -18,10 +18,11 @@ interface Book {
 const MainPage = () => {
   const [newReleases, setNewReleases] = useState<Book[]>([]);
   const [recommendations, setRecommendations] = useState<Book[]>([]);
-  const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
   const [bestsellers2, setBestsellers2] = useState<Book[]>([]);
-  const [newbestsellers2, setNewBestsellers2] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [newRecommendations, setNewRecommendations] = useState<Book[]>([]);
+  const [newBestsellers2, setNewBestsellers2] = useState<Book[]>([]);
 
   const navigate = useNavigate();
 
@@ -33,15 +34,14 @@ const MainPage = () => {
     fetchNewReleases();
     fetchRecommendations();
     fetchBestsellers2();
-    fetchBestsellers2();
   }, []);
 
   useEffect(() => {
-    setNewRecommendations(recommendations.filter((a) => a.adult !== true));
+    setNewRecommendations(recommendations.filter((a) => !a.adult));
   }, [recommendations]);
 
   useEffect(() => {
-    setNewBestsellers2(bestsellers2.filter((a) => a.adult !== true).slice(0, 6));
+    setNewBestsellers2(bestsellers2.filter((a) => !a.adult).slice(0, 6));
   }, [bestsellers2]);
 
   const fetchRecommendations = async () => {
@@ -69,7 +69,7 @@ const MainPage = () => {
     } catch (error) {
       console.error('Failed to fetch bestsellers2', error);
     } finally {
-      setLoading(false); // 로딩 상태를 false로 변경
+      setLoading(false);
     }
   };
 
@@ -78,43 +78,24 @@ const MainPage = () => {
       <div className='event'>
         <div
           className='event-img'
-          style={{ backgroundImage: 'url(/icon.png)' }}></div>
+          style={{ backgroundImage: 'url(/icon.png)' }}
+        ></div>
         <div className='event-text'>오북오북은 E-Book 판매 사이트입니다!</div>
       </div>
       <div>
-        {loading ? ( // 로딩 상태인 경우 스켈레톤 레이아웃 표시
+        {loading ? (
           <div className='carousel-container'>
-            {[...Array(6)].map((_, index) => (
+            {[...Array(3)].map((_, index) => (
               <SkeletonBookCard key={index} />
             ))}
           </div>
         ) : (
-          // 데이터가 로드된 경우 실제 데이터 렌더링
           <div className='carousel-container'>
-            <Carousel
-              slidesToShow={3}
-              autoplay
-              dots={false}
-              infinite
-              swipeToSlide={false}
-              arrows
-              prevArrow={<LeftOutlined />}
-              nextArrow={<RightOutlined />}
-            >
+            <Carousel slidesToShow={3} autoplay dots={false} infinite swipeToSlide={false} arrows prevArrow={<LeftOutlined />} nextArrow={<RightOutlined />} >
               {newRecommendations.map((book, index) => (
-                <Card
-                  className='carousel-item'
-                  key={index}
-                  onClick={() => moveDetailPage(book.isbn)}>
+                <Card className='carousel-item' key={index} onClick={() => moveDetailPage(book.isbn)}>
                   <div className='carousel-item-image-box'>
-                    <div
-                      className='carousel-item-image'
-                      style={{
-                        backgroundImage: `url(${book.cover.replace(
-                          /coversum/g,
-                          'cover500'
-                        )})`,
-                      }}>
+                    <div className='carousel-item-image' style={{ backgroundImage: `url(${book.cover.replace(/coversum/g, 'cover500')})` }}>
                       <div className='main-item-info'>
                         <div className='main-item-info-desc'>
                           <h3>{book.title.split('-')[0]}</h3>
@@ -142,28 +123,27 @@ const MainPage = () => {
             </div>
           </div>
           <div className='itemsBox'>
-            {newReleases.map((book, index) => (
-              <div className='items' key={index} onClick={() => moveDetailPage(book.isbn)}>
-                <div
-                  className='card'
-                  style={{
-                    backgroundImage: `url(${book.cover.replace(
-                      /coversum/g,
-                      'cover200'
-                    )})`,
-                  }}></div>
-                <div className='item-desc'>
-                  <p className='item-title'>
-                    {book.title.length > 8 ? `${book.title.slice(0, 10)}…` : book.title}
-                  </p>
-                  <p className='item-author'>
-                    {book.author.split('(')[0].length > 8
-                      ? `${book.author.split('(')[0].slice(0, 8)}...`
-                      : book.author.split('(')[0]}
-                  </p>
+            {loading ? (
+              [...Array(6)].map((_, index) => (
+                <SkeletonBookCard key={index} />
+              ))
+            ) : (
+              newReleases.map((book, index) => (
+                <div className='items' key={index} onClick={() => moveDetailPage(book.isbn)}>
+                  <div className='card' style={{ backgroundImage: `url(${book.cover.replace(/coversum/g, 'cover200')})` }}></div>
+                  <div className='item-desc'>
+                    <p className='item-title'>
+                      {book.title.length > 8 ? `${book.title.slice(0, 10)}…` : book.title}
+                    </p>
+                    <p className='item-author'>
+                      {book.author.split('(')[0].length > 8
+                        ? `${book.author.split('(')[0].slice(0, 8)}...`
+                        : book.author.split('(')[0]}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
         <div className='list'>
@@ -174,28 +154,27 @@ const MainPage = () => {
             </div>
           </div>
           <div className='itemsBox'>
-            {newbestsellers2.map((book, index) => (
-              <div className='items' key={index} onClick={() => moveDetailPage(book.isbn)}>
-                <div
-                  className='card'
-                  style={{
-                    backgroundImage: `url(${book.cover.replace(
-                      /coversum/g,
-                      'cover200'
-                    )})`,
-                  }}></div>
-                <div className='item-desc'>
-                  <p className='item-title'>
-                    {book.title.length > 8 ? `${book.title.slice(0, 10)}…` : book.title}
-                  </p>
-                  <p className='item-author'>
-                    {book.author.split('(')[0].length > 8
-                      ? `${book.author.split('(')[0].slice(0, 8)}...`
-                      : book.author.split('(')[0]}
-                  </p>
+            {loading ? (
+              [...Array(6)].map((_, index) => (
+                <SkeletonBookCard key={index} />
+              ))
+            ) : (
+              newBestsellers2.map((book, index) => (
+                <div className='items' key={index} onClick={() => moveDetailPage(book.isbn)}>
+                  <div className='card' style={{ backgroundImage: `url(${book.cover.replace(/coversum/g, 'cover200')})` }}></div>
+                  <div className='item-desc'>
+                    <p className='item-title'>
+                      {book.title.length > 8 ? `${book.title.slice(0, 10)}…` : book.title}
+                    </p>
+                    <p className='item-author'>
+                      {book.author.split('(')[0].length > 8
+                        ? `${book.author.split('(')[0].slice(0, 8)}...`
+                        : book.author.split('(')[0]}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

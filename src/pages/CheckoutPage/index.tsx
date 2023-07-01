@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ReactNode } from 'react'
 import { Button, Card, Radio, Row, Col, Grid } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
@@ -9,20 +9,35 @@ import { ItemAddAPI, ItemBuyAPI } from '../../api/productApi'
 
 const { useBreakpoint } = Grid
 
+type BankAccount = {
+  id: string;
+  bankName: string;
+  bankCode: string;
+  accountNumber: string;
+  balance: number;
+}
+
+type Book = {
+  title: string;
+  cover: string;
+  priceStandard: number;
+  id: string;
+}
+
 const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
-  const [bankAccounts, setBankAccounts] = useState([])
+  const [bankAccounts, setBankAccounts] = useState<BankAccount>([])
   const [selectedAccountId, setSelectedAccountId] = useState('')
   const { selectedItems, removeSelectedBooks } = useCartStore()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isPaymentSuccessModalVisible, setIsPaymentSuccessModalVisible] =
     useState(false)
-  const [modalContent, setModalContent] = useState()
+  const [modalContent, setModalContent] = useState<ReactNode | undefined>()
   const navigate = useNavigate()
   const screen = useBreakpoint()
   const { loginToken } = useAccountTokenStore()
 
-  const priceKr = price => {
+  const priceKr = (price: number) => {
     return `${price.toLocaleString('ko-KR')} 원`
   }
 
@@ -46,7 +61,7 @@ const CheckoutPage = () => {
     }
   }
 
-  const handleBankAccountSelect = accountId => {
+  const handleBankAccountSelect = (accountId :string ) => {
     setSelectedAccountId(accountId)
   }
   console.log('Selected bank account:', selectedAccountId)
@@ -78,7 +93,7 @@ const CheckoutPage = () => {
     navigate('/Account/EditBankInfo')
   }
 
-  const onConfirm = async confirm => {
+  const onConfirm = async (confirm : boolean) => {
     setIsModalVisible(false)
     if (confirm) {
       const title = JSON.stringify(selectedItems)
@@ -117,7 +132,7 @@ const CheckoutPage = () => {
     }
   }
 
-  const onPaymentSuccessConfirm = confirm => {
+  const onPaymentSuccessConfirm = (confirm : boolean) => {
     setIsPaymentSuccessModalVisible(false)
     if (confirm) {
       navigate('/Account/OrderHistory')

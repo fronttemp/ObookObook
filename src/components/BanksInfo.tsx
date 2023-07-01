@@ -4,25 +4,43 @@ import {
   accountCheckAPI,
   accountConnectAPI,
   accountDeleteAPI
-} from '../api/accountApi'
+} 
+from '../api/accountApi'
 import { Button, Input, Checkbox, Select, Form, Card, Table } from 'antd'
 import './BanksInfo.css'
 import useAccountTokenStore from '../store/useAccountTokenStore'
 import ConfirmModal from './ConfirmModal'
 
+type Bank = {
+  code: string;
+  name: string;
+  digits: number[];
+};
+
+type Account = {
+  id: string;
+  bankName: string;
+  accountNumber: string;
+  balance: number;
+  bankCode: string;
+};
+
+type AccountWithKey = Account & { key: string };
+
+
 const BanksInfo = () => {
-  const [banks, setBanks] = useState([])
-  const [accounts, setAccounts] = useState([])
-  const [selectedBankCode, setSelectedBankCode] = useState('')
-  const [selectedBankDigits, setSelectedBankDigits] = useState([])
-  const [accountNumber, setAccountNumber] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [signature, setSignature] = useState(false)
+  const [banks, setBanks] = useState<Bank[]>([])
+  const [accounts, setAccounts] = useState<AccountWithKey[]>([])
+  const [selectedBankCode, setSelectedBankCode] = useState<string>('')
+  const [selectedBankDigits, setSelectedBankDigits] = useState<number[]>([])
+  const [accountNumber, setAccountNumber] = useState<string>('')
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [signature, setSignature] = useState<boolean>(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
-  const [toDeleteAccountId, setToDeleteAccountId] = useState('')
+  const [toDeleteAccountId, setToDeleteAccountId] = useState<string>('')
   const { loginToken } = useAccountTokenStore()
   const { Option } = Select
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<{ bankCode: string; accountNumber: string; phoneNumber: string; agreement: boolean }>();
 
   const fetchBanks = async () => {
     try {
@@ -60,7 +78,7 @@ const BanksInfo = () => {
     }
   }
 
-  const handleBankSelect = bankCode => {
+  const handleBankSelect = (bankCode : string) => {
     setSelectedBankCode(bankCode)
     const selectedBank = banks.find(bank => bank.code === bankCode)
     if (selectedBank) {
@@ -68,7 +86,12 @@ const BanksInfo = () => {
     }
   }
 
-  const handleAccountConnect = async values => {
+  const handleAccountConnect = async (values: {
+    bankCode: string;
+    accountNumber: string;
+    phoneNumber: string;
+    agreement: boolean;
+  }) => {
     const { bankCode, accountNumber, phoneNumber, agreement } = values
     if (agreement) {
       await accountConnectAPI(

@@ -7,7 +7,7 @@ import { logCheckAPI } from '../../api/usersApi'
 
 interface Book {
   // 책의 세부 정보에 대한 타입을 정의
-  id: number | string;
+  id: string;
   isbn: string;
   title: string;
   cover: string;
@@ -16,7 +16,7 @@ interface Book {
 
 const CartPage : React.FC = () => {
   const [selectAll, setSelectAll] = useState<boolean>(true)
-  const [selectedItems, setSelectedItems] = useState<Array<number | string>>([])
+  const [selectedItems, setSelectedItems] = useState<Array<string>>([])
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [isRemoveSelectedModalVisible, setIsRemoveSelectedModalVisible] =
@@ -38,7 +38,7 @@ const CartPage : React.FC = () => {
     return <span>{`${price.toLocaleString('ko-KR')} 원`}</span>
   }
 
-  const handleSelect = (itemId, checked) => {
+  const handleSelect = (itemId : string, checked : boolean) => {
     if (checked) {
       setSelectedItems(prev => [...prev, itemId])
     } else {
@@ -57,7 +57,7 @@ const CartPage : React.FC = () => {
   }
 
   const handleTotalPrice = () => {
-    const totalPrice = selectedItems.reduce((acc, id) => {
+    const totalPrice = selectedItems.reduce((acc : number, id) => {
       const book = bookCart.find(book => book.id === id)
       const price = book.priceStandard
       return acc + price
@@ -65,7 +65,7 @@ const CartPage : React.FC = () => {
     setTotalPrice(totalPrice)
   }
 
-  const handleRemoveBook = book => {
+  const handleRemoveBook = (book: Book) => {
     removeBook(book)
   }
 
@@ -74,7 +74,7 @@ const CartPage : React.FC = () => {
   }
 
 
-  const onRemoveSelectedConfirm = confirm => {
+  const onRemoveSelectedConfirm = (confirm : boolean)=> {
     if (confirm) {
       removeSelectedBooks(selectedItems)
       setSelectedItems([])
@@ -109,7 +109,7 @@ const CartPage : React.FC = () => {
     }
   }
 
-  const onConfirm = confirm => {
+  const onConfirm = (confirm : string) => {
     if (confirm) {
       saveSelectedItems(selectedItems)
       navigate('/Checkout')
@@ -153,8 +153,7 @@ const CartPage : React.FC = () => {
       <img
         src={book.cover}
         alt={book.title}
-        style={{ width: '50px' }}
-        style={{ cursor: 'pointer' }}
+        style={{ width: '50px' , cursor: 'pointer'}}
         onClick={() => {
           moveDetailPage(book.isbn)
         }}

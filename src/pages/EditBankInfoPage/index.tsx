@@ -1,7 +1,7 @@
 import React from 'react'
 import BanksInfo from '../../components/BanksInfo'
 
-const EditBankInfoPage = () => {
+const EditBankInfoPage: React.FC = () => {
   return (
     <div>
       <BanksInfo />

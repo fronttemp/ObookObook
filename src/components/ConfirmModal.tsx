@@ -1,6 +1,14 @@
 import { Button, Modal } from 'antd'
 
-const ModalCancelOk = ({content, onConfirm, open, setConfirmVisible, showCancelButton = true}) => {
+type ModalCancelOkProps = {
+  content: string;
+  onConfirm: (confirm: boolean) => void;
+  open: boolean;
+  setConfirmVisible: (visible: boolean) => void;
+  showCancelButton?: boolean;
+};
+
+const ModalCancelOk: React.FC<ModalCancelOkProps>= ({content, onConfirm, open, setConfirmVisible, showCancelButton = true}) => {
   
   const handleCancel = () => {
     setConfirmVisible(false)

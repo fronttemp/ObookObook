@@ -1,8 +1,5 @@
-
 import { create} from 'zustand'
 import { persist } from 'zustand/middleware'
-
-type SetState<T> = (state: T) => T;
 
 
 interface Book {
@@ -10,10 +7,11 @@ interface Book {
   isbn: string;
   title: string;
   priceStandard : number;
+  cover : string;
    // Book 객체의 다른 속성들을 여기에 추가
 }
 
-interface State {
+interface CartStore {
   bookCart: Book[];
   selectedItems: Book[];
   selectSingleBook: (book: Book) => void;
@@ -25,9 +23,9 @@ interface State {
 }
 
 
-export const useCartStore = create<State>(
-  persist(
-    (set: Set<State>) => ({
+export const useCartStore = create(
+  persist<CartStore>(
+    set => ({
       bookCart: [],
       selectedItems: [],
       selectSingleBook: book => set(state => ({ selectedItems: [book] })),

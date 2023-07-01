@@ -18,7 +18,7 @@ export async function bankChoiceAPI(token: string) {
 }
 
 ///// 계좌 목록 및 잔액 조회 /////
-export async function accountCheckAPI(token: string) {
+export async function accountCheckAPI(token: string | null) {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/account',
     {
@@ -34,7 +34,7 @@ export async function accountCheckAPI(token: string) {
 }
 
 ///// 계좌 연결 /////
-export async function accountConnectAPI(token : string,
+export async function accountConnectAPI(token : string | null,
   bankCode: string,
   accountNumber: string,
   phoneNumber: string,
