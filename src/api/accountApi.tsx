@@ -1,7 +1,7 @@
 import { API_HEADER } from './usersApi'
 
 ///// 선택 가능한 은행 목록 조회 /////
-export async function bankChoiceAPI(token) {
+export async function bankChoiceAPI(token: string) {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/account/banks',
     {
@@ -17,7 +17,7 @@ export async function bankChoiceAPI(token) {
 }
 
 ///// 계좌 목록 및 잔액 조회 /////
-export async function accountCheckAPI(token) {
+export async function accountCheckAPI(token: string) {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/account',
     {
@@ -60,7 +60,7 @@ export async function accountConnectAPI(token : string,
 }
 
 ///// 계좌 해지 //////
-export async function accountDeleteAPI(accountId) {
+export async function accountDeleteAPI(accountId: string) {
   const token = localStorage.getItem('accountToken')
   const signature = true
   const res = await fetch(
