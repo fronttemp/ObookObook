@@ -31,6 +31,8 @@ interface ItemSell {
   product: Product;
   account: Account;
   orderStatus: string;
+  user: User
+  timePaid: string;
 }
 
 const AdminPage = () => {
@@ -44,7 +46,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     const accountToken = JSON.parse(localStorage.getItem('accountToken') || '');
-    setNickNameToken(accountToken.state.nickNameToken);
+    setNickNameToken(accountToken?.state?.nickNameToken);
   }, []);
 
   useEffect(() => {
@@ -101,20 +103,6 @@ const AdminPage = () => {
     }
   };
 
-  // const updateOrderStatus = (detailId: string, status: string) => {
-  //   setItemSellList((prevList) =>
-  //     prevList.map((order) => {
-  //       if (order.detailId === detailId) {
-  //         return {
-  //           ...order,
-  //           orderStatus: status,
-  //         };
-  //       }
-  //       return order;
-  //     })
-  //   );
-  // };
-
   const handleModalOk = () => {
     setCancelModal(false)
     setConfirmModal(false)
@@ -145,9 +133,9 @@ const AdminPage = () => {
 
 
   const userDataSource = userList.map((user, index) => ({
-    key: (<p className = 'listNumber'>{index + 1}</p>),
-    email: (<p className = 'userEmail'>{user.email}</p>),
-    nickName : (<p className = 'userNickName'>{user.displayName}</p>)
+    key: (<p className='listNumber'>{index + 1}</p>),
+    email: (<p className='userEmail'>{user.email}</p>),
+    nickName: (<p className='userNickName'>{user.displayName}</p>)
   }))
 
   const userColumns = [
@@ -170,26 +158,26 @@ const AdminPage = () => {
 
 
   const itemDataSource = itemSellList.map((order, index) => ({
-    key : (<div>
-            <p className = 'listNumber'>{index + 1}</p>
-          </div>),
+    key: (<div>
+      <p className='listNumber'>{index + 1}</p>
+    </div>),
     itemName: (<div className="userSellListItems">
-          {JSON.parse(order.product.title).map((book, index) => (
-            <div key={index} className = 'sellListItem'>
-              <h3>{book.title ? truncate(book.title, 15) + '' : null}</h3>
-              {priceKr(book.priceSales)}
-            </div>
-          ))}
-          </div>),
-    price: (<div className = 'totalPrice'>
-              <span>{priceKr(order.product.price)}</span>
-            </div>),
+      {JSON.parse(order.product.title).map((book: Book, index: number) => (
+        <div key={index} className='sellListItem'>
+          <h3>{book.title ? truncate(book.title, 15) + '' : null}</h3>
+          {priceKr(book.priceSales)}
+        </div>
+      ))}
+    </div>),
+    price: (<div className='totalPrice'>
+      <span>{priceKr(order.product.price)}</span>
+    </div>),
     userName: order.user.email,
-    userBank: (<div className = 'userBank'>
-                <div>{order.account.bankName}</div>
-                <div>{order.account.accountNumber}</div>
-                <a className = 'sellTime'>{formatDateTime(order.timePaid)}</a>
-              </div>),
+    userBank: (<div className='userBank'>
+      <div>{order.account.bankName}</div>
+      <div>{order.account.accountNumber}</div>
+      <a className='sellTime'>{formatDateTime(order.timePaid)}</a>
+    </div>),
     action: (
       <>
         <div className="sellListFeat">
@@ -224,7 +212,7 @@ const AdminPage = () => {
     {
       title: '계좌번호',
       dataIndex: 'userBank',
-      key: 'userBank', 
+      key: 'userBank',
     },
     {
       title: '',
@@ -243,34 +231,34 @@ const AdminPage = () => {
         <Table
           dataSource={userDataSource}
           columns={userColumns}
-          pagination = {false}
-          />
+          pagination={false}
+        />
       </div>
       <div id="sell-list">
         <h1>판매 내역</h1>
-        <Table 
-        dataSource={itemDataSource}
-        columns={itemColumns}
-        pagination = {false}
+        <Table
+          dataSource={itemDataSource}
+          columns={itemColumns}
+          pagination={false}
         />
       </div>
       <Modal
-          visible={cancelModal}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
+        visible={cancelModal}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
         <p>{cancelContent}</p>
-        </Modal>
+      </Modal>
 
-        <Modal
-          visible={confirmModal}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
-          <p>{confirmContent}</p>
-        </Modal>
+      <Modal
+        visible={confirmModal}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>{confirmContent}</p>
+      </Modal>
     </section>
   );
 };
