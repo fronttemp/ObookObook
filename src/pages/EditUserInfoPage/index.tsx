@@ -1,8 +1,15 @@
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, ChangeEvent } from 'react'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { API_HEADER } from '../../api/usersApi'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Modal } from 'antd'
+
+interface UserData {
+  oldPassword: string
+  newPassword: string
+  profileImage: string
+  nickname: string
+}
 
 const EditUserInfoPage: React.FC = () => {
   const [form] = Form.useForm()
@@ -12,10 +19,10 @@ const EditUserInfoPage: React.FC = () => {
     setIsLoggedOut: state.setIsLoggedOut
   }))
 
-  const [error, setError] = useState('')
-  const [successModalVisible, setSuccessModalVisible] = useState(false)
+  const [error, setError] = useState<string>('')
+  const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
 
-  const handleModifyUserInfo = async (values: any) => {
+  const handleModifyUserInfo = async (values: UserData) => {
     try {
       const { oldPassword, newPassword, profileImage, nickname } = values
       if (newPassword !== values.confirmPassword) {
@@ -23,7 +30,7 @@ const EditUserInfoPage: React.FC = () => {
         return
       }
 
-      const userData = {
+      const userData: UserData = {
         oldPassword,
         newPassword,
         profileImage,
@@ -44,9 +51,12 @@ const EditUserInfoPage: React.FC = () => {
 
       if (res.ok) {
         form.resetFields()
-        setError('')
         setSuccessModalVisible(true)
-        setIsLoggedOut()
+        setError('')
+
+        setTimeout(() => {
+          setIsLoggedOut()
+        }, 2000)
       } else {
         const { message } = await res.json()
         setError(message)
@@ -55,6 +65,7 @@ const EditUserInfoPage: React.FC = () => {
       setError('오류가 발생했습니다.')
     }
   }
+
   // 모달 관리
   const handleModalOk = () => {
     setSuccessModalVisible(false)
@@ -142,7 +153,8 @@ const EditUserInfoPage: React.FC = () => {
         <form onSubmit={modifyUserImg}>
           <img
             className="userImg"
-            src={newUserImg || userImgToken} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
+            src={userImgToken || newUserImg} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
+            alt="User Profile"
           />
           <div className="current-userName">{nickNameToken}</div>
           <div className="imgInputWrap">
@@ -159,9 +171,9 @@ const EditUserInfoPage: React.FC = () => {
           </div>
         </form>
         {/* 닉네임 변경 */}
-        <form 
-        className='userNameWrap'
-        onSubmit={modifyUserName}>
+        <form
+          className="userNameWrap"
+          onSubmit={modifyUserName}>
           <input
             type="text"
             value={newNickName}
@@ -171,7 +183,7 @@ const EditUserInfoPage: React.FC = () => {
           <button type="submit">닉네임 변경</button>
         </form>
       </section>
-      
+
       <br />
       <hr />
       <br />

@@ -93,7 +93,7 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (nickNameToken === 'admin' && location.pathname === '/Account') {
+    if (nickNameToken === 'admin' && location.pathname === '/Account/EditUserInfo') {
       navigate('/admin')
     }  else if (nickNameToken !== 'admin' && location.pathname === '/admin') {
       navigate('/')
