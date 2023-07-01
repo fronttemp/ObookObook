@@ -1,12 +1,33 @@
-import { create } from 'zustand'
+import { create} from 'zustand'
 import { persist } from 'zustand/middleware'
 
+
+interface Book {
+  id: string;
+  isbn: string;
+  title: string;
+  priceStandard : number;
+  cover : string;
+   // Book 객체의 다른 속성들을 여기에 추가
+}
+
+interface CartStore {
+  bookCart: Book[];
+  selectedItems: Book[];
+  selectSingleBook: (book: Book) => void;
+  addBookCart: (book: Book) => void;
+  removeBook: (book: Book) => void;
+  removeAllBooks: () => void;
+  removeSelectedBooks: (selectedIds: string[]) => void;
+  saveSelectedItems: (items: string[]) => void;
+}
+
+
 export const useCartStore = create(
-  persist(
+  persist<CartStore>(
     set => ({
       bookCart: [],
       selectedItems: [],
-
       selectSingleBook: book => set(state => ({ selectedItems: [book] })),
       addBookCart: book =>
         set(state => {
