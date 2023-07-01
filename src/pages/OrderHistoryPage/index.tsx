@@ -3,6 +3,7 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi'
 import { API_HEADER } from '../../api/usersApi'
 import { Modal, Button } from 'antd'
+import './OrderHistoryPage.css'
 
 interface Order {
   detailId: string
@@ -27,7 +28,6 @@ const OrderHistoryPage: React.FC = () => {
   const [orderHistory, setOrderHistory] = useState<Order[] | null>(null)
   const { loginToken } = useAccountTokenStore()
 
-  // detailId 상태
   const [detailId, setDetailId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -36,7 +36,6 @@ const OrderHistoryPage: React.FC = () => {
         const response = await ItemAllBuymAPI(loginToken)
         setOrderHistory(response)
 
-        // 응답에서 detailId를 가져와 상태에 저장
         if (response && response.length > 0) {
           const firstOrder = response[0]
           const detailId = firstOrder.detailId
@@ -51,13 +50,11 @@ const OrderHistoryPage: React.FC = () => {
     fetchOrderHistory()
   }, [loginToken, setDetailId])
 
-  /////// 구매시간 변경 ///////
   const formatDateTime = (dateTimeString: string) => {
     const dateTime = new Date(dateTimeString)
     return dateTime.toLocaleString()
   }
 
-  /////// 거래 상세 정보 ///////
   async function ItemBuyDetailmAPI(detailId: string) {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/detail',
@@ -96,11 +93,8 @@ const OrderHistoryPage: React.FC = () => {
   }
 
   const [detailModal, setDetailMoadl] = useState<boolean>(false)
-
-  // bankInfo
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null)
 
-  /////// 주문 확정 ///////
   async function ItemConfirmAPI(detailId: string) {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/ok',
@@ -136,7 +130,6 @@ const OrderHistoryPage: React.FC = () => {
     }
   }
 
-  /////// 주문 취소 ///////
   async function ItemCancelAPI(detailId: string) {
     const res = await fetch(
       'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/cancel',
@@ -173,7 +166,6 @@ const OrderHistoryPage: React.FC = () => {
     }
   }
 
-  /////// Modal 닫기 ///////
   const handleModalOk = () => {
     setDetailMoadl(false)
     setCancelModal(false)
@@ -181,9 +173,9 @@ const OrderHistoryPage: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="order-history-page">
       <h1>주문내역 페이지</h1>
-      {/* orderHistory는 response값 */}
+
       {orderHistory &&
       Array.isArray(orderHistory) &&
       orderHistory.length > 0 ? (
@@ -191,25 +183,23 @@ const OrderHistoryPage: React.FC = () => {
           const parsedTitle = JSON.parse(order.product.title)
 
           return (
-            // historyWrap
-            <div className="historyWrap">
-              <div key={order.detailId}>
-                {/* 구매수 삭제 ? */}
-                <h3>주문번호: {index + 1}</h3>
+            <div
+              className="history-wrap"
+              key={order.detailId}>
+              <h2>주문번호: {index + 1}</h2>
 
-                {parsedTitle.map((book, index) => (
-                  <div key={index}>
-                    <img
-                      src={book.cover}
-                      alt={book.title}
-                    />
-                    <h3>제목: {book.title}</h3>
-                    <h4>가격: {book.priceSales}</h4>
-                    <h4>줄거리: {book.description}</h4>
-                  </div>
-                ))}
-                {/* 건당 구매시간으로 나누기 위해 빼둠 */}
-                {/* <h4>구매 시간: {formatDateTime(order.timePaid)}</h4> */}
+              {parsedTitle.map((book, index) => (
+                <div key={index}>
+                  <img
+                    src={book.cover}
+                    alt={book.title}
+                  />
+                  <h3>제목: {book.title}</h3>
+                  <h4>가격: {book.priceSales}</h4>
+                  <h4>줄거리: {book.description}</h4>
+                </div>
+              ))}
+              <div className='btnWrap'>
                 <Button onClick={() => ItemBuyDetailmAPI(order.detailId)}>
                   상세 내역
                 </Button>
@@ -219,32 +209,22 @@ const OrderHistoryPage: React.FC = () => {
                 <Button onClick={() => handleCancelClick(order.detailId)}>
                   주문 취소
                 </Button>
-                <hr />
-                <br />
               </div>
+              <hr />
             </div>
-            // historyWrap
           )
         })
       ) : (
         <h2>거래 내역이 존재하지 않습니다.</h2>
       )}
 
-      {/* detail */}
       <Modal
         visible={detailModal}
         closable={false}
         onOk={handleModalOk}
         okText="확인"
         cancelButtonProps={{ style: { display: 'none' } }}>
-        <p
-          style={{
-            fontSize: '30px',
-            fontWeight: '500'
-          }}>
-          결제 정보
-        </p>
-
+        <p className="modal-title">결제 정보</p>
         <p>거래 은행: {bankInfo?.bankName}</p>
         <p>계좌 정보: {bankInfo?.accountNumber}</p>
         <p>주문 금액: {bankInfo?.price}</p>
@@ -252,7 +232,6 @@ const OrderHistoryPage: React.FC = () => {
         <p>주문 일시: {formatDateTime(bankInfo?.time)}</p>
       </Modal>
 
-      {/* cancel */}
       <Modal
         visible={cancelModal}
         closable={false}
@@ -262,7 +241,6 @@ const OrderHistoryPage: React.FC = () => {
         <p>{cancelContent}</p>
       </Modal>
 
-      {/* confirm */}
       <Modal
         visible={confirmModal}
         closable={false}
@@ -271,7 +249,7 @@ const OrderHistoryPage: React.FC = () => {
         cancelButtonProps={{ style: { display: 'none' } }}>
         <p>{confirmContent}</p>
       </Modal>
-    </>
+    </div>
   )
 }
 
