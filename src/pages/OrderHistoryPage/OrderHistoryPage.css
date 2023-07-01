@@ -1,0 +1,81 @@
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap'); */
+
+
+.order-history-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.order-history-page h1 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-family: "SUITE-Regular"
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+
+.order-history-page h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-family: "SUITE-Regular"
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+.order-history-page h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-family: "SUITE-Regular"
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+.order-history-page h4 {
+  font-size: 13px;
+  margin-bottom: 5px;
+  font-weight: 300;
+  font-family: "SUITE-Regular"
+}
+
+.order-history-page .history-wrap {
+  margin-bottom: 20px;
+}
+
+.order-history-page img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.order-history-page hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.order-history-page .modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.order-history-page .ant-modal-content {
+  width: 400px;
+  max-width: 80%;
+  border-radius: 8px;
+}
+
+.order-history-page .ant-modal-body {
+  padding: 20px;
+}
+
+.order-history-page .ant-modal-footer {
+  display: none;
+}

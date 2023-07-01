@@ -3,6 +3,7 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { API_HEADER } from '../../api/usersApi'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Modal } from 'antd'
+import './userInfo.css'
 
 interface UserData {
   oldPassword: string
@@ -220,6 +221,7 @@ const EditUserInfoPage: React.FC = () => {
 
           <Form.Item>
             <Button
+            className='antd-btn'
               type="primary"
               htmlType="submit">
               비밀번호 변경

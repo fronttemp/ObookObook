@@ -1,6 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import './AccountPage.css'
-import './myProfile.css'
 
 const AccountPage = (): JSX.Element => {
   return (
