@@ -220,7 +220,7 @@ const OrderHistoryPage: React.FC = () => {
       )}
 
       <Modal
-        visible={detailModal}
+        open={detailModal}
         closable={false}
         onOk={handleModalOk}
         okText="확인"
