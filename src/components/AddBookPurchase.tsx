@@ -18,7 +18,7 @@ interface Props {
 }
 
 const AddBookPurchase: React.FC<Props> = ({ book }) => {
-  const { selectSingleBook } = useCartStore() as { selectSingleBook: (book: Book) => void }; 
+  const { selectSingleBook } = useCartStore() as { selectSingleBook: (book: Book) => void }; // Please replace the type with the correct one from your state management
   const navigate = useNavigate()
 
   const [isSignInRedirectModalVisible, setIsSignInRedirectModalVisible] = useState(false)
