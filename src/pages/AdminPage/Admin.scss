@@ -1,46 +1,63 @@
-#user-list{
-  text-align: center;
-  .ant-table-content{
-    justify-content: center;
-    align-items: center;
-  }
-  .ant-table-cell{
-    text-align: center;
-  }
+.admin-page {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+
 }
 
-#sell-list{
-  text-align: center;
-  .ant-table-cell{
-    text-align: center;
-  }
-  .listNumber {
-    width: 40px;
-  }
-  .sellListItem {
-    width: 300px;
-  }
-  .totalPrice{
-    width: 100px;
-  }
-  .userBank{
-    width: 170px;
-  }
-  .sellListFeat {
-    width: 150px;
-    margin: 10px auto;
-    button {
-      margin-bottom: 10px;
-    }
-    .done {
-      color: blue;
-    }
-    .isCanceled {
-      color: red;
-    }
-    }
+
+
+.left-sidebar {
+  flex: 2;
 }
 
-.disable {
-  display: none;
+.left-sidebar > h2{
+  margin-bottom: 20px;
 }
+
+.left-sidebar a {
+  display: block;
+  padding-left: 10px;
+  padding-bottom: 20px;
+  font-size: 18px;
+
+}
+
+.outlet-container {
+  flex: 8;
+  margin-top: 40px;
+}
+
+
+
+// #user-list{
+//   text-align: center;
+//   .ant-table-content{
+//     justify-content: center;
+//     align-items: center;
+//   }
+//   .ant-table-cell{
+//     text-align: center;
+//   }
+// }
+
+// #sell-list{
+//   text-align: center;
+//   .ant-table-cell{
+//     text-align: center;
+//   }
+//   .listNumber {
+//     width: 40px;
+//   }
+//   .sellListItem {
+//     width: 300px;
+//   }
+//   .totalPrice{
+//     width: 100px;
+//   }
+//   .userBank{
+//     width: 170px;
+//   }
+// }
+// >>>>>>> da0757309929b58dbc1c8ea555ac6b22acb0da48

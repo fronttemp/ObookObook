@@ -1,138 +1,232 @@
-import React, { useEffect, useState } from 'react';
-import { bankChoiceAPI, accountCheckAPI, accountConnectAPI, accountDeleteAPI } from '../api/accountApi';
-import { Button, Input, Checkbox } from 'antd';
-import './BanksInfo.css';
-import useAccountTokenStore from '../store/useAccountTokenStore';
+import { useEffect, useState } from 'react'
+import {
+  bankChoiceAPI,
+  accountCheckAPI,
+  accountConnectAPI,
+  accountDeleteAPI
+} 
+from '../api/accountApi'
+import { Button, Input, Checkbox, Select, Form, Card, Table } from 'antd'
+import './BanksInfo.css'
+import useAccountTokenStore from '../store/useAccountTokenStore'
+import ConfirmModal from './ConfirmModal'
+
+type Bank = {
+  code: string;
+  name: string;
+  digits: number[];
+};
+
+type Account = {
+  id: string;
+  bankName: string;
+  accountNumber: string;
+  balance: number;
+  bankCode: string;
+};
+
+type AccountWithKey = Account & { key: string };
+
 
 const BanksInfo = () => {
-  const [banks, setBanks] = useState([]);
-  const [accounts, setAccounts] = useState([]);
-  const [selectedBankCode, setSelectedBankCode] = useState('');
-  const [selectedBankDigits, setSelectedBankDigits] = useState([]);
-  const [accountNumber, setAccountNumber] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [signature, setSignature] = useState(false);
-  const { loginToken } = useAccountTokenStore();
-  
-  console.log("loginToken : ", loginToken);
+  const [banks, setBanks] = useState<Bank[]>([])
+  const [accounts, setAccounts] = useState<AccountWithKey[]>([])
+  const [selectedBankCode, setSelectedBankCode] = useState<string>('')
+  const [selectedBankDigits, setSelectedBankDigits] = useState<number[]>([])
+  const [accountNumber, setAccountNumber] = useState<string>('')
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [signature, setSignature] = useState<boolean>(false)
+  const [confirmVisible, setConfirmVisible] = useState(false)
+  const [toDeleteAccountId, setToDeleteAccountId] = useState<string>('')
+  const { loginToken } = useAccountTokenStore()
+  const { Option } = Select
+  const [form] = Form.useForm<{ bankCode: string; accountNumber: string; phoneNumber: string; agreement: boolean }>();
 
   const fetchBanks = async () => {
     try {
-      const data = await bankChoiceAPI(loginToken);
-      if (data) setBanks(data);
+      const data = await bankChoiceAPI(loginToken)
+      if (data) setBanks(data)
     } catch (error) {
-      console.error('Fetching banks failed:', error);
+      console.error('Fetching banks failed:', error)
     }
-  };
+  }
 
   const fetchAccounts = async () => {
     try {
-      const data = await accountCheckAPI(loginToken);
-      if (data && data.accounts) setAccounts(data.accounts);
+      const data = await accountCheckAPI(loginToken)
+      if (data && data.accounts) {
+        const accountsWithKey = data.accounts.map(account => ({ ...account, key: account.id }))
+        setAccounts(accountsWithKey)
+      }
     } catch (error) {
-      console.error('Fetching accounts failed:', error);
+      console.error('Fetching accounts failed:', error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchBanks();
-    fetchAccounts();
-  }, []);
+    fetchBanks()
+    fetchAccounts()
+  }, [])
 
-  const handleAccountDelete = async (accountId) => {
+  const handleAccountDelete = async () => {
     try {
-      await accountDeleteAPI(accountId);
-      fetchBanks(); // 은행 목록 다시 가져오기
-      fetchAccounts(); // 계좌 삭제 후 다시 계좌 정보를 가져옴
+      await accountDeleteAPI(loginToken, toDeleteAccountId)
+      fetchBanks() // 은행 목록 다시 가져오기
+      fetchAccounts() // 계좌 삭제 후 다시 계좌 정보를 가져옴
     } catch (error) {
-      console.error('Account deletion failed:', error);
+      console.error('Account deletion failed:', error)
     }
-  };
+  }
 
-  const handleBankSelect = (bankCode) => {
-    setSelectedBankCode(bankCode);
-    const selectedBank = banks.find(bank => bank.code === bankCode);
+  const handleBankSelect = (bankCode : string) => {
+    setSelectedBankCode(bankCode)
+    const selectedBank = banks.find(bank => bank.code === bankCode)
     if (selectedBank) {
-      setSelectedBankDigits(selectedBank.digits);
+      setSelectedBankDigits(selectedBank.digits)
     }
-  };
+  }
 
-  const handleAccountConnect = async () => {
-    if (signature) {
-      await accountConnectAPI(loginToken,selectedBankCode, accountNumber, phoneNumber, signature);
-      fetchBanks(); // 은행 목록 다시 가져오기
-      fetchAccounts(); // 계좌 연결 후 다시 계좌 정보를 가져옴
+  const handleAccountConnect = async (values: {
+    bankCode: string;
+    accountNumber: string;
+    phoneNumber: string;
+    agreement: boolean;
+  }) => {
+    const { bankCode, accountNumber, phoneNumber, agreement } = values
+    if (agreement) {
+      await accountConnectAPI(
+        loginToken,
+        bankCode,
+        accountNumber,
+        phoneNumber,
+        agreement
+      )
+      fetchBanks() // 은행 목록 다시 가져오기
+      fetchAccounts() // 계좌 연결 후 다시 계좌 정보를 가져옴
+      form.resetFields() // Form의 필드를 초기화합니다.
     } else {
-      alert('계좌연결에 동의해주세요.');
+      alert('계좌연결에 동의해주세요.')
     }
-  };
+  }
 
   // 연결 가능한 은행 목록 필터링
-  const availableBanks = banks.filter(bank => !accounts.find(account => account.bankCode === bank.code));
+  const availableBanks = banks.filter(
+    bank => !accounts.find(account => account.bankCode === bank.code)
+  )
 
   // 계좌번호 최대 입력 길이 계산
-  const maxAccountLength = selectedBankDigits.reduce((acc, val) => acc + val, 0);
+  const maxAccountLength = selectedBankDigits.reduce((acc, val) => acc + val, 0)
+
+  // Table Columns 정의
+  const columns = [
+    {
+      title: '은행명',
+      dataIndex: 'bankName',
+      key: 'bankName',
+    },
+    {
+      title: '계좌번호',
+      dataIndex: 'accountNumber',
+      key: 'accountNumber',
+    },
+    {
+      title: '계좌 잔액',
+      dataIndex: 'balance',
+      key: 'balance',
+      render: balance => `${balance.toLocaleString()}원` // 잔액을 원화로 표시
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => (
+        <Button
+          onClick={() => {
+            setToDeleteAccountId(record.id) // Set the account to delete
+            setConfirmVisible(true) // Show the confirmation modal
+          }}>
+          계좌 해지
+        </Button>
+      ),
+    },
+  ]
 
   return (
-    <div>
-      <h2 style={{ marginTop: '20px' }}>나의 계좌</h2>
-      <div className="account-list">
-        {accounts.map(account => (
-          <div key={account.id} className="account-item">
-            <p>{account.bankName} - {account.accountNumber}</p>
-            <Button onClick={() => handleAccountDelete(account.id)}>계좌 해지</Button>
-          </div>
-        ))}
-      </div>
-
-      <h2>계좌 연결</h2>
-      <div className="account-connect">
-        <select
-          className="bank-select"
-          value={selectedBankCode}
-          onChange={(e) => handleBankSelect(e.target.value)}
-        >
-          <option value="" disabled hidden>
-            은행 선택
-          </option>
-          {availableBanks.map(bank => (
-            <option key={bank.code} value={bank.code}>
-              {bank.name}
-            </option>
-          ))}
-        </select>
-        <Input
-          className="account-input"
-          placeholder="계좌번호"
-          value={accountNumber}
-          onChange={(e) => {
-            if (e.target.value.length <= maxAccountLength) {
-              setAccountNumber(e.target.value)
-            }
-          }}
-        />
-        <Input
-          className="account-input"
-          placeholder="전화번호"
-          value={phoneNumber}
-          onChange={(e) => {
-            if (e.target.value.length <= 11) {
-              setPhoneNumber(e.target.value)
-            }
-          }}
-        />
-        <Checkbox
-          className="signature-checkbox"
-          onChange={(e) => setSignature(e.target.checked)}
-        >
-          계좌연결에 동의합니다
-        </Checkbox>
-        <Button className="connect-button" onClick={handleAccountConnect}>
-          계좌 연결
-        </Button>
-      </div>
+    <div className='bank-account-page'>
+      <Card className="account-list-card" title="나의 계좌" bordered={true}>
+        <Table dataSource={accounts} columns={columns} pagination={false} />
+      </Card>
+      
+      <Card className="account-connect-card" title ="계좌 연결" bordered={true}>
+        <Form
+          className="account-connect"
+          form={form}
+          onFinish={handleAccountConnect}
+          style={{ width: '240px' }}>
+          <Form.Item
+            name="bankCode"
+            rules={[{ required: true, message: '은행을 선택해주세요.' }]}>
+            <Select
+              className="bank-select"
+              placeholder="은행 선택"
+              onChange={handleBankSelect}>
+              {availableBanks.map(bank => (
+                <Option
+                  key={bank.code}
+                  value={bank.code}>
+                  {bank.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="accountNumber"
+            rules={[{ required: true, message: '계좌번호를 입력해주세요' }]}>
+            <Input
+              className="account-input"
+              placeholder="계좌번호"
+              maxLength={maxAccountLength}
+            />
+          </Form.Item>
+          <Form.Item
+            name="phoneNumber"
+            rules={[{ required: true, message: '전화번호를 입력해주세요' }]}>
+            <Input
+              className="account-input"
+              placeholder="전화번호"
+              maxLength={11}
+            />
+          </Form.Item>
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[{ required: true, message: '계좌연결에 동의해주세요' }]}>
+            <Checkbox className="signature-checkbox">
+              계좌연결에 동의합니다
+            </Checkbox>
+          </Form.Item>
+          <Form.Item className='buttons-container'>
+            <Button
+              className="connect-button"
+              type="primary"
+              htmlType="submit">
+              계좌 연결
+            </Button>
+            <Button
+              className="reset-button"
+              onClick={() => form.resetFields()}>
+              초기화
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+      <ConfirmModal
+        content="계좌해지에 동의하십니까"
+        onConfirm={handleAccountDelete}
+        open={confirmVisible}
+        setConfirmVisible={setConfirmVisible}
+      />
     </div>
-  );
-};
+  )
+}
 
-export default BanksInfo;
+export default BanksInfo

@@ -150,7 +150,6 @@ const SignUpPage = (): JSX.Element => {
           <div className="sign-btn">
             <Button type="primary" htmlType={'Submit'}>회원가입</Button>
           </div>
-
         </form>
 
         {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (

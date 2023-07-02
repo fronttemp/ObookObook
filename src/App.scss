@@ -18,7 +18,7 @@ html {
 
 //전역스타일
 body {
-  font-family: "pretendard", sans-serif;
+  font-family: 'pretendard', sans-serif;
   font-weight: 400;
   line-height: 1.4rem;
 }
@@ -92,18 +92,23 @@ input:focus {
   outline: none;
 }
 
-
 //antd 설정
-.ant-btn-primary{
+.ant-btn-primary {
   background-color: var(--color-primary);
 }
-:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(:disabled):hover {
+:where(.css-dev-only-do-not-override-1wazalj).ant-btn-primary:not(
+    :disabled
+  ):hover {
   background-color: var(--color-primary-hover);
 }
 :where(.css-dev-only-do-not-override-1wazalj).ant-card .ant-card-body {
   padding: 0;
 }
-:where(.css-dev-only-do-not-override-1wazalj).ant-carousel .slick-list .slick-slide >div>div {
+:where(.css-dev-only-do-not-override-1wazalj).ant-carousel
+  .slick-list
+  .slick-slide
+  > div
+  > div {
   overflow: hidden;
   border: none;
   padding: 5px;
@@ -141,7 +146,9 @@ header {
     justify-content: end;
     gap: 20px;
     padding-top: 20px;
-    a, button, span {
+    a,
+    button,
+    span {
       font-size: 12px;
       color: var(--color-black-50);
     }
@@ -199,8 +206,8 @@ header {
           display: flex;
           align-items: center;
           .tokenimg {
-            width: 26px;
-            height: 26px;
+            width: 44px;
+            height: 44px;
             background-size: cover;
             background-position: center;
             border-radius: 50%;
@@ -211,7 +218,6 @@ header {
     }
   }
 }
-
 
 //푸터
 footer {
@@ -253,7 +259,6 @@ footer {
   }
 }
 
-
 //디테일페이지
 
 .title {
@@ -271,7 +276,7 @@ footer {
     outline: var(--color-black-10) 1px solid;
     background-position: center;
     background-size: cover;
-  } 
+  }
   .subDetail {
     display: flex;
     flex-wrap: wrap;
@@ -328,13 +333,13 @@ footer {
           .author__type {
             color: var(--color-black-50);
           }
-        }  
+        }
       }
     }
   }
 }
 
-//책 리스트 
+//책 리스트
 .booksInfo {
   padding: 20px 36px 40px 36px;
   .bookInfo:not(:first-of-type) {
@@ -442,7 +447,7 @@ footer {
     padding-bottom: 32px;
     .imginput {
       border: none;
-      padding: 10px 20px 0 ;
+      padding: 10px 20px 0;
     }
     .signup-input {
       border-radius: 10px;
@@ -491,7 +496,7 @@ footer {
     background-color: var(--color-primary);
   }
 }
-.listBox{
+.listBox {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
@@ -502,8 +507,8 @@ footer {
       display: flex;
       justify-content: space-between;
       .items {
-      display: flex;
-      flex-direction: column;
+        display: flex;
+        flex-direction: column;
         .card {
           outline: var(--color-black-20) 1px solid;
           width: 152px;
@@ -528,10 +533,10 @@ footer {
         }
       }
     }
-    
+
     .headSection {
       display: flex;
-      justify-content: space-between ;
+      justify-content: space-between;
       .title__text {
         font-size: 16px;
       }
@@ -558,7 +563,11 @@ footer {
     cursor: pointer;
     .main-item-info {
       transition: 1s;
-      background: linear-gradient( to top, rgba(255, 255, 255, 1)5%, rgba(0,0,0,0));
+      background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 1) 5%,
+        rgba(0, 0, 0, 0)
+      );
       color: #000;
       text-align: center;
       width: 100%;
@@ -575,7 +584,6 @@ footer {
     }
   }
 }
-
 
 //카트, 결제 페이지
 .cart-page {
@@ -609,17 +617,26 @@ footer {
   }
   .left-section {
     flex: 7;
-      .left-section__payment {
-    margin-top: 10px;
-    margin-right: 10px;
-    .bank-account-list {
-      padding: 32px;
+    .left-section__payment {
+      margin-top: 10px;
+      .payment-selection {
+        padding-top: 10px;
+        padding-left: 30px;
+        p {
+          display : inline-block;
+          padding-right: 20px;
+          font-weight: bold; 
+          font-size: larger;
+          color : var(--color-primary)
+        }
+      }
+      .bank-account-list {
+        padding: 32px;
+      }
     }
   }
-
-  }
 }
-.sidebar{
+.sidebar {
   flex: 2;
   position: sticky;
   top: 240px;
@@ -645,3 +662,4 @@ footer {
   }
 }
 
+//계좌관리 페이지

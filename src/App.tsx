@@ -26,6 +26,10 @@ import EditBankInfoPage from './pages/EditBankInfoPage'
 import useAccountTokenStore from './store/useAccountTokenStore'
 import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
+import UserListPage from './pages/UserListPage'
+import TotalSalesListPage from './pages/TotalSalesListPage'
+import Admin_index from './pages/AdminPage'
+import AdminPageTemp from './pages/AdminPage/AdminPageTemp'
 
 const Layout = () => {
   return (
@@ -41,6 +45,7 @@ const Layout = () => {
 function App() {
   // 로그인 인증
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { loginToken, nickNameToken } = useAccountTokenStore(state => ({
     loginToken: state.loginToken,
@@ -87,15 +92,20 @@ function App() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
+  useEffect(() => {
     loginState()
   }, [loginToken, location])
 
-  const navigate = useNavigate()
-
   useEffect(() => {
-    if (nickNameToken === 'admin' && location.pathname === '/Account/EditUserInfo') {
+    if (
+      nickNameToken === 'admin' &&
+      location.pathname === '/Account/EditUserInfo'
+    ) {
       navigate('/admin')
-    }  else if (nickNameToken !== 'admin' && location.pathname === '/admin') {
+    } else if (nickNameToken !== 'admin' && location.pathname === '/admin') {
       navigate('/')
     }
   }, [loginToken, navigate, location.pathname])
@@ -130,8 +140,20 @@ function App() {
 
           <Route
             path="/Admin"
-            element={<AdminPage />}
+            element={<AdminPage />}>
+            <Route
+              path="UserList"
+              element={<UserListPage />}
+            />
+            <Route
+              path="TotalSalesList"
+              element={<TotalSalesListPage />}
+            />
+            <Route
+            path="adminTemp"
+            element={<AdminPageTemp />}
           />
+          </Route>
 
           <Route
             path="/Bestseller"
