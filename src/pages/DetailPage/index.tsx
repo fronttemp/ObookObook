@@ -7,16 +7,36 @@ import axios from 'axios';
 import { Spin } from 'antd';
 import AddBookPurchase from '../../components/AddBookPurchase';
 
+interface Book {
+  title: string;
+  author: string;
+  publisher: string;
+  cover: string;
+  customerReviewRank: number;
+  categoryName: string;
+  priceSales: number;
+  description?: string;
+  fullDescription?: string;
+  fullDescription2?: string;
+  subInfo: {
+    authors?: Author[];
+    toc?: string;
+  };
+}
+
+interface Author {
+  authorName: string;
+  authorTypeDesc: string;
+  authorInfo: string;
+}
+
 const DetailPage = () => {
-  const [book, setBook] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [book, setBook] = useState<Book>({} as Book);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const isbnNum = location.state?.value;
 
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
-
-  console.log(isbnNum)
-
 
   useEffect(() => {
     (async () => {
@@ -33,13 +53,13 @@ const DetailPage = () => {
     })();
   }, [isbnNum]);
 
-  function decodeHTMLEntities(text) {
+  function decodeHTMLEntities(text: string): string {
     const element = document.createElement('div');
     element.innerHTML = text;
-    return element.textContent;
+    return element.textContent || '';
   }
 
-  function renderDescription(description) {
+  function renderDescription(description: string): JSX.Element[]  {
     const regexpBold = /<\/?\s*b\s*>/gi
     const regexpBR = /<\/?\s*br\s*\/?>/gi
     const regexPha = /<\/?\s*p\s*>/gi
