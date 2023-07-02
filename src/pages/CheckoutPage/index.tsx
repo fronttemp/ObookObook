@@ -80,7 +80,7 @@ const CheckoutPage = () => {
       console.log('Payment initiated')
       setModalContent(
         <>
-          총 {selectedItems.length}개의 상품, {priceKr(totalPrice)}를
+          총 {selectedItems.length}개의 상품, {priceKr(totalPrice)}을
           <br />
           결제하시겠습니까?
         </>
