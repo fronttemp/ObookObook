@@ -7,19 +7,19 @@ const ItemSortMenu = ( {onSortChange} ) => {
 
   return (
     <Select 
-      defaultValue= '관련순'
+      defaultValue= '정렬순'
       onChange = {handleSortSelect}
       options = {[
         {
-          value: '관련순',
+          value: 'Accuracy',
           lavel: 'Accuracy'
         },
         {
-          value: '제목순',
+          value: 'Title',
           lavel: 'Title'
         },
         {
-          value: '최신순',
+          value: 'PublishTime',
           lavel: 'PublishTime'
         }
       ]}

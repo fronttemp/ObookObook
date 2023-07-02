@@ -136,7 +136,7 @@ const BanksInfo = () => {
       render: balance => `${balance.toLocaleString()}원` // 잔액을 원화로 표시
     },
     {
-      title: '계좌 해지',
+      title: '',
       key: 'action',
       render: (text, record) => (
         <Button
