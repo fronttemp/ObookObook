@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd'
 
 type ModalCancelOkProps = {
-  content: string;
+  content: React.ReactNode;
   onConfirm: (confirm: boolean) => void;
   open: boolean;
   setConfirmVisible: (visible: boolean) => void;

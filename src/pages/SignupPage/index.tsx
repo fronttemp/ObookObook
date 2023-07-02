@@ -6,7 +6,7 @@ import Modal from 'antd/es/modal/Modal'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-const SignUpPage = (): JSX.Element => {
+const SignupPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [displayName, setDisplayName] = useState<string>('')
@@ -155,7 +155,7 @@ const SignUpPage = (): JSX.Element => {
 
         {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
           <Modal
-            visible={successModalVisible}
+            open={successModalVisible}
             closable={false}
             onOk={handleModalOk}
             okText="확인"
@@ -169,7 +169,7 @@ const SignUpPage = (): JSX.Element => {
           </Modal>
         ) : (
           <Modal
-            visible={successModalVisible}
+            open={successModalVisible}
             closable={false}
             onOk={handleModalOk}
             okText="확인"
@@ -182,4 +182,4 @@ const SignUpPage = (): JSX.Element => {
   )
 }
 
-export default SignUpPage
+export default SignupPage
