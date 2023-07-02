@@ -3,7 +3,6 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { API_HEADER } from '../../api/usersApi'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Modal } from 'antd'
-import './userInfo.css'
 
 interface UserData {
   oldPassword: string
@@ -147,21 +146,26 @@ const EditUserInfoPage: React.FC = () => {
 
   return (
     <div className="modifyUserInfo">
-      <section className="myProfile">
+      <div className="myProfile">
+       <div className="page_title">프로필 변경</div>
         {/* 프로필 사진 변경 */}
-        <form onSubmit={modifyUserImg}>
+        <div className="profileBox">
           <img
-            className="userImg"
-            src={userImgToken || newUserImg} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
-            alt="User Profile"
-          />
+              className="userImg"
+              src={userImgToken || newUserImg} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
+              alt="User Profile"
+            />
           <div className="current-userName">{nickNameToken}</div>
+        </div>
+        <form onSubmit={modifyUserImg}>
           <div className="imgInputWrap">
             <input
+              className="userImg-input"
               type="file"
               onChange={uploadImage}
             />
             <Button
+              className="userImg-btn"
               htmlType="submit">
               프로필 사진 변경
             </Button>
@@ -179,10 +183,10 @@ const EditUserInfoPage: React.FC = () => {
           />
           <Button htmlType="submit">닉네임 변경</Button>
         </form>
-      </section>
+      </div>
 
-
-      <section className="myProfile-img-name">
+      <div className="myProfile-password">
+      <div className="page_title">비밀번호 변경</div>
         <Form
           form={form}
           onFinish={handleModifyUserInfo}
@@ -216,6 +220,7 @@ const EditUserInfoPage: React.FC = () => {
 
           <Form.Item>
             <Button
+            className='antd-btn'
               type="primary"
               htmlType="submit">
               비밀번호 변경
@@ -234,7 +239,7 @@ const EditUserInfoPage: React.FC = () => {
             <p>비밀번호가 성공적으로 변경되었습니다.</p>
           </Modal>
         </Form>
-      </section>
+      </div>
     </div>
   )
 }

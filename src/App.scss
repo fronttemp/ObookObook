@@ -388,11 +388,6 @@ footer {
             text-decoration: underline;
           }
         }
-        .book_bottom {
-          .bookreview {
-            padding-bottom: 10px;
-          }
-        }
       }
     }
   }
@@ -662,4 +657,39 @@ footer {
   }
 }
 
-//계좌관리 페이지
+//유저 페이지
+.account-page {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  .left-sidebar {
+    flex: 3;
+    a {
+      display: block;
+      padding-left: 10px;
+      padding-bottom: 20px;
+    }
+  }
+  .outlet-container {
+    flex: 7;
+  }
+}
+.modifyUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+  .myProfile {
+    .page_title {
+      padding-top: 0;
+    }
+    .profileBox{
+      .userImg {
+      outline: var(--color-black-30) 1px solid;
+      border-radius: 50%;
+      width: 150px;
+    }
+      
+    }
+  }
+}
