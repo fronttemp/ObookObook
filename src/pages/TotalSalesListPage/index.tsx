@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi'
 import { Button, Table, Modal, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons';
-import './TotalSalesListPage.scss'
 
 interface User {
   email: string
@@ -204,9 +203,9 @@ const TotalSalesListPage = () => {
   ]
 
   return (
-      <section>
+      <div>
         <div id="sell-list">
-          <h1>판매 내역</h1>
+          <div className='page_title'>판매 내역</div>
           {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div> 
           :
           <Table
@@ -233,7 +232,7 @@ const TotalSalesListPage = () => {
           cancelButtonProps={{ style: { display: 'none' } }}>
           <p>{confirmContent}</p>
         </Modal>
-      </section>
+      </div>
   )
 }
 

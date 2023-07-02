@@ -3,7 +3,6 @@ import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi'
 import { API_HEADER } from '../../api/usersApi'
 import { Modal, Button } from 'antd'
-import './OrderHistoryPage.css'
 
 interface Order {
   detailId: string
@@ -175,49 +174,55 @@ const OrderHistoryPage: React.FC = () => {
 
   return (
     <div className="order-history-page">
-      <h1>주문내역 페이지</h1>
+      <div className='page_title'>주문내역</div>
+      <div className="gridBox">
+        {orderHistory &&
+        Array.isArray(orderHistory) &&
+        orderHistory.length > 0 ? (
+          orderHistory.map((order, index) => {
+            const parsedTitle = JSON.parse(order.product.title)
 
-      {orderHistory &&
-      Array.isArray(orderHistory) &&
-      orderHistory.length > 0 ? (
-        orderHistory.map((order, index) => {
-          const parsedTitle = JSON.parse(order.product.title)
-
-          return (
-            <div
-              className="history-wrap"
-              key={order.detailId}>
-              <h2>주문번호: {index + 1}</h2>
-
-              {parsedTitle.map((book, index) => (
-                <div key={index}>
-                  <img
-                    src={book.cover}
-                    alt={book.title}
-                  />
-                  <h3>제목: {book.title}</h3>
-                  <h4>가격: {book.priceSales}</h4>
-                  <h4>줄거리: {book.description}</h4>
+            return (
+              <div
+                className="history-wrap"
+                key={order.detailId}>
+                <span className = 'bestindex'>{index + 1}</span>
+                <div className="histroy-inner">
+                  <div className="history-grid">
+                    {parsedTitle.map((book, index) => (
+                      <div key={index} className='history-detail'>
+                        <div
+                        className="bookcover"
+                        style={{backgroundImage: `url(${book.cover})`}}
+                        >
+                        </div>
+                        <div className="history-detail-desc">
+                          <div className='history-detail__title'>{book.title.length > 6 ? book.title.slice(0,5)+'...' : book.title}</div>
+                          <div>{book.priceSales.toLocaleString()} 원</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='btnWrap'>
+                    <Button onClick={() => ItemBuyDetailmAPI(order.detailId)}>
+                      상세 내역
+                    </Button>
+                    <Button onClick={() => handleConfirmModal(order.detailId)}>
+                      주문 확정
+                    </Button>
+                    <Button onClick={() => handleCancelClick(order.detailId)}>
+                      주문 취소
+                    </Button>
+                  </div>
                 </div>
-              ))}
-              <div className='btnWrap'>
-                <Button onClick={() => ItemBuyDetailmAPI(order.detailId)}>
-                  상세 내역
-                </Button>
-                <Button onClick={() => handleConfirmModal(order.detailId)}>
-                  주문 확정
-                </Button>
-                <Button onClick={() => handleCancelClick(order.detailId)}>
-                  주문 취소
-                </Button>
               </div>
-              <hr />
-            </div>
-          )
-        })
-      ) : (
-        <h2>거래 내역이 존재하지 않습니다.</h2>
-      )}
+            )
+          })
+        ) : (
+          <div className='noResult'>거래 내역이 존재하지 않습니다.</div>
+        )}
+      </div>
+
 
       <Modal
         open={detailModal}
@@ -225,11 +230,10 @@ const OrderHistoryPage: React.FC = () => {
         onOk={handleModalOk}
         okText="확인"
         cancelButtonProps={{ style: { display: 'none' } }}>
-        <p className="modal-title">결제 정보</p>
+        <h2>결제 정보</h2>
         <p>거래 은행: {bankInfo?.bankName}</p>
         <p>계좌 정보: {bankInfo?.accountNumber}</p>
-        <p>주문 금액: {bankInfo?.price}</p>
-        <p>카테고리: {bankInfo?.genre}</p>
+        <p>주문 금액: {bankInfo?.price.toLocaleString()} 원</p>
         <p>주문 일시: {formatDateTime(bankInfo?.time)}</p>
       </Modal>
 

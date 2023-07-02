@@ -147,100 +147,103 @@ const EditUserInfoPage: React.FC = () => {
   return (
     <div className="modifyUserInfo">
       <div className="myProfile">
-       <div className="page_title">프로필 변경</div>
-        {/* 프로필 사진 변경 */}
-        <div className="profileBox">
-          <img
-              className="userImg"
-              src={userImgToken || newUserImg} // false면 userImgToken(현재), true면 newUserImg(변경할 이미지)
-              alt="User Profile"
-            />
-          <div className="current-userName">{nickNameToken}</div>
-        </div>
-        <form onSubmit={modifyUserImg}>
-          <div className="imgInputWrap">
-            <input
-              className="userImg-input"
-              type="file"
-              onChange={uploadImage}
-            />
-            <Button
-              className="userImg-btn"
-              htmlType="submit">
-              프로필 사진 변경
-            </Button>
+        <div className="page_title">프로필 변경</div>
+        <div className="myProfileWrap">
+          <div className="profileBox">
+            <div className='userImg'
+            style={{backgroundImage:`url(${userImgToken || newUserImg})`}}></div>
+            <div className="current-userName">{nickNameToken}</div>
           </div>
-        </form>
-        {/* 닉네임 변경 */}
-        <form
-          className="userNameWrap"
-          onSubmit={modifyUserName}>
-          <Input
-            type="text"
-            value={newNickName}
-            onChange={handleNickNameChange}
-            placeholder="새로운 닉네임을 입력하세요"
-          />
-          <Button htmlType="submit">닉네임 변경</Button>
-        </form>
+          <div className="formWrap">
+            <form 
+              onSubmit={modifyUserImg}>
+                <div className="formtitle">프로필 사진 변경 :</div>
+                <div className="imgInputWrap">
+                  <input
+                    className="userImg-input"
+                    type="file"
+                    onChange={uploadImage}
+                  />
+                  <Button
+                    className="userImg-btn"
+                    htmlType="submit">
+                    변경
+                  </Button>
+                </div>
+              </form>
+            <form
+              onSubmit={modifyUserName}>
+              <div className="formtitle">닉네임 변경 :</div>
+              <Input
+                type="text"
+                value={newNickName}
+                onChange={handleNickNameChange}
+                placeholder="새로운 닉네임을 입력하세요"
+              />
+              <Button htmlType="submit">변경</Button>
+            </form>
+          </div>
+        </div>
       </div>
-
       <div className="myProfile-password">
-      <div className="page_title">비밀번호 변경</div>
-        <Form
-          form={form}
-          onFinish={handleModifyUserInfo}
-          className="input">
-          <Form.Item
-            name="oldPassword"
-            label="현재 비밀번호"
-            rules={[
-              { required: true, message: '현재 비밀번호를 입력해주세요.' }
-            ]}>
-            <Input.Password />
-          </Form.Item>
+        <div className="page_title">비밀번호 변경</div>
+        <div className="passwordWrap">
+          <Form
+            form={form}
+            onFinish={handleModifyUserInfo}
+            className="input">
+            <Form.Item
+              name="oldPassword"
+              label="현재 비밀번호"
+              rules={[
+                { required: true, message: '현재 비밀번호를 입력해주세요.' }
+              ]}>
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item
-            name="newPassword"
-            label="변경할 비밀번호"
-            rules={[
-              { required: true, message: '변경할 비밀번호를 입력해주세요.' }
-            ]}>
-            <Input.Password />
-          </Form.Item>
+            <Form.Item
+              name="newPassword"
+              label="변경할 비밀번호"
+              rules={[
+                { required: true, message: '변경할 비밀번호를 입력해주세요.' }
+              ]}>
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item
-            name="confirmPassword"
-            label="확인 비밀번호"
-            rules={[
-              { required: true, message: '확인 비밀번호를 입력해주세요.' }
-            ]}>
-            <Input.Password />
-          </Form.Item>
+            <Form.Item
+              name="confirmPassword"
+              label="확인 비밀번호"
+              rules={[
+                { required: true, message: '확인 비밀번호를 입력해주세요.' }
+              ]}>
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item>
-            <Button
-            className='antd-btn'
-              type="primary"
-              htmlType="submit">
-              비밀번호 변경
-            </Button>
-          </Form.Item>
+            <Form.Item>
+              <Button
+              className='antd-btn'
+                type="primary"
+                htmlType="submit">
+                비밀번호 변경
+              </Button>
+            </Form.Item>
 
-          {error && <div style={{ color: 'red' }}>{error}</div>}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
 
-          <Modal
-            title="비밀번호 변경 성공"
-            open={successModalVisible}
-            closable={false}
-            onOk={handleModalOk}
-            okText="확인"
-            cancelButtonProps={{ style: { display: 'none' } }}>
-            <p>비밀번호가 성공적으로 변경되었습니다.</p>
-          </Modal>
-        </Form>
+            <Modal
+              title="비밀번호 변경 성공"
+              open={successModalVisible}
+              closable={false}
+              onOk={handleModalOk}
+              okText="확인"
+              cancelButtonProps={{ style: { display: 'none' } }}>
+              <p>비밀번호가 성공적으로 변경되었습니다.</p>
+            </Modal>
+          </Form>
+
+        </div>
       </div>
-    </div>
+    </div>  
   )
 }
 

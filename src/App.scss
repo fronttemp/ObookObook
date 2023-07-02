@@ -91,6 +91,13 @@ section {
 input:focus {
   outline: none;
 }
+.bestindex {
+  color: var(--color-black-30);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
 
 //antd 설정
 .ant-btn-primary {
@@ -352,13 +359,6 @@ footer {
     .bookInfo_box {
       display: flex;
       gap: 24px;
-      .bestindex {
-        color: var(--color-black-30);
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        padding-right: 20px;
-      }
       .bookImg {
         flex-shrink: 0;
         width: 140px;
@@ -615,8 +615,7 @@ footer {
     .left-section__payment {
       margin-top: 10px;
       .payment-selection {
-        padding-top: 10px;
-        padding-left: 30px;
+        padding-bottom: 20px;
         p {
           display : inline-block;
           padding-right: 20px;
@@ -683,13 +682,127 @@ footer {
     .page_title {
       padding-top: 0;
     }
-    .profileBox{
-      .userImg {
-      outline: var(--color-black-30) 1px solid;
-      border-radius: 50%;
-      width: 150px;
-    }
-      
+    .myProfileWrap{
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      .profileBox {
+        text-align: center;
+        .current-userName {
+          font-weight: 700;
+          font-size: 18px;
+        }
+        .userImg {
+        outline: var(--color-black-30) 1px solid;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 20px;
+        }
+      }
+      .formWrap {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        form {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          .formtitle {
+            flex-shrink: 0;
+          }
+        }
+      }
     }
   }
+}
+
+.order-history-page {
+  .page_title {
+    padding-top: 0;
+  }
+  .gridBox{
+    .history-wrap:not(:last-of-type) {
+      border-bottom: var(--color-black-10) solid 1px;
+    }
+    .history-wrap {
+      display: flex;
+      justify-content: space-between;
+      padding: 32px 0 32px 0;
+      .bestindex {
+        align-items: first baseline;
+        margin-top: 10px;
+      }
+      .histroy-inner {
+        .history-grid {
+          padding-bottom: 20px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+          .history-detail {
+            padding: 10px;
+            .bookcover {
+              width: 80px;
+              height: 110px;
+              background-position: center;
+              background-size: cover;
+            }
+            .history-detail-desc {
+              text-align: center;
+              padding-top: 10px;
+              .history-detail__title {
+                font-weight: 700;
+              }
+            }
+          }
+        }
+        .btnWrap button {
+          margin-right: 20px;
+        }
+      }
+
+    }
+
+  }
+}
+
+
+//어드민페이지
+#sell-list{
+  .ant-table-cell{
+    text-align: center;
+  }
+  .listNumber {
+    width: 40px;
+  }
+  .sellListItem {
+    width: 300px;
+  }
+  .totalPrice{
+    width: 100px;
+  }
+  .userBank{
+    width: 170px;
+  }
+  .sellListFeat {
+    width: 150px;
+    margin: 10px auto;
+    button {
+      margin-bottom: 10px;
+    }
+    .done {
+      color: blue;
+    }
+    .isCanceled {
+      color: red;
+    }
+    }
+}
+
+
+
+//안 보이기
+.disable {
+  display: none;
 }

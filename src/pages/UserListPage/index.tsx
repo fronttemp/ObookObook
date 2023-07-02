@@ -49,13 +49,14 @@ const UserListPage = () => {
   ]
 
   return (
-    <div id="user-list">
-      <Table
-        dataSource={userDataSource}
-        columns={userColumns}
-        pagination={false}
-      />
-    </div>
+      <div id="user-list">
+        <div className="page_title">유저 리스트</div>
+        <Table
+          dataSource={userDataSource}
+          columns={userColumns}
+          pagination={false}
+        />
+      </div>
   );
 };
 

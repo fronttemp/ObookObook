@@ -173,8 +173,8 @@ const CheckoutPage = () => {
         <Card
           className="left-section__payment"
           title="결제 수단">
-          <div className="payment-selection">
-            <>
+          <div className="bank-account-list">
+            <div className="payment-selection">
               <p>오북페이</p>
               <Button
                 type="primary"
@@ -182,9 +182,7 @@ const CheckoutPage = () => {
                 onClick={handleBankAccounts}>
                 계좌설정
               </Button>
-            </>
-          </div>
-          <div className="bank-account-list">
+            </div>
             {bankAccounts.length > 0 ? (
               <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
                 {bankAccounts.map(account => (
@@ -204,7 +202,7 @@ const CheckoutPage = () => {
                 ))}
               </Row>
             ) : (
-              <p>사용 가능한 은행 계좌가 없습니다. 계좌를 연결해주세요.</p>
+              <div className='noResult'>사용 가능한 은행 계좌가 없습니다. 계좌를 연결해주세요.</div>
             )}
           </div>
         </Card>
