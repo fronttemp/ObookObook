@@ -157,16 +157,16 @@ const EditUserInfoPage: React.FC = () => {
           />
           <div className="current-userName">{nickNameToken}</div>
           <div className="imgInputWrap">
-            <Input
+            <input
               className="userImg-input"
               type="file"
               onChange={uploadImage}
             />
-            <Button
+            <button
               className="userImg-btn"
               type="submit">
               프로필 사진 변경
-            </Button>
+            </button>
           </div>
         </form>
         {/* 닉네임 변경 */}
@@ -221,7 +221,7 @@ const EditUserInfoPage: React.FC = () => {
 
           <Form.Item>
             <Button
-            className='antd-btn'
+              className="antd-btn"
               type="primary"
               htmlType="submit">
               비밀번호 변경
