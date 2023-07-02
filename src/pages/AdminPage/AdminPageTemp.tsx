@@ -33,6 +33,8 @@ interface ItemSell {
   orderStatus: string;
   user: User
   timePaid: string;
+  done: boolean;
+  isCanceled: boolean;
 }
 
 const AdminPageTemp = () => {
@@ -183,6 +185,8 @@ const AdminPageTemp = () => {
         <div className="sellListFeat">
           <Button onClick={() => handleSellCancel(order.detailId)}>판매 취소</Button>
           <Button onClick={() => handleSellConfirm(order.detailId)}>판매 확정</Button>
+          <div className = {order.done === true ? 'done' : 'disable'}>확정되었습니다.</div>
+          <div className = {order.isCanceled === true ? 'isCanceled' : 'disable'}>취소되었습니다.</div>
         </div>
       </>
     )
@@ -220,9 +224,6 @@ const AdminPageTemp = () => {
       key: 'action',
     },
   ]
-
-
-
 
   return (
     <>

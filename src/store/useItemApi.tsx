@@ -5,7 +5,8 @@ export const useSearchApi = create((set) => ({
   books: [],
   fetch: async (searchTerm: string, tag:string, sort:string) => {
     const response = await axios(`/api/aladinItemSearch?s=ItemSearch&mr=50&q=${searchTerm}&t=${tag}&sort=${sort}`)     
-    set( { books: response.data.item}) 
+    set( { books: response.data.item})
+    console.log(response.data.item)
   }
 }))  
 

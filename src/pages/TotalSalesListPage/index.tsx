@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi'
-import { Button, Table, Modal } from 'antd'
-import '../AdminPage/Admin.scss'
+import { Button, Table, Modal, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons';
+import './TotalSalesListPage.scss'
 
 interface User {
   email: string
@@ -26,6 +27,8 @@ interface ItemSell {
   orderStatus: string
   user: User
   timePaid: string
+  done: boolean
+  isCanceled: boolean
 }
 
 const TotalSalesListPage = () => {
@@ -34,17 +37,22 @@ const TotalSalesListPage = () => {
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
   const [cancelContent, setCancelContent] = useState<string>('')
   const [cancelModal, setCancelModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
 
   useEffect(() => {
     const fetchItemSellList = async () => {
       try {
-        const response = await ItemAllSellCheckAPI()
+        setLoading(true)
+        const response = await ItemAllSellCheckAPI();
         setItemSellList(response)
-        console.log(response)
+        setLoading(false)
+        console.log(response);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
     fetchItemSellList()
   }, [])
@@ -122,7 +130,9 @@ const TotalSalesListPage = () => {
   }
 
   const itemDataSource = itemSellList.map((order, index) => ({
-    key: index + 1,
+    key: (<div>
+      <p className='listNumber'>{index + 1}</p>
+    </div>),
     timePaid: formatDateTime(order.timePaid),
     itemName: formatProductTitle(order.product.title),
     price: priceKr(order.product.price),
@@ -146,6 +156,8 @@ const TotalSalesListPage = () => {
           onClick={() => handleSellConfirm(order.detailId)}>
           판매 확정
         </Button>
+        <div className = {order.done === true ? 'done' : 'disable'}>확정되었습니다.</div>
+        <div className = {order.isCanceled === true ? 'isCanceled' : 'disable'}>취소되었습니다.</div>
       </div>
     )
   }))
@@ -192,29 +204,36 @@ const TotalSalesListPage = () => {
   ]
 
   return (
-    <div id="sell-list">
-      <Table
-        dataSource={itemDataSource}
-        columns={itemColumns}
-        pagination={false}
-      />
-      <Modal
-        open={cancelModal}
-        closable={false}
-        onOk={handleModalOk}
-        okText="확인"
-        cancelButtonProps={{ style: { display: 'none' } }}>
-        <p>{cancelContent}</p>
-      </Modal>
-      <Modal
-        open={confirmModal}
-        closable={false}
-        onOk={handleModalOk}
-        okText="확인"
-        cancelButtonProps={{ style: { display: 'none' } }}>
-        <p>{confirmContent}</p>
-      </Modal>
-    </div>
+      <section>
+        <div id="sell-list">
+          <h1>판매 내역</h1>
+          {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div> 
+          :
+          <Table
+            dataSource={itemDataSource}
+            columns={itemColumns}
+            pagination={false}
+          />
+          }
+        </div>
+        <Modal
+          visible={cancelModal}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p>{cancelContent}</p>
+        </Modal>
+
+        <Modal
+          visible={confirmModal}
+          closable={false}
+          onOk={handleModalOk}
+          okText="확인"
+          cancelButtonProps={{ style: { display: 'none' } }}>
+          <p>{confirmContent}</p>
+        </Modal>
+      </section>
   )
 }
 
