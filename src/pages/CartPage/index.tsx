@@ -1,35 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { Table, Input, Button, Space, Checkbox } from 'antd'
+import { useEffect, useState } from 'react'
+import { Table, Button, Checkbox } from 'antd'
 import { useCartStore } from '../../store/useCartStore'
 import { useNavigate } from 'react-router-dom'
 import ConfirmModal from '../../components/ConfirmModal'
 import { logCheckAPI } from '../../api/usersApi'
+import useAccountTokenStore from '../../store/useAccountTokenStore'
 
-const CartPage = () => {
-  const [selectAll, setSelectAll] = useState(true)
-  const [selectedItems, setSelectedItems] = useState([])
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [isModalVisible, setIsModalVisible] = useState(false)
+interface Book {
+  // 책의 세부 정보에 대한 타입을 정의
+  id: string
+  isbn: string
+  title: string
+  cover: string
+  priceStandard: number
+}
+
+const CartPage: React.FC = () => {
+  const [selectAll, setSelectAll] = useState<boolean>(true)
+  const [selectedItems, setSelectedItems] = useState<Array<string>>([])
+  const [totalPrice, setTotalPrice] = useState<number>(0)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [isRemoveSelectedModalVisible, setIsRemoveSelectedModalVisible] =
-    useState(false)
+    useState<boolean>(false)
   const [isNoItemSelectedModalVisible, setIsNoItemSelectedModalVisible] =
-    useState(false)
+    useState<boolean>(false)
   const [isSignInRedirectModalVisible, setIsSignInRedirectModalVisible] =
-    useState(false)
+    useState<boolean>(false)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false)
+  const { bookCart, removeBook, saveSelectedItems, removeSelectedBooks } =
+    useCartStore()
+    const { loginToken, nickNameToken } = useAccountTokenStore((state) => ({ // 추가
+      loginToken: state.loginToken,
+      nickNameToken: state.nickNameToken
+    }))
 
-  const {
-    bookCart,
-    removeBook,
-    saveSelectedItems,
-    removeSelectedBooks
-  } = useCartStore()
   const navigate = useNavigate()
 
-  const priceKr = price => {
+  const priceKr = (price: number) => {
     return <span>{`${price.toLocaleString('ko-KR')} 원`}</span>
   }
 
-  const handleSelect = (itemId, checked) => {
+  const handleSelect = (itemId: string, checked: boolean) => {
     if (checked) {
       setSelectedItems(prev => [...prev, itemId])
     } else {
@@ -48,7 +60,7 @@ const CartPage = () => {
   }
 
   const handleTotalPrice = () => {
-    const totalPrice = selectedItems.reduce((acc, id) => {
+    const totalPrice = selectedItems.reduce((acc: number, id) => {
       const book = bookCart.find(book => book.id === id)
       const price = book.priceStandard
       return acc + price
@@ -56,7 +68,7 @@ const CartPage = () => {
     setTotalPrice(totalPrice)
   }
 
-  const handleRemoveBook = book => {
+  const handleRemoveBook = (book: Book) => {
     removeBook(book)
   }
 
@@ -64,8 +76,7 @@ const CartPage = () => {
     setIsRemoveSelectedModalVisible(true)
   }
 
-
-  const onRemoveSelectedConfirm = confirm => {
+  const onRemoveSelectedConfirm = (confirm: boolean) => {
     if (confirm) {
       removeSelectedBooks(selectedItems)
       setSelectedItems([])
@@ -79,8 +90,9 @@ const CartPage = () => {
       return
     }
 
-    const loginToken = JSON.parse(localStorage.getItem('accountToken')).state.loginToken;
-    
+    const loginToken = JSON.parse(localStorage.getItem('accountToken')).state
+      .loginToken
+
     if (!loginToken) {
       setIsSignInRedirectModalVisible(true)
       return
@@ -93,6 +105,12 @@ const CartPage = () => {
         return
       }
 
+      if (isAdmin) {
+        // 관리자인 경우 오류 모달 띄우기
+        setIsErrorModalVisible(true)
+        return
+      }
+
       setIsModalVisible(true)
     } catch (error) {
       console.error(error)
@@ -100,7 +118,7 @@ const CartPage = () => {
     }
   }
 
-  const onConfirm = confirm => {
+  const onConfirm = (confirm: string) => {
     if (confirm) {
       saveSelectedItems(selectedItems)
       navigate('/Checkout')
@@ -133,18 +151,33 @@ const CartPage = () => {
     }
   }, [selectedItems])
 
+  // 관리자 여부 확인하는 useEffect 추가
+  useEffect(() => {
+    if (nickNameToken === 'admin') {
+      setIsAdmin(true)
+    } else {
+      setIsAdmin(false)
+    }
+  }, [loginToken, nickNameToken])
+
   const moveDetailPage = (value: string) => {
     navigate('/Detail', { state: { value } })
   }
 
   const dataSource = bookCart.map((book, index) => ({
     key: index,
-    name: (<div onClick={() => moveDetailPage(book.isbn)}>{book.title.length > 20 ? book.title.slice(0,19)+'...' : book.title}</div>),
+    name: (
+      <div
+        onClick={() => moveDetailPage(book.isbn)}
+        style={{ cursor: 'pointer' }}>
+        {book.title.length > 20 ? book.title.slice(0, 19) + '...' : book.title}
+      </div>
+    ),
     cover: (
       <img
         src={book.cover}
         alt={book.title}
-        style={{ width: '50px' }}
+        style={{ width: '50px', cursor: 'pointer' }}
         onClick={() => {
           moveDetailPage(book.isbn)
         }}
@@ -190,7 +223,7 @@ const CartPage = () => {
       key: 'name'
     },
     {
-      title: <div style={{ textAlign: 'center', width:'80px'}}>가격</div>,
+      title: <div style={{ textAlign: 'center' }}>가격</div>,
       dataIndex: 'price',
       key: 'price',
       align: 'right'
@@ -216,8 +249,8 @@ const CartPage = () => {
       <div className="sidebar">
         <div className="sidebar-content">
           <div className="total-price-container">
-            <div className='total-price-title'>결제 예정 금액</div>
-            <div className='total-price'>{priceKr(totalPrice)}</div>
+            <div className="total-price-title">결제 예정 금액</div>
+            <div className="total-price">{priceKr(totalPrice)}</div>
           </div>
           <Button
             type="primary"
@@ -249,6 +282,13 @@ const CartPage = () => {
             onConfirm={() => navigate('/signInPage')}
             open={isSignInRedirectModalVisible}
             setConfirmVisible={setIsSignInRedirectModalVisible}
+          />
+          <ConfirmModal
+            content="관리자는 상품 주문이 불가능합니다."
+            onConfirm={() => setIsErrorModalVisible(false)}
+            open={isErrorModalVisible}
+            setConfirmVisible={setIsErrorModalVisible}
+            showCancelButton={false}
           />
         </div>
       </div>

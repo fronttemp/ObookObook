@@ -117,7 +117,7 @@ export async function ItemSearchAPI(searchText?: string, searchTags?: string[]) 
 }
 
 ///// 제품 거래(구매) 신청 /////
-export async function ItemBuyAPI(loginToken: string, productId: string, accountId: string) {
+export async function ItemBuyAPI(loginToken: string | null, productId: string, accountId: string) {
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/buy', {
     method : 'POST',
     headers: {
