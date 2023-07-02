@@ -109,7 +109,7 @@ const TheHeader = (): JSX.Element => {
             to="/"
             className="logo">
             <img
-              src="../logo.png"
+              src="/logo.png"
               alt="logo"
             />
           </NavLink>
@@ -148,7 +148,7 @@ const TheHeader = (): JSX.Element => {
               <Badge
                 count={bookCart.length}
                 size="small">
-                <ShoppingCartOutlined style={{ fontSize: '26px' }} />
+                <ShoppingCartOutlined style={{ fontSize: '24px' }} />
               </Badge>
             </NavLink>
 
