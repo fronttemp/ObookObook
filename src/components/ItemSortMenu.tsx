@@ -1,30 +1,34 @@
-import {Select} from 'antd'
+import { Select } from 'antd';
 
-const ItemSortMenu = ( {onSortChange} ) => {
-  const handleSortSelect  = (value) => {
-    onSortChange(value)
-  }
+interface ItemSortMenuProps {
+  onSortChange: (value: string) => void;
+}
+
+const ItemSortMenu = ({ onSortChange }: ItemSortMenuProps) => {
+  const handleSortSelect = (value: string) => {
+    onSortChange(value);
+  };
 
   return (
-    <Select 
-      defaultValue= '정렬순'
-      onChange = {handleSortSelect}
-      options = {[
+    <Select
+      defaultValue="정렬순"
+      onChange={handleSortSelect}
+      options={[
         {
           value: 'Accuracy',
-          lavel: 'Accuracy'
+          label: 'Accuracy'
         },
         {
           value: 'Title',
-          lavel: 'Title'
+          label: 'Title'
         },
         {
           value: 'PublishTime',
-          lavel: 'PublishTime'
+          label: 'PublishTime'
         }
       ]}
-      />
-  )
-}
+    />
+  );
+};
 
-export default ItemSortMenu
+export default ItemSortMenu;

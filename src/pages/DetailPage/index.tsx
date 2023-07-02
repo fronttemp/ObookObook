@@ -22,6 +22,9 @@ interface Book {
     authors?: Author[];
     toc?: string;
   };
+  isbn: string
+  id: string;
+  priceStandard: number
 }
 
 interface Author {

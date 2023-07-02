@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge, Modal } from 'antd'
 import { useNavigate, NavLink, useLocation } from 'react-router-dom'
 import { useCartStore } from '../store/useCartStore'
 import useAccountTokenStore from '../store/useAccountTokenStore'
 import { API_HEADER } from '../api/usersApi'
-import { useListApi } from '../store/useItemApi'
+
+
 
 const TheHeader = (): JSX.Element => {
   const navigate = useNavigate()
-  const { fetch, books } = useListApi()
   const { bookCart } = useCartStore()
   const { Search } = Input
 

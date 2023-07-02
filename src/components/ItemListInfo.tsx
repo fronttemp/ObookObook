@@ -1,29 +1,47 @@
-import {useState, useEffect} from 'react'
-import {Button} from 'antd'
-import { useNavigate, useLocation } from 'react-router-dom'
-import AddBookCart from './AddBookCart'
-import { StarFilled } from '@ant-design/icons'
-import AddBookPurchase from './AddBookPurchase'
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import AddBookCart from './AddBookCart';
+import { StarFilled } from '@ant-design/icons';
+import AddBookPurchase from './AddBookPurchase';
 
-const ItemListInfo = ({books}) => {
-  const [bestSellerIndex, setBestSellerIndex] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+interface Book {
+  cover: string;
+  isbn: string;
+  title: string;
+  author: string;
+  publisher: string;
+  categoryName: string;
+  pubDate: string;
+  customerReviewRank: number;
+  priceSales: number;
+  id: string
+  priceStandard: number;
+}
+
+interface ItemListInfoProps {
+  books: Book[];
+}
+
+const ItemListInfo = ({ books }: ItemListInfoProps) => {
+  const [bestSellerIndex, setBestSellerIndex] = useState<boolean>(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const moveDetailPage = (value: string) => {
-    navigate('/Detail', { state : {value}})
-  }
-  
-  const truncate = (str, n) => {
-    return str?.length > n ? str.substring(0, n) + "..." : str;
-  }
+    navigate('/Detail', { state: { value } });
+  };
+
+  const truncate = (str: string, n: number) => {
+    return str?.length > n ? str.substring(0, n) + '...' : str;
+  };
 
   useEffect(() => {
-    if(location.pathname === '/Bestseller') {
-      setBestSellerIndex(true)    }
-  }, [])
+    if (location.pathname === '/Bestseller') {
+      setBestSellerIndex(true);
+    }
+  }, []);
 
-  console.log(location.pathname)
-
+  console.log(location.pathname);
 
   return (
       <div className = 'booksInfo'>
@@ -62,4 +80,4 @@ const ItemListInfo = ({books}) => {
   )
 }
 
-export default ItemListInfo
+export default ItemListInfo;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi'
 import { API_HEADER } from '../../api/usersApi'
@@ -23,29 +23,39 @@ interface BankInfo {
   time: string
 }
 
+interface Book {
+  cover: string
+  title: string
+  priceSales: number
+  description: string
+}
+
 const OrderHistoryPage: React.FC = () => {
   const [orderHistory, setOrderHistory] = useState<Order[] | null>(null)
   const { loginToken } = useAccountTokenStore()
 
   const [detailId, setDetailId] = useState<string | null>(null)
 
+  console.log(detailId)
+
   useEffect(() => {
     const fetchOrderHistory = async () => {
-      try {
-        const response = await ItemAllBuymAPI(loginToken)
-        setOrderHistory(response)
+      if (loginToken) {
+        try {
+          const response = await ItemAllBuymAPI(loginToken)
+          setOrderHistory(response)
 
-        if (response && response.length > 0) {
-          const firstOrder = response[0]
-          const detailId = firstOrder.detailId
-          setDetailId(detailId)
+          if (response && response.length > 0) {
+            const firstOrder = response[0]
+            const detailId = firstOrder.detailId
+            setDetailId(detailId)
+          }
+          console.log(response)
+        } catch (error) {
+          console.log(error)
         }
-        console.log(response)
-      } catch (error) {
-        console.log(error)
       }
     }
-
     fetchOrderHistory()
   }, [loginToken, setDetailId])
 
@@ -170,7 +180,6 @@ const OrderHistoryPage: React.FC = () => {
     setCancelModal(false)
     setConfirmModal(false)
   }
-
 
   return (
     <div className="order-history-page">

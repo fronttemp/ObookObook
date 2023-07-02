@@ -6,7 +6,7 @@ import Modal from 'antd/es/modal/Modal'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-const SignInPage = (): JSX.Element => {
+const SigninPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -81,6 +81,8 @@ const SignInPage = (): JSX.Element => {
   // 로그인 인풋 확인 후 로그인 버튼 활성화 상태
   const [notAllow, setNowAllow] = useState<boolean>(true)
 
+  console.log(notAllow)
+
   // 모달 관리
   const [successModalVisible, setSuccessModalVisible] = useState(false)
 
@@ -92,7 +94,7 @@ const SignInPage = (): JSX.Element => {
   return (
     <section>
       <div className="contentWrap">
-        <div className= 'page_title'>로그인</div>
+        <div className='page_title'>로그인</div>
         <form onSubmit={signIn}>
           <div className="inputBox">
             <input
@@ -111,11 +113,11 @@ const SignInPage = (): JSX.Element => {
             />
             <div className="valid_desc">
               {!emailValid && email.length > 0 && (
-                  <div className='valid'>
-                    <InfoCircleOutlined className='valid__icon' />
-                    올바른 이메일 형식을 입력해 주세요.
-                  </div>
-                )}
+                <div className='valid'>
+                  <InfoCircleOutlined className='valid__icon' />
+                  올바른 이메일 형식을 입력해 주세요.
+                </div>
+              )}
               {!passwordValid && password.length > 0 && (
                 <div className='valid'>
                   <InfoCircleOutlined className='valid__icon' />
@@ -125,7 +127,7 @@ const SignInPage = (): JSX.Element => {
             </div>
           </div>
           <div className="sign-btn">
-            <Button type="primary" htmlType={'Submit'}>로그인</Button>
+            <Button type="primary" htmlType={'submit'}>로그인</Button>
             <Link to="/SignupPage">
               <Button>회원가입</Button>
             </Link>
@@ -135,7 +137,7 @@ const SignInPage = (): JSX.Element => {
 
       <Modal
         title="로그인 오류"
-        visible={successModalVisible}
+        open={successModalVisible}
         closable={false}
         onOk={handleModalOk}
         okText="확인"
@@ -146,4 +148,4 @@ const SignInPage = (): JSX.Element => {
   )
 }
 
-export default SignInPage
+export default SigninPage
