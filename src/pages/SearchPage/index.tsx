@@ -28,6 +28,8 @@ const SearchPage = () => {
     pubDate: string;
     customerReviewRank: number;
     priceSales: number;
+    id: string;
+    priceStandard: number
   }
 
   const useQuery = () => {

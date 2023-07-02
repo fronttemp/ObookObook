@@ -33,33 +33,37 @@ const BanksInfo = () => {
   const [accounts, setAccounts] = useState<AccountWithKey[]>([])
   const [selectedBankCode, setSelectedBankCode] = useState<string>('')
   const [selectedBankDigits, setSelectedBankDigits] = useState<number[]>([])
-  const [accountNumber, setAccountNumber] = useState<string>('')
-  const [phoneNumber, setPhoneNumber] = useState<string>('')
-  const [signature, setSignature] = useState<boolean>(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
   const [toDeleteAccountId, setToDeleteAccountId] = useState<string>('')
   const { loginToken } = useAccountTokenStore()
   const { Option } = Select
   const [form] = Form.useForm<{ bankCode: string; accountNumber: string; phoneNumber: string; agreement: boolean }>();
 
+
   const fetchBanks = async () => {
-    try {
-      const data = await bankChoiceAPI(loginToken)
-      if (data) setBanks(data)
-    } catch (error) {
-      console.error('Fetching banks failed:', error)
+    if (loginToken) {  // check if loginToken is not null
+      try {
+        const data = await bankChoiceAPI(loginToken)
+        if (data) setBanks(data)
+      } catch (error) {
+        console.error('Fetching banks failed:', error)
+      }
     }
   }
 
+  console.log(selectedBankCode)
+
   const fetchAccounts = async () => {
-    try {
-      const data = await accountCheckAPI(loginToken)
-      if (data && data.accounts) {
-        const accountsWithKey = data.accounts.map(account => ({ ...account, key: account.id }))
-        setAccounts(accountsWithKey)
+    if (loginToken) {  // check if loginToken is not null
+      try {
+        const data = await accountCheckAPI(loginToken)
+        if (data && data.accounts) {
+          const accountsWithKey = data.accounts.map((account: Account) => ({ ...account, key: account.id })) // provide type for account
+          setAccounts(accountsWithKey)
+        }
+      } catch (error) {
+        console.error('Fetching accounts failed:', error)
       }
-    } catch (error) {
-      console.error('Fetching accounts failed:', error)
     }
   }
 
@@ -69,12 +73,14 @@ const BanksInfo = () => {
   }, [])
 
   const handleAccountDelete = async () => {
-    try {
-      await accountDeleteAPI(loginToken, toDeleteAccountId)
-      fetchBanks() // 은행 목록 다시 가져오기
-      fetchAccounts() // 계좌 삭제 후 다시 계좌 정보를 가져옴
-    } catch (error) {
-      console.error('Account deletion failed:', error)
+    if (loginToken) {  // check if loginToken is not null
+      try {
+        await accountDeleteAPI(loginToken, toDeleteAccountId)
+        fetchBanks() // 은행 목록 다시 가져오기
+        fetchAccounts() // 계좌 삭제 후 다시 계좌 정보를 가져옴
+      } catch (error) {
+        console.error('Account deletion failed:', error)
+      }
     }
   }
 
@@ -133,12 +139,12 @@ const BanksInfo = () => {
       title: '계좌 잔액',
       dataIndex: 'balance',
       key: 'balance',
-      render: balance => `${balance.toLocaleString()}원` // 잔액을 원화로 표시
+      render:(balance: number) => `${balance.toLocaleString()}원` // 잔액을 원화로 표시
     },
     {
       title: '',
       key: 'action',
-      render: (text, record) => (
+      render: (record : AccountWithKey) => (
         <Button
           onClick={() => {
             setToDeleteAccountId(record.id) // Set the account to delete

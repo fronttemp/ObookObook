@@ -8,6 +8,7 @@ import './userInfo.css'
 interface UserData {
   oldPassword: string
   newPassword: string
+  confirmPassword: string // 추가된 confirmPassword 속성
   profileImage: string
   nickname: string
 }
@@ -34,6 +35,7 @@ const EditUserInfoPage: React.FC = () => {
       const userData: UserData = {
         oldPassword,
         newPassword,
+        confirmPassword: values.confirmPassword,
         profileImage,
         nickname
       }
@@ -57,7 +59,7 @@ const EditUserInfoPage: React.FC = () => {
 
         setTimeout(() => {
           setIsLoggedOut()
-        }, 2000)
+        }, 1500)
       } else {
         const { message } = await res.json()
         setError(message)
@@ -232,7 +234,7 @@ const EditUserInfoPage: React.FC = () => {
 
           <Modal
             title="비밀번호 변경 성공"
-            open={successModalVisible}
+            open={successModalVisible} // open 속성이 아니라 visible 속성 사용
             closable={false}
             onOk={handleModalOk}
             okText="확인"
