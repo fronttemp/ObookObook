@@ -221,14 +221,14 @@ const EditUserInfoPage: React.FC = () => {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item>
-              <Button
-              className='antd-btn'
-                type="primary"
-                htmlType="submit">
-                비밀번호 변경
-              </Button>
-            </Form.Item>
+          <Form.Item>
+            <Button
+            className='antd-btn'
+              type="primary"
+              htmlType="submit">
+              비밀번호 변경
+            </Button>
+          </Form.Item>
 
             {error && <div style={{ color: 'red' }}>{error}</div>}
 

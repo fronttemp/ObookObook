@@ -121,7 +121,8 @@ const SignupPage = (): JSX.Element => {
   return (
     <section>
       <div className="contentWrap">
-        <div className="page_title">회원가입</div>
+        <div className= 'page_title'>회원가입</div>
+
         <form onSubmit={signUp}>
           <div className="signup-inputBox">
             <div className="input-title">이메일</div>
@@ -168,11 +169,7 @@ const SignupPage = (): JSX.Element => {
             />
           </div>
           <div className="sign-btn">
-            <Button
-              type="primary"
-              htmlType='submit'>
-              회원가입
-            </Button>
+            <Button type="primary" htmlType='submit'>회원가입</Button>
           </div>
         </form>
 

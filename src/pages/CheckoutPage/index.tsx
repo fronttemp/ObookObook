@@ -194,7 +194,10 @@ const CheckoutPage = () => {
                 ))}
               </Row>
             ) : (
-              <div className='noResult'>사용 가능한 은행 계좌가 없습니다. 계좌를 연결해주세요.</div>
+              <div className='noResult'>
+                사용 가능한 은행 계좌가 없습니다. 계좌설정에서 계좌를
+                연결해주세요.
+              </div>
             )}
           </div>
         </Card>

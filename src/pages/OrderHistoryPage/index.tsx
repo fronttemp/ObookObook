@@ -198,7 +198,7 @@ const OrderHistoryPage: React.FC = () => {
                 <span className = 'bestindex'>{index + 1}</span>
                 <div className="histroy-inner">
                   <div className="history-grid">
-                    {parsedTitle.map((book, index) => (
+                    {parsedTitle.map((book: Book, index : number) => (
                       <div key={index} className='history-detail'>
                         <div
                         className="bookcover"
@@ -243,7 +243,7 @@ const OrderHistoryPage: React.FC = () => {
         <p>거래 은행: {bankInfo?.bankName}</p>
         <p>계좌 정보: {bankInfo?.accountNumber}</p>
         <p>주문 금액: {bankInfo?.price.toLocaleString()} 원</p>
-        <p>주문 일시: {formatDateTime(bankInfo?.time)}</p>
+        <p>주문 일시: {bankInfo?.time ? formatDateTime(bankInfo.time) : ""}</p>
       </Modal>
 
       <Modal
