@@ -14,15 +14,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
     "@reduxjs/toolkit": "^1.9.5",
+    "@types/antd": "^1.0.0",
     "antd": "^5.6.1",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "node-fetch": "^3.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-loading-skeleton": "^3.3.1",
     "react-redux": "^8.0.7",
-    "sass": "^1.62.1"
+    "react-router-dom": "^6.13.0",
+    "sass": "^1.62.1",
+    "sweetalert2": "^11.7.12",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

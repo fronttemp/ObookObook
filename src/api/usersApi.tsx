@@ -1,7 +1,7 @@
 export const API_HEADER = {
   "content-type": "application/json",
   "apikey": "KDT5_nREmPe9B",
-  "username": "KDT5_TeamX"
+  "username": "KDT5_Team05"
 }
 
 
@@ -36,14 +36,12 @@ export async function logInAPI(email: string, password: string) {
 }
 
 ///// 인증확인 /////
-export async function logCheckAPI(email: string, password: string) {
+export async function logCheckAPI(token: string) {
     const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me', {
       method : 'POST',
-      headers: API_HEADER,
-      body: JSON.stringify({
-        email,
-        password
-      })
+      headers: {
+        ...API_HEADER,
+        'Authorization': `Bearer ${token}`}
     })
     const data = await res.json()
     return data

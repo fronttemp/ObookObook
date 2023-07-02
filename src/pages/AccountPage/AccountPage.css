@@ -1,0 +1,28 @@
+.account-page {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+
+}
+
+.left-sidebar {
+  flex: 2;
+}
+
+.left-sidebar > h2{
+  margin-bottom: 20px;
+}
+
+.left-sidebar a {
+  display: block;
+  padding-left: 10px;
+  padding-bottom: 20px;
+  font-size: 18px;
+
+}
+
+.outlet-container {
+  flex: 8;
+  margin-top: 40px;
+}

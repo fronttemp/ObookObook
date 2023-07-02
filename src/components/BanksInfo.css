@@ -1,0 +1,47 @@
+.edit-bank-info-page {
+  margin-bottom: 20px;
+}
+.account-list {
+  margin-bottom: 20px;
+}
+
+.account-list {
+  margin-top: 20px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.account-item p {
+  margin-right: 10px;
+}
+
+.bank-account-page {
+  display : flex;
+  
+}
+.account-list-card {
+  
+  width : 500px;
+}
+
+.account-connect-card {
+  width : 280px; 
+  margin-left : 10px;
+}
+
+.account-connect {
+  margin : 15px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content:center;
+}
+.connect-button {
+  margin-right : 10px;
+}
+
