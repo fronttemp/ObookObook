@@ -6,7 +6,7 @@ import Modal from 'antd/es/modal/Modal'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-const SignInPage = (): JSX.Element => {
+const SigninPage = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -135,7 +135,7 @@ const SignInPage = (): JSX.Element => {
 
       <Modal
         title="로그인 오류"
-        visible={successModalVisible}
+        open={successModalVisible}
         closable={false}
         onOk={handleModalOk}
         okText="확인"
@@ -146,4 +146,4 @@ const SignInPage = (): JSX.Element => {
   )
 }
 
-export default SignInPage
+export default SigninPage

@@ -106,7 +106,7 @@ const TotalSalesListPage = () => {
     const books = JSON.parse(title)
 
     // Here we are using the truncate function
-    const truncatedTitle = truncate(books[0].title, 20)
+    const truncatedTitle = truncate(books[0].title, 35)
 
     if (books.length === 1) return truncatedTitle
 

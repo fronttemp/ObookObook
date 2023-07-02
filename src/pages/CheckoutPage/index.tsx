@@ -10,23 +10,23 @@ import { ItemAddAPI, ItemBuyAPI } from '../../api/productApi'
 const { useBreakpoint } = Grid
 
 type BankAccount = {
-  id: string;
-  bankName: string;
-  bankCode: string;
-  accountNumber: string;
-  balance: number;
+  id: string
+  bankName: string
+  bankCode: string
+  accountNumber: string
+  balance: number
 }
 
 type Book = {
-  title: string;
-  cover: string;
-  priceStandard: number;
-  id: string;
+  title: string
+  cover: string
+  priceStandard: number
+  id: string
 }
 
 const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
-  const [bankAccounts, setBankAccounts] = useState<BankAccount>([])
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([])
   const [selectedAccountId, setSelectedAccountId] = useState('')
   const { selectedItems, removeSelectedBooks } = useCartStore()
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -61,7 +61,7 @@ const CheckoutPage = () => {
     }
   }
 
-  const handleBankAccountSelect = (accountId :string ) => {
+  const handleBankAccountSelect = (accountId: string) => {
     setSelectedAccountId(accountId)
   }
   console.log('Selected bank account:', selectedAccountId)
@@ -93,7 +93,7 @@ const CheckoutPage = () => {
     navigate('/Account/EditBankInfo')
   }
 
-  const onConfirm = async (confirm : boolean) => {
+  const onConfirm = async (confirm: boolean) => {
     setIsModalVisible(false)
     if (confirm) {
       const title = JSON.stringify(selectedItems)
@@ -132,7 +132,7 @@ const CheckoutPage = () => {
     }
   }
 
-  const onPaymentSuccessConfirm = (confirm : boolean) => {
+  const onPaymentSuccessConfirm = (confirm: boolean) => {
     setIsPaymentSuccessModalVisible(false)
     if (confirm) {
       navigate('/Account/OrderHistory')
@@ -194,8 +194,7 @@ const CheckoutPage = () => {
                     <Radio
                       value={account.id}
                       checked={selectedAccountId === account.id}
-                      onChange={e => handleBankAccountSelect(e.target.value)}
-                      >
+                      onChange={e => handleBankAccountSelect(e.target.value)}>
                       <div>
                         <p>{`${account.bankName} ${account.accountNumber}`}</p>
                       </div>
@@ -204,7 +203,10 @@ const CheckoutPage = () => {
                 ))}
               </Row>
             ) : (
-              <p>사용 가능한 은행 계좌가 없습니다. 계좌를 연결해주세요.</p>
+              <p>
+                사용 가능한 은행 계좌가 없습니다. 계좌설정에서 계좌를
+                연결해주세요.
+              </p>
             )}
           </div>
         </Card>
