@@ -27,7 +27,7 @@ const ItemListInfo = ({books}) => {
 
   return (
       <div className = 'booksInfo'>
-        {books.map((book, index) => (
+        {books.filter(book => book.priceSales!==0).map((book, index) => (
             <div key={index} className = 'bookInfo'>
               <div className="bookInfo_box">
                 {bestSellerIndex ? (<span className = 'bestindex'> {index+1} </span>) : null}

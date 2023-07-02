@@ -148,7 +148,7 @@ const TheHeader = (): JSX.Element => {
               <Badge
                 count={bookCart.length}
                 size="small">
-                <ShoppingCartOutlined style={{ fontSize: '26px' }} />
+                <ShoppingCartOutlined style={{ fontSize: '24px' }} />
               </Badge>
             </NavLink>
 

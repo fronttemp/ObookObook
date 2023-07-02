@@ -206,8 +206,8 @@ header {
           display: flex;
           align-items: center;
           .tokenimg {
-            width: 44px;
-            height: 44px;
+            width: 26px;
+            height: 26px;
             background-size: cover;
             background-position: center;
             border-radius: 50%;
@@ -221,7 +221,7 @@ header {
 
 //푸터
 footer {
-  padding: 160px 0 40px 0;
+  padding: 160px 122px 40px 122px;
   display: flex;
   flex-direction: column;
   gap: 20px;

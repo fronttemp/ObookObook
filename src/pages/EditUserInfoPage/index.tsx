@@ -157,14 +157,12 @@ const EditUserInfoPage: React.FC = () => {
           />
           <div className="current-userName">{nickNameToken}</div>
           <div className="imgInputWrap">
-            <Input
-              className="userImg-input"
+            <input
               type="file"
               onChange={uploadImage}
             />
             <Button
-              className="userImg-btn"
-              type="submit">
+              htmlType="submit">
               프로필 사진 변경
             </Button>
           </div>
@@ -173,19 +171,16 @@ const EditUserInfoPage: React.FC = () => {
         <form
           className="userNameWrap"
           onSubmit={modifyUserName}>
-          <input
+          <Input
             type="text"
             value={newNickName}
             onChange={handleNickNameChange}
             placeholder="새로운 닉네임을 입력하세요"
           />
-          <button type="submit">닉네임 변경</button>
+          <Button htmlType="submit">닉네임 변경</Button>
         </form>
       </section>
 
-      <br />
-      <hr />
-      <br />
 
       <section className="myProfile-img-name">
         <Form
@@ -221,7 +216,6 @@ const EditUserInfoPage: React.FC = () => {
 
           <Form.Item>
             <Button
-            className='antd-btn'
               type="primary"
               htmlType="submit">
               비밀번호 변경
