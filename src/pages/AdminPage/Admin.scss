@@ -26,4 +26,21 @@
   .userBank{
     width: 170px;
   }
+  .sellListFeat {
+    width: 150px;
+    margin: 10px auto;
+    button {
+      margin-bottom: 10px;
+    }
+    .done {
+      color: blue;
+    }
+    .isCanceled {
+      color: red;
+    }
+    }
+}
+
+.disable {
+  display: none;
 }

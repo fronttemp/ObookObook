@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { usersCheckAPI } from '../../api/usersApi';
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi';
-import { Button, Table, Modal } from 'antd';
+import { Button, Table, Modal, Spin } from 'antd';
 import { Navigate } from 'react-router-dom';
+import { LoadingOutlined } from '@ant-design/icons';
 import './Admin.scss';
 
 interface User {
@@ -43,6 +44,10 @@ const AdminPage = () => {
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
   const [cancelContent, setCancelContent] = useState<string>('')
   const [cancelModal, setCancelModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+
 
   useEffect(() => {
     const accountToken = JSON.parse(localStorage.getItem('accountToken') || '');
@@ -60,8 +65,10 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchItemSellList = async () => {
       try {
+        setLoading(true)
         const response = await ItemAllSellCheckAPI();
-        setItemSellList(response);
+        setItemSellList(response)
+        setLoading(false)
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -183,6 +190,8 @@ const AdminPage = () => {
         <div className="sellListFeat">
           <Button onClick={() => handleSellCancel(order.detailId)}>판매 취소</Button>
           <Button onClick={() => handleSellConfirm(order.detailId)}>판매 확정</Button>
+          <div className = {order.done === true ? 'done' : 'disable'}>확정되었습니다.</div>
+          <div className = {order.isCanceled === true ? 'isCanceled' : 'disable'}>취소되었습니다.</div>
         </div>
       </>
     )
@@ -236,11 +245,14 @@ const AdminPage = () => {
       </div>
       <div id="sell-list">
         <h1>판매 내역</h1>
+        {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div> 
+        :
         <Table
           dataSource={itemDataSource}
           columns={itemColumns}
           pagination={false}
         />
+        }
       </div>
       <Modal
         visible={cancelModal}
