@@ -162,7 +162,7 @@ const TotalSalesListPage = () => {
     )
   }))
 
-  const itemColumns = [
+  const itemColumns =  [
     {
       title: '번호',
       dataIndex: 'key',
@@ -173,33 +173,33 @@ const TotalSalesListPage = () => {
       title: '거래일시',
       dataIndex: 'timePaid',
       key: 'timePaid',
-      align: 'center',
+      align: 'center' as const,
       render: (timePaid: string) => <div dangerouslySetInnerHTML={{ __html: timePaid }} />
     },
     {
       title: '판매상품',
       dataIndex: 'itemName',
       key: 'itemName',
-      align: 'center'
+      align: 'center'  as const
     },
     {
       title: '결제금액',
       dataIndex: 'price',
       key: 'price',
       width: '100px',
-      align: 'center'
+      align: 'center'  as const
     },
     {
       title: '판매자 정보',
       dataIndex: 'sellerInfo',
       key: 'sellerInfo',
-      align: 'center'
+      align: 'center'  as const
     },
     {
       title: '',
       dataIndex: 'action',
       key: 'action',
-      align: 'center'
+      align: 'center'  as const
     }
   ]
 
@@ -217,7 +217,7 @@ const TotalSalesListPage = () => {
           }
         </div>
         <Modal
-          visible={cancelModal}
+          open={cancelModal}
           closable={false}
           onOk={handleModalOk}
           okText="확인"
@@ -226,7 +226,7 @@ const TotalSalesListPage = () => {
         </Modal>
 
         <Modal
-          visible={confirmModal}
+          open={confirmModal}
           closable={false}
           onOk={handleModalOk}
           okText="확인"
