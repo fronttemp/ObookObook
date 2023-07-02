@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import useAccountTokenStore from '../../store/useAccountTokenStore'
 import { ItemAllBuymAPI } from '../../api/productApi'
 import { API_HEADER } from '../../api/usersApi'
@@ -24,6 +24,13 @@ interface BankInfo {
   time: string
 }
 
+interface Book {
+  cover: string
+  title: string
+  priceSales: number
+  description: string
+}
+
 const OrderHistoryPage: React.FC = () => {
   const [orderHistory, setOrderHistory] = useState<Order[] | null>(null)
   const { loginToken } = useAccountTokenStore()
@@ -32,21 +39,22 @@ const OrderHistoryPage: React.FC = () => {
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
-      try {
-        const response = await ItemAllBuymAPI(loginToken)
-        setOrderHistory(response)
+      if (loginToken) {
+        try {
+          const response = await ItemAllBuymAPI(loginToken)
+          setOrderHistory(response)
 
-        if (response && response.length > 0) {
-          const firstOrder = response[0]
-          const detailId = firstOrder.detailId
-          setDetailId(detailId)
+          if (response && response.length > 0) {
+            const firstOrder = response[0]
+            const detailId = firstOrder.detailId
+            setDetailId(detailId)
+          }
+          console.log(response)
+        } catch (error) {
+          console.log(error)
         }
-        console.log(response)
-      } catch (error) {
-        console.log(error)
       }
     }
-
     fetchOrderHistory()
   }, [loginToken, setDetailId])
 
@@ -172,7 +180,6 @@ const OrderHistoryPage: React.FC = () => {
     setConfirmModal(false)
   }
 
-
   return (
     <div className="order-history-page">
       <h1>주문내역 페이지</h1>
@@ -189,7 +196,7 @@ const OrderHistoryPage: React.FC = () => {
               key={order.detailId}>
               <h2>주문번호: {index + 1}</h2>
 
-              {parsedTitle.map((book, index) => (
+              {parsedTitle.map((book: Book, index : number) => (
                 <div key={index}>
                   <img
                     src={book.cover}
@@ -200,7 +207,7 @@ const OrderHistoryPage: React.FC = () => {
                   <h4>줄거리: {book.description}</h4>
                 </div>
               ))}
-              <div className='btnWrap'>
+              <div className="btnWrap">
                 <Button onClick={() => ItemBuyDetailmAPI(order.detailId)}>
                   상세 내역
                 </Button>
@@ -230,7 +237,7 @@ const OrderHistoryPage: React.FC = () => {
         <p>계좌 정보: {bankInfo?.accountNumber}</p>
         <p>주문 금액: {bankInfo?.price}</p>
         <p>카테고리: {bankInfo?.genre}</p>
-        <p>주문 일시: {formatDateTime(bankInfo?.time)}</p>
+        <p>주문 일시: {bankInfo?.time ? formatDateTime(bankInfo.time) : ""}</p>
       </Modal>
 
       <Modal

@@ -167,7 +167,6 @@ const TotalSalesListPage = () => {
       title: '번호',
       dataIndex: 'key',
       key: 'key',
-      width: '60px'
     },
     {
       title: '거래일시',
