@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Badge, Modal } from 'antd'
 import { useNavigate, NavLink, useLocation } from 'react-router-dom'

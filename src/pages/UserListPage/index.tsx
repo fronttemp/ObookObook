@@ -31,20 +31,17 @@ const UserListPage = () => {
       title: '번호',
       dataIndex: 'key',
       key: 'key',
-      align: 'center'
     },
     {
       title: '사용자 이메일',
       dataIndex: 'email',
       key: 'email',
-      align: 'center'
     },
     {
       title: '닉네임',
       dataIndex: 'nickName',
       key: 'nickName',
-      align: 'center'
-      
+ 
     }
   ]
 
