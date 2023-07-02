@@ -105,7 +105,7 @@ const TotalSalesListPage = () => {
     const books = JSON.parse(title)
 
     // Here we are using the truncate function
-    const truncatedTitle = truncate(books[0].title, 20)
+    const truncatedTitle = truncate(books[0].title, 35)
 
     if (books.length === 1) return truncatedTitle
 
@@ -166,39 +166,32 @@ const TotalSalesListPage = () => {
       title: '번호',
       dataIndex: 'key',
       key: 'key',
-      width: '60px'
     },
     {
       title: '거래일시',
       dataIndex: 'timePaid',
       key: 'timePaid',
-      align: 'center',
       render: (timePaid: string) => <div dangerouslySetInnerHTML={{ __html: timePaid }} />
     },
     {
       title: '판매상품',
       dataIndex: 'itemName',
       key: 'itemName',
-      align: 'center'
     },
     {
       title: '결제금액',
       dataIndex: 'price',
       key: 'price',
-      width: '100px',
-      align: 'center'
     },
     {
       title: '판매자 정보',
       dataIndex: 'sellerInfo',
       key: 'sellerInfo',
-      align: 'center'
     },
     {
       title: '',
       dataIndex: 'action',
       key: 'action',
-      align: 'center'
     }
   ]
 

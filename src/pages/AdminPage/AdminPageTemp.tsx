@@ -3,7 +3,7 @@ import { usersCheckAPI } from '../../api/usersApi';
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi';
 import { Button, Table, Modal } from 'antd';
 import { Navigate } from 'react-router-dom';
-import './Admin.scss';
+// import './Admin.scss';
 
 interface User {
   email: string;

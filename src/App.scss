@@ -98,6 +98,16 @@ input:focus {
   align-items: center;
   padding-right: 20px;
 }
+.left-sidebar {
+  flex: 2;
+  a {
+    font-size: 16px;
+    display: block;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    font-weight: 700;
+  }
+}
 
 //antd 설정
 .ant-btn-primary {
@@ -611,7 +621,7 @@ footer {
     }
   }
   .left-section {
-    flex: 7;
+    flex: 8;
     .left-section__payment {
       margin-top: 10px;
       .payment-selection {
@@ -662,14 +672,6 @@ footer {
   display: flex;
   flex-direction: row;
   margin-top: 30px;
-  .left-sidebar {
-    flex: 3;
-    a {
-      display: block;
-      padding-left: 10px;
-      padding-bottom: 20px;
-    }
-  }
   .outlet-container {
     flex: 7;
   }
@@ -679,9 +681,6 @@ footer {
   flex-direction: column;
   gap: 42px;
   .myProfile {
-    .page_title {
-      padding-top: 0;
-    }
     .myProfileWrap{
       display: flex;
       gap: 60px;
@@ -720,9 +719,6 @@ footer {
 }
 
 .order-history-page {
-  .page_title {
-    padding-top: 0;
-  }
   .gridBox{
     .history-wrap:not(:last-of-type) {
       border-bottom: var(--color-black-10) solid 1px;
@@ -730,7 +726,7 @@ footer {
     .history-wrap {
       display: flex;
       justify-content: space-between;
-      padding: 32px 0 32px 0;
+      padding: 40px 0 40px 0;
       .bestindex {
         align-items: first baseline;
         margin-top: 10px;
@@ -739,7 +735,7 @@ footer {
         .history-grid {
           padding-bottom: 20px;
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
           .history-detail {
             padding: 10px;
             .bookcover {
@@ -769,6 +765,15 @@ footer {
 
 
 //어드민페이지
+.admin-page {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  .outlet-container {
+    flex: 8;
+  }
+}
 #sell-list{
   .ant-table-cell{
     text-align: center;

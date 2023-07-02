@@ -28,7 +28,7 @@ export const useCartStore = create(
     set => ({
       bookCart: [],
       selectedItems: [],
-      selectSingleBook: book => set(state => ({ selectedItems: [book] })),
+      selectSingleBook: book => set(() => ({ selectedItems: [book] })),
       addBookCart: book =>
         set(state => {
           if (state.bookCart.some(b => b.isbn === book.isbn)) {

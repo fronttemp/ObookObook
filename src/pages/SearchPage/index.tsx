@@ -12,13 +12,25 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(true)
   const [tag, setTag] = useState('')
   const [sort, setSort] = useState('')
-  const { fetch, books } = useSearchApi() as {fetch: (searchTerm: string, tag: string, sort: string) => Promise<void>, books: (string | number)[]}
+  const { fetch, books } = useSearchApi() as {fetch: (searchTerm: string, tag: string, sort: string) => Promise<void>, books: Book[]}
   const [currentPage, setCurrentPage] = useState(1)
-  const [trackPerPage, setTrackPerPage] = useState(10)
+  const [trackPerPage] = useState(10)
 
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
 
-
+  interface Book {
+    cover: string;
+    isbn: string;
+    title: string;
+    author: string;
+    publisher: string;
+    categoryName: string;
+    pubDate: string;
+    customerReviewRank: number;
+    priceSales: number;
+    id: string;
+    priceStandard: number
+  }
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search)

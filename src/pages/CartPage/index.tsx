@@ -62,8 +62,11 @@ const CartPage: React.FC = () => {
   const handleTotalPrice = () => {
     const totalPrice = selectedItems.reduce((acc: number, id) => {
       const book = bookCart.find(book => book.id === id)
-      const price = book.priceStandard
-      return acc + price
+      if (book) {
+        const price = book.priceStandard
+        return acc + price
+      }
+      return acc
     }, 0)
     setTotalPrice(totalPrice)
   }
@@ -90,9 +93,9 @@ const CartPage: React.FC = () => {
       return
     }
 
-    const loginToken = JSON.parse(localStorage.getItem('accountToken')).state
-      .loginToken
-
+    const accountToken = localStorage.getItem('accountToken') || '{}';
+    const loginToken = JSON.parse(accountToken).state.loginToken
+    
     if (!loginToken) {
       setIsSignInRedirectModalVisible(true)
       return
@@ -118,7 +121,7 @@ const CartPage: React.FC = () => {
     }
   }
 
-  const onConfirm = (confirm: string) => {
+  const onConfirm = (confirm: boolean) => {
     if (confirm) {
       saveSelectedItems(selectedItems)
       navigate('/Checkout')
@@ -226,13 +229,13 @@ const CartPage: React.FC = () => {
       title: <div style={{ textAlign: 'center' }}>가격</div>,
       dataIndex: 'price',
       key: 'price',
-      align: 'right'
+      align: 'right' as const
     },
     {
       title: <Button onClick={handleRemoveSelected}>선택삭제</Button>,
       dataIndex: 'action',
       key: 'action',
-      align: 'center'
+      align: 'center' as const
     }
   ]
 

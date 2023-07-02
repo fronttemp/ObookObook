@@ -4,15 +4,25 @@ import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from './ConfirmModal';
 
+interface Book {
+  title: string;
+  isbn: string;
+  priceStandard?: number;
+  id?: string;
+  cover: string;
+}
+
+interface CartStore {
+  bookCart: Book[];
+  addBookCart: (book: Book) => void; // Promise<void>를 사용하는 이유는 addBookCart가 비동기 함수이기 때문.
+}
+
 interface Props {
-  book: {
-    title: string;
-    isbn: string;
-  };
+  book: Book;
 }
 
 const AddBookCart: React.FC<Props> = ({ book }) => {
-  const { bookCart, addBookCart } = useCartStore() as {bookCart: any, addBookCart: any}
+  const { bookCart, addBookCart } = useCartStore() as CartStore
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [showCancel, setShowCancel] = useState(true);
