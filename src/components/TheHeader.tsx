@@ -109,7 +109,7 @@ const TheHeader = (): JSX.Element => {
             to="/"
             className="logo">
             <img
-              src="../logo.png"
+              src="/logo.png"
               alt="logo"
             />
           </NavLink>
