@@ -126,7 +126,7 @@ const EditUserInfoPage: React.FC = () => {
       }
     )
     if (res.ok) {
-      if (newUserImg === '') {
+      if ((newUserImg) === '') {
         setUserImgToken('/user.png')
       } else {
         setUserImgToken(newUserImg)

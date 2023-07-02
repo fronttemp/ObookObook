@@ -17,6 +17,5 @@
     { "source": "/UserListPage/(.)", "destination": "/UserListPage/$1" },
     { "source": "/TotalSalesListPage/(.)", "destination": "/TotalSalesListPage/$1" },
     { "source": "/(.)", "destination": "/index.html" }
-  ],
-  "fallback": { "notFound": "/index.html" }
+  ]
 }
