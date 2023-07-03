@@ -79,6 +79,38 @@
   - 원하는 도서 검색 기능 구현
   - 검색 후 나오는 도서에 따라 정렬 기능 구현
 
+### 페이지 소개
+
+#### 메인페이지
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/eddf2160-57dd-46f1-b5c8-1d46964cd5ec" width="500" height="350"> |  
+#### 베스트 셀러 페이지 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/41229f17-852a-457f-9481-d1d5af5cf134" width="500" height="350"> |  
+#### 새로 나온 책
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/cb1c559d-deab-4b22-aff3-94531228d8b1" width="500" height="350"> |  
+#### 검색 기능    
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/aa3acc9a-4975-434c-b4e9-0b8b3a674b75" width="500" height="350"> |  
+#### 구매 상세 페이지  
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/817da0d7-9a3c-4cea-842b-52f23b8fd0d5" width="500" height="350"> |  
+#### 장바구니 페이지 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/fa934227-5f78-4951-8931-69edd004245e" width="500" height="350"> |  
+#### 결제 페이지    
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/ff8a04dd-2b50-4115-80ea-751ecb0371c8" width="500" height="350"> |  
+#### 로그인 페이지 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/fe9eea9d-c749-4fa9-bf5e-977724aa2a7e" width="500" height="350"> |  
+#### 내 계정 페이지 - 주문내역 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/6532c737-6f32-43b5-a75a-7f1370d2f368" width="500" height="350"> |  
+#### 내 계정 페이지 - 개인정보 수정 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/88cfea9c-5138-4e77-8822-d4a907ee56e4" width="500" height="350"> |  
+#### 내 계정 페이지 - 계좌 관리 
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/9fc73f99-78ba-41e7-87f6-cae77d132a29" width="500" height="350"> |  
+#### 관리자 페이지 - 유저 리스트
+| <img src ="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/49c86120-109a-4f8a-a4ce-54dc6fe5b090" width="500" height="350"> |  
+#### 관리자 페이지 - 전체 거래 내역
+| <img src="https://github.com/fronttemp/Team5_ToyProject/assets/118456013/0874355b-51f1-4540-8132-6c4aa3871094" width="500" height="350"> |  
+
+
+
+
 ### 폴더 구조 📁
 ```
 /TEAM5_TOYPROJECT
