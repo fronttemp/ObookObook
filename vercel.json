@@ -1,21 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/MainPage/(.)", "destination": "/MainPage/$1" },
-    { "source": "/AccountPage/(.)", "destination": "/AccountPage/$1" },
-    { "source": "/AdminPage/(.)", "destination": "/AdminPage/$1" },
-    { "source": "/BestsellerPage/(.)", "destination": "/BestsellerPage/$1" },
-    { "source": "/CartPage/(.)", "destination": "/CartPage/$1" },
-    { "source": "/CheckoutPage/(.)", "destination": "/CheckoutPage/$1" },
-    { "source": "/DetailPage/(.)", "destination": "/DetailPage/$1" },
-    { "source": "/SignInPage/(.)", "destination": "/SignInPage/$1" },
-    { "source": "/SignUpPage/(.)", "destination": "/SignUpPage/$1" },
-    { "source": "/SearchPage/(.)", "destination": "/SearchPage/$1" },
-    { "source": "/NewBookPage/(.)", "destination": "/NewBookPage/$1" },
-    { "source": "/OrderHistoryPage/(.)", "destination": "/OrderHistoryPage/$1" },
-    { "source": "/EditUserInfoPage/(.)", "destination": "/EditUserInfoPage/$1" },
-    { "source": "/EditBankInfoPage/(.)", "destination": "/EditBankInfoPage/$1" },
-    { "source": "/UserListPage/(.)", "destination": "/UserListPage/$1" },
-    { "source": "/TotalSalesListPage/(.)", "destination": "/TotalSalesListPage/$1" },
-    { "source": "/(.)", "destination": "/index.html" }
-  ]
+  "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
