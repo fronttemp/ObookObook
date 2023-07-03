@@ -107,7 +107,7 @@ const EditUserInfoPage: React.FC = () => {
   }
 
   // 프로필 변경
-  const [newUserImg, setNewUserImg] = useState<string>('/')
+  const [newUserImg, setNewUserImg] = useState<string>('/user.png')
 
   async function modifyUserImg(e: FormEvent) {
     e.preventDefault()
@@ -126,7 +126,7 @@ const EditUserInfoPage: React.FC = () => {
       }
     )
     if (res.ok) {
-      if (newUserImg === '') {
+      if ((newUserImg) === '') {
         setUserImgToken('/user.png')
       } else {
         setUserImgToken(newUserImg)
