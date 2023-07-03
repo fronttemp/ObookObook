@@ -29,6 +29,7 @@ interface Book {
   title: string
   priceSales: number
   description: string
+  isbn: string
 }
 
 const OrderHistoryPage: React.FC = () => {
@@ -49,7 +50,7 @@ const OrderHistoryPage: React.FC = () => {
   useEffect(() => {
     const fetchOrderHistory = async () => {
       if (loginToken) {
-        setLoading(true); 
+        setLoading(true)
 
         try {
           const response = (await ItemAllBuymAPI(loginToken)) as Order[]
@@ -69,9 +70,9 @@ const OrderHistoryPage: React.FC = () => {
         } catch (error) {
           console.log(error)
         } finally {
-          setLoading(false); 
+          setLoading(false)
         }
-      }  
+      }
     }
     fetchOrderHistory()
   }, [loginToken, setDetailId])
@@ -85,21 +86,8 @@ const OrderHistoryPage: React.FC = () => {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false
-      
     })
   }
-
-  // const formatDateTime = (dateTimeString: string) => {
-  //   const dateTime = new Date(dateTimeString)
-  //   return dateTime.toLocaleString('ko-KR', {
-  //     year: 'numeric',
-  //     month: '2-digit',
-  //     day: '2-digit',
-  //     hour: '2-digit',
-  //     minute: '2-digit',
-  //     hour12: false
-  //   })
-  // }
 
   async function ItemBuyDetailmAPI(detailId: string) {
     const res = await fetch(
