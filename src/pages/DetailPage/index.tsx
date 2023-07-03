@@ -14,6 +14,9 @@ interface Book {
   cover: string;
   customerReviewRank: number;
   categoryName: string;
+  isbn: string; 
+  priceStandard: number; 
+  id: string; 
   priceSales: number;
   description?: string;
   fullDescription?: string;
@@ -22,9 +25,6 @@ interface Book {
     authors?: Author[];
     toc?: string;
   };
-  isbn: string
-  id: string;
-  priceStandard: number
 }
 
 interface Author {

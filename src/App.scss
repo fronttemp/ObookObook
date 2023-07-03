@@ -627,11 +627,11 @@ footer {
       .payment-selection {
         padding-bottom: 20px;
         p {
-          display : inline-block;
+          display: inline-block;
           padding-right: 20px;
-          font-weight: bold; 
+          font-weight: bold;
           font-size: larger;
-          color : var(--color-primary)
+          color: var(--color-primary);
         }
       }
       .bank-account-list {
@@ -681,7 +681,7 @@ footer {
   flex-direction: column;
   gap: 42px;
   .myProfile {
-    .myProfileWrap{
+    .myProfileWrap {
       display: flex;
       gap: 60px;
       align-items: center;
@@ -692,13 +692,13 @@ footer {
           font-size: 18px;
         }
         .userImg {
-        outline: var(--color-black-30) 1px solid;
-        border-radius: 50%;
-        width: 150px;
-        height: 150px;
-        background-size: cover;
-        background-position: center;
-        margin-bottom: 20px;
+          outline: var(--color-black-30) 1px solid;
+          border-radius: 50%;
+          width: 150px;
+          height: 150px;
+          background-size: cover;
+          background-position: center;
+          margin-bottom: 20px;
         }
       }
       .formWrap {
@@ -719,7 +719,7 @@ footer {
 }
 
 .order-history-page {
-  .gridBox{
+  .gridBox {
     .history-wrap:not(:last-of-type) {
       border-bottom: var(--color-black-10) solid 1px;
     }
@@ -732,6 +732,22 @@ footer {
         margin-top: 10px;
       }
       .histroy-inner {
+        .order-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+
+          .order-date {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-left : 10px;
+          }
+
+          .btnWrap button {
+            margin-right: 20px;
+          }
+        }
         .history-grid {
           padding-bottom: 20px;
           display: grid;
@@ -757,12 +773,9 @@ footer {
           margin-right: 20px;
         }
       }
-
     }
-
   }
 }
-
 
 //어드민페이지
 .admin-page {
@@ -774,8 +787,8 @@ footer {
     flex: 8;
   }
 }
-#sell-list{
-  .ant-table-cell{
+#sell-list {
+  .ant-table-cell {
     text-align: center;
   }
   .listNumber {
@@ -784,10 +797,10 @@ footer {
   .sellListItem {
     width: 300px;
   }
-  .totalPrice{
+  .totalPrice {
     width: 100px;
   }
-  .userBank{
+  .userBank {
     width: 170px;
   }
   .sellListFeat {
@@ -802,10 +815,8 @@ footer {
     .isCanceled {
       color: red;
     }
-    }
+  }
 }
-
-
 
 //안 보이기
 .disable {

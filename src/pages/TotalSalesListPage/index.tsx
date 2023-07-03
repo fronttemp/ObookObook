@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ItemAllSellCheckAPI, ItemSellCheckAPI } from '../../api/productApi'
 import { Button, Table, Modal, Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons'
 
 interface User {
   email: string
@@ -38,20 +38,35 @@ const TotalSalesListPage = () => {
   const [cancelModal, setCancelModal] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+  const antIcon = (
+    <LoadingOutlined
+      style={{ fontSize: 50 }}
+      spin
+    />
+  )
 
   useEffect(() => {
     const fetchItemSellList = async () => {
       try {
         setLoading(true)
-        const response = await ItemAllSellCheckAPI();
+        const response = await ItemAllSellCheckAPI()
+
+        // 정렬 코드 추가
+        response.sort((a: ItemSell, b: ItemSell) => {
+          const dateA = new Date(a.timePaid)
+          const dateB = new Date(b.timePaid)
+
+          // 최신거래를 먼저 보여주기 위해 b - a 순서로 비교
+          return dateB.getTime() - dateA.getTime()
+        })
+
         setItemSellList(response)
         setLoading(false)
-        console.log(response);
+        console.log(response)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
+    }
 
     fetchItemSellList()
   }, [])
@@ -129,9 +144,11 @@ const TotalSalesListPage = () => {
   }
 
   const itemDataSource = itemSellList.map((order, index) => ({
-    key: (<div>
-      <p className='listNumber'>{index + 1}</p>
-    </div>),
+    key: (
+      <div>
+        <p className="listNumber">{index + 1}</p>
+      </div>
+    ),
     timePaid: formatDateTime(order.timePaid),
     itemName: formatProductTitle(order.product.title),
     price: priceKr(order.product.price),
@@ -155,8 +172,12 @@ const TotalSalesListPage = () => {
           onClick={() => handleSellConfirm(order.detailId)}>
           판매 확정
         </Button>
-        <div className = {order.done === true ? 'done' : 'disable'}>확정되었습니다.</div>
-        <div className = {order.isCanceled === true ? 'isCanceled' : 'disable'}>취소되었습니다.</div>
+        <div className={order.done === true ? 'done' : 'disable'}>
+          확정되었습니다.
+        </div>
+        <div className={order.isCanceled === true ? 'isCanceled' : 'disable'}>
+          취소되었습니다.
+        </div>
       </div>
     )
   }))
@@ -165,67 +186,79 @@ const TotalSalesListPage = () => {
     {
       title: '번호',
       dataIndex: 'key',
-      key: 'key',
+      key: 'key'
     },
     {
       title: '거래일시',
       dataIndex: 'timePaid',
       key: 'timePaid',
-      render: (timePaid: string) => <div dangerouslySetInnerHTML={{ __html: timePaid }} />
+      width: '100px',
+      align: 'center' as const,
+      render: (timePaid: string) => (
+        <div dangerouslySetInnerHTML={{ __html: timePaid }} />
+      )
     },
     {
       title: '판매상품',
       dataIndex: 'itemName',
       key: 'itemName',
+      align: 'center' as const
     },
     {
       title: '결제금액',
       dataIndex: 'price',
       key: 'price',
+      width: '100px',
+      align: 'center' as const
     },
     {
       title: '판매자 정보',
       dataIndex: 'sellerInfo',
       key: 'sellerInfo',
+      align: 'center' as const
     },
     {
       title: '',
       dataIndex: 'action',
       key: 'action',
+      align: 'center' as const
     }
   ]
 
   return (
-      <div>
-        <div id="sell-list">
-          <div className='page_title'>판매 내역</div>
-          {loading ? <div className="loadingAnimation"><Spin indicator={antIcon} /></div> 
-          :
+    <div>
+      <div id="sell-list">
+        <div className="page_title">판매 내역</div>
+        {loading ? (
+          <div className="loadingAnimation">
+            <Spin indicator={antIcon} />
+          </div>
+        ) : (
           <Table
             dataSource={itemDataSource}
             columns={itemColumns}
             pagination={false}
           />
-          }
-        </div>
-        <Modal
-          visible={cancelModal}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
-          <p>{cancelContent}</p>
-        </Modal>
-
-        <Modal
-          visible={confirmModal}
-          closable={false}
-          onOk={handleModalOk}
-          okText="확인"
-          cancelButtonProps={{ style: { display: 'none' } }}>
-          <p>{confirmContent}</p>
-        </Modal>
+        )}
       </div>
+      <Modal
+        open={cancelModal}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>{cancelContent}</p>
+      </Modal>
+
+      <Modal
+        open={confirmModal}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>{confirmContent}</p>
+      </Modal>
+    </div>
   )
 }
 
