@@ -7,8 +7,8 @@ import { Form, Input, Button, Modal } from 'antd'
 interface UserData {
   oldPassword: string
   newPassword: string
-  confirmPassword: string // 추가된 confirmPassword 속성
   profileImage: string
+  confirmPassword: string
   nickname: string
 }
 

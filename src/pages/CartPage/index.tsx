@@ -30,7 +30,7 @@ const CartPage: React.FC = () => {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false)
   const { bookCart, removeBook, saveSelectedItems, removeSelectedBooks } =
     useCartStore()
-    const { loginToken, nickNameToken } = useAccountTokenStore((state) => ({ // 추가
+    const { loginToken, nickNameToken } = useAccountTokenStore((state) => ({ 
       loginToken: state.loginToken,
       nickNameToken: state.nickNameToken
     }))

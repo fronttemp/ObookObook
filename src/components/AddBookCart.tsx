@@ -7,8 +7,8 @@ import ConfirmModal from './ConfirmModal';
 interface Book {
   title: string;
   isbn: string;
-  priceStandard?: number;
-  id?: string;
+  priceStandard: number;
+  id: string;
   cover: string;
 }
 
