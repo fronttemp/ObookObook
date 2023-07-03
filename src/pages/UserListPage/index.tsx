@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usersCheckAPI } from '../../api/usersApi';
 import { Table } from 'antd';
-import '../AdminPage/Admin.scss';
 
 
 interface User {
@@ -49,13 +48,14 @@ const UserListPage = () => {
   ]
 
   return (
-    <div id="user-list">
-      <Table
-        dataSource={userDataSource}
-        columns={userColumns}
-        pagination={false}
-      />
-    </div>
+      <div id="user-list">
+        <div className="page_title">유저 리스트</div>
+        <Table
+          dataSource={userDataSource}
+          columns={userColumns}
+          pagination={false}
+        />
+      </div>
   );
 };
 

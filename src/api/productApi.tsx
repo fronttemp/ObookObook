@@ -157,14 +157,14 @@ export async function ItemConfirmAPI() {
 }
 
 ///// 제품 전체 거래(구매) 내역 /////
-export async function ItemAllBuymAPI(loginToken: string) {
+export async function ItemAllBuymAPI(loginToken: string){
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details', {
     method : 'GET',
     headers: {
       ...API_HEADER,
       'Authorization': `Bearer ${loginToken}`},
   })
-  const data = await res.json()
+  const data = await res.json() 
   return data
 }
 

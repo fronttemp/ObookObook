@@ -67,7 +67,7 @@ const AddBookPurchase: React.FC<Props> = ({ book }) => {
       />
       <ConfirmModal
         content="관리자는 상품 주문을 할 수 없습니다"
-        onConfirm={() => {}}
+        onConfirm={() => console.log("Admin cannot order products")}
         open={isAdminModalVisible}
         setConfirmVisible={setIsAdminModalVisible}
         showCancelButton = {false}

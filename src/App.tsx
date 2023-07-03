@@ -28,7 +28,6 @@ import { API_HEADER } from './api/usersApi'
 import { useEffect } from 'react'
 import UserListPage from './pages/UserListPage'
 import TotalSalesListPage from './pages/TotalSalesListPage'
-import AdminPageTemp from './pages/AdminPage/AdminPageTemp'
 
 const Layout = () => {
   return (

@@ -50,15 +50,33 @@ const SignupPage = (): JSX.Element => {
   }
 
   // 회원가입 이미지 전송
+  // function uploadImage(e: ChangeEvent<HTMLInputElement>): void {
+  //   const files = e.target.files as FileList
+  //   for (const file of Array.from(files)) {
+  //     const reader = new FileReader()
+  //     reader.readAsDataURL(file)
+  //     reader.addEventListener('load', e => {
+  //       setProfileImg((e.target as FileReader).result as string)
+  //     })
+  //   }
+  // }
+
+  // 이미지 클 경우
   function uploadImage(e: ChangeEvent<HTMLInputElement>): void {
     const files = e.target.files as FileList
-    for (const file of Array.from(files)) {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.addEventListener('load', e => {
-        setProfileImg((e.target as FileReader).result as string)
-      })
+    const file = files[0]
+    const maxSize = 1024 * 1024 // 1MB
+
+    if (file.size > maxSize) {
+      // alert('img 용량이 큼')
+      setImgModalVisible(true)
+      return
     }
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.addEventListener('load', e => {
+      setProfileImg(e.target?.result as string)
+    })
   }
 
   // 이메일, 비밀번호 형식 체크
@@ -91,36 +109,38 @@ const SignupPage = (): JSX.Element => {
 
   // 모달 관리 이메일
   const [successModalVisible, setSuccessModalVisible] = useState(false)
+  // 모달 관리 이미지 크기
+  const [imgModalVisible, setImgModalVisible] = useState(false)
 
   // 모달 확인 버튼 클릭 시
   const handleModalOk = () => {
     setSuccessModalVisible(false)
+    setImgModalVisible(false)
   }
 
   return (
     <section>
       <div className="contentWrap">
-        <div className='page_title'>회원가입</div>
-
+        <div className="page_title">회원가입</div>
         <form onSubmit={signUp}>
           <div className="signup-inputBox">
             <div className="input-title">이메일</div>
             <input
-              className='signup-input'
+              className="signup-input"
               value={email}
               onChange={handleEmailCheck}
               placeholder="(필수) 이메일을 입력해주세요."
             />
             {emailError && (
               <div className="valid_desc">
-                <InfoCircleOutlined className='valid__icon' />
+                <InfoCircleOutlined className="valid__icon" />
                 {emailError}
               </div>
             )}
 
             <div className="input-title">비밀번호</div>
             <input
-              className='signup-input'
+              className="signup-input"
               value={password}
               onChange={handlePasswordLength}
               placeholder="(필수) 비밀번호를 입력해 주세요."
@@ -128,31 +148,37 @@ const SignupPage = (): JSX.Element => {
             />
             {passwordLength && (
               <div className="valid_desc">
-                <InfoCircleOutlined className='valid__icon' />
+                <InfoCircleOutlined className="valid__icon" />
                 {passwordLength}
               </div>
             )}
 
             <div className="input-title">닉네임</div>
             <input
-              className='signup-input'
+              className="signup-input"
               value={displayName}
               onChange={e => setDisplayName(e.target.value)}
               placeholder="(필수) 닉네임을 입력해 주세요."
             />
             <div className="input-title">프로필 이미지</div>
             <input
-              className='imginput'
+              className="imginput"
               type="file"
               onChange={uploadImage}
             />
           </div>
           <div className="sign-btn">
-            <Button type="primary" htmlType={'submit'}>회원가입</Button>
+            <Button
+              type="primary"
+              htmlType='submit'>
+              회원가입
+            </Button>
           </div>
         </form>
 
-        {email.length <= 0 || password.length <= 0 || displayName.length <= 0 ? (
+        {email.length <= 0 ||
+        password.length <= 0 ||
+        displayName.length <= 0 ? (
           <Modal
             open={successModalVisible}
             closable={false}
@@ -177,6 +203,19 @@ const SignupPage = (): JSX.Element => {
           </Modal>
         )}
       </div>
+
+      <Modal
+        open={imgModalVisible}
+        closable={false}
+        onOk={handleModalOk}
+        okText="확인"
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <p>
+          프로필 이미지 크기는 1MB 이하여야 합니다.
+          <br />
+          이미지를 변경해주세요.
+        </p>
+      </Modal>
     </section>
   )
 }
