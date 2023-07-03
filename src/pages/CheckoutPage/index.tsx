@@ -17,13 +17,6 @@ type BankAccount = {
   balance: number
 }
 
-type Book = {
-  title: string
-  cover: string
-  priceStandard: number
-  id: string
-}
-
 const CheckoutPage = () => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([])

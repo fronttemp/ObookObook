@@ -22,13 +22,20 @@ const AddBookPurchase: React.FC<Props> = ({ book }) => {
   const navigate = useNavigate()
 
   const [isSignInRedirectModalVisible, setIsSignInRedirectModalVisible] = useState(false)
+  const [isAdminModalVisible, setIsAdminModalVisible] = useState(false)
 
   const handleOneClickOrder = async (book: Book) => {
     const accountToken = localStorage.getItem('accountToken') ?? "";
     const loginToken = JSON.parse(accountToken).state.loginToken;
+    const nickNameToken = JSON.parse(accountToken).state.nickNameToken;
 
     if (!loginToken) {
       setIsSignInRedirectModalVisible(true)
+      return
+    }
+
+    if (nickNameToken === 'admin') {
+      setIsAdminModalVisible(true)
       return
     }
 
@@ -57,6 +64,13 @@ const AddBookPurchase: React.FC<Props> = ({ book }) => {
         onConfirm={() => navigate('/signInPage')}
         open={isSignInRedirectModalVisible}
         setConfirmVisible={setIsSignInRedirectModalVisible}
+      />
+      <ConfirmModal
+        content="관리자는 상품 주문을 할 수 없습니다"
+        onConfirm={() => {}}
+        open={isAdminModalVisible}
+        setConfirmVisible={setIsAdminModalVisible}
+        showCancelButton = {false}
       />
     </>
   )

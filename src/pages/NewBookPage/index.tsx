@@ -14,6 +14,8 @@ interface Book {
   pubDate: string;
   customerReviewRank: number;
   priceSales: number;
+  id: string
+  priceStandard: number;
 }
 
 const NewBookPage = () => {

@@ -103,7 +103,7 @@ function App() {
       nickNameToken === 'admin' &&
       location.pathname === '/Account/EditUserInfo'
     ) {
-      navigate('/admin')
+      navigate('/admin/UserList')
     } else if (nickNameToken !== 'admin' && location.pathname === '/admin') {
       navigate('/')
     }
@@ -148,10 +148,6 @@ function App() {
               path="TotalSalesList"
               element={<TotalSalesListPage />}
             />
-            <Route
-            path="adminTemp"
-            element={<AdminPageTemp />}
-          />
           </Route>
 
           <Route

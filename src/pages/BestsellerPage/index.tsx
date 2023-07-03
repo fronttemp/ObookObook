@@ -15,6 +15,8 @@ interface BestsellerItem {
   pubDate: string;
   customerReviewRank: number;
   priceSales: number;
+  id: string
+  priceStandard: number;
 }
 
 const BestsellerPage = () => {

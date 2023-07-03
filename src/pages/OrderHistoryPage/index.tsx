@@ -37,6 +37,8 @@ const OrderHistoryPage: React.FC = () => {
 
   const [detailId, setDetailId] = useState<string | null>(null)
 
+  console.log(detailId)
+
   useEffect(() => {
     const fetchOrderHistory = async () => {
       if (loginToken) {

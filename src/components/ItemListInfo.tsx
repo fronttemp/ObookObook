@@ -14,6 +14,8 @@ interface Book {
   pubDate: string;
   customerReviewRank: number;
   priceSales: number;
+  id: string
+  priceStandard: number;
 }
 
 interface ItemListInfoProps {
@@ -67,7 +69,7 @@ const ItemListInfo = ({ books }: ItemListInfoProps) => {
           </div>
           <div className='buttonBox'>
             <AddBookCart book={book} />
-            <AddBookPurchase className='addBtn' book={book} />
+            <AddBookPurchase book={book} />
           </div>
         </div>
       ))}

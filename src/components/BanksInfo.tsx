@@ -39,6 +39,7 @@ const BanksInfo = () => {
   const { Option } = Select
   const [form] = Form.useForm<{ bankCode: string; accountNumber: string; phoneNumber: string; agreement: boolean }>();
 
+
   const fetchBanks = async () => {
     if (loginToken) {  // check if loginToken is not null
       try {
@@ -49,6 +50,8 @@ const BanksInfo = () => {
       }
     }
   }
+
+  console.log(selectedBankCode)
 
   const fetchAccounts = async () => {
     if (loginToken) {  // check if loginToken is not null
@@ -141,7 +144,7 @@ const BanksInfo = () => {
     {
       title: '',
       key: 'action',
-      render: (text : any, record : AccountWithKey) => (
+      render: (record : AccountWithKey) => (
         <Button
           onClick={() => {
             setToDeleteAccountId(record.id) // Set the account to delete
